@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Produto extends PanacheEntity {
@@ -18,6 +20,11 @@ public class Produto extends PanacheEntity {
     private String descricao;
     private double preco;
     private int quantidadeEstoque;
+
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
 
     public Produto () {
         
@@ -106,6 +113,15 @@ public class Produto extends PanacheEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public static Produto findById(Long id) {

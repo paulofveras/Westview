@@ -3,6 +3,7 @@ package br.unitins.comics.resources;
 import java.util.List;
 
 import br.unitins.comics.dto.ProdutoDTO;
+import br.unitins.comics.model.Categoria;
 import br.unitins.comics.model.Produto;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -28,6 +29,24 @@ public class ProdutoResource {
     public Produto buscarProduto(@PathParam("id") Long id) {
         return Produto.findById(id);
     }
+
+    @POST
+    @Path("/")
+    public void criarProduto(ProdutoDTO produtoDTO) {
+        Produto produto = new Produto();
+        produto.setNome(produtoDTO.getNome());
+        produto.setDataPublicacao(produtoDTO.getDataPublicacao());
+        produto.setEdicao(produtoDTO.getEdicao());
+        produto.setEscritor(produtoDTO.getEscritor());
+        produto.setArtistaCapa(produtoDTO.getArtistaCapa());
+        produto.setDescricao(produtoDTO.getDescricao());
+        produto.setPreco(produtoDTO.getPreco());
+        produto.setQuantidadeEstoque(produtoDTO.getQuantidadeEstoque());
+        Categoria categoria = Categoria.findById(produtoDTO.getCategoriaId());
+        produto.setCategoria(categoria);
+        produto.persist();
+    }
+
 
     @POST
     @Path("/{id}")

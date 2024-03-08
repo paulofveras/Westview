@@ -11,6 +11,7 @@ public class ProdutoDTO {
     private String descricao;
     private double preco;
     private int quantidadeEstoque;
+    private Long categoriaId;
     
     public String getNome() {
         return nome;
@@ -60,9 +61,16 @@ public class ProdutoDTO {
     public void setQuantidadeEstoque(int quantidadeEstoque) {
         this.quantidadeEstoque = quantidadeEstoque;
     }
-    
+
+    public Long getCategoriaId() {
+        return categoriaId;
+    }
+    public void setCategoriaId(Long categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
     public ProdutoDTO(String nome, Date dataPublicacao, String edicao, String escritor, String artistaCapa,
-            String descricao, double preco, int quantidadeEstoque) {
+            String descricao, double preco, int quantidadeEstoque, Long categoriaId) {
         this.nome = nome;
         this.dataPublicacao = dataPublicacao;
         this.edicao = edicao;
@@ -71,8 +79,8 @@ public class ProdutoDTO {
         this.descricao = descricao;
         this.preco = preco;
         this.quantidadeEstoque = quantidadeEstoque;
+        this.categoriaId = categoriaId;
     }
-
     
 }
 
