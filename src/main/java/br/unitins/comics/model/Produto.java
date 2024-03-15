@@ -1,5 +1,6 @@
 package br.unitins.comics.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,13 +14,28 @@ import jakarta.persistence.ManyToOne;
 public class Produto extends PanacheEntity {
     private Long id;
     private String nome;
-    private Date dataPublicacao;
+    private LocalDate dataPublicacao;
     private String edicao;
     private String escritor;
     private String artistaCapa;
     private String descricao;
     private double preco;
     private int quantidadeEstoque;
+
+    public Produto(Long id, String nome, LocalDate dataPublicacao, String edicao, String escritor, String artistaCapa,
+        String descricao, double preco, int quantidadeEstoque, Categoria categoria) {
+        this.id = id;
+        this.nome = nome;
+        this.dataPublicacao = dataPublicacao;
+        this.edicao = edicao;
+        this.escritor = escritor;
+        this.artistaCapa = artistaCapa;
+        this.descricao = descricao;
+        this.preco = preco;
+        this.quantidadeEstoque = quantidadeEstoque;
+        this.categoria = categoria;
+    }
+
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
@@ -30,18 +46,6 @@ public class Produto extends PanacheEntity {
         
     }
     
-    public Produto(Long id, String nome, Date dataPublicacao, String edicao, String escritor, String artistaCapa,
-            String descricao, double preco, int quantidadeEstoque) {
-        this.id = id;
-        this.nome = nome;
-        this.dataPublicacao = dataPublicacao;
-        this.edicao = edicao;
-        this.escritor = escritor;
-        this.artistaCapa = artistaCapa;
-        this.descricao = descricao;
-        this.preco = preco;
-        this.quantidadeEstoque = quantidadeEstoque;
-    }
 
     public String getNome() {
         return nome;
@@ -51,12 +55,12 @@ public class Produto extends PanacheEntity {
         this.nome = nome;
     }
 
-    public Date getDataPublicacao() {
+    public LocalDate getDataPublicacao() {
         return dataPublicacao;
     }
 
-    public void setDataPublicacao(Date dataPublicacao) {
-        this.dataPublicacao = dataPublicacao;
+    public void setDataPublicacao(LocalDate localDate) {
+        this.dataPublicacao = localDate;
     }
 
     public String getEdicao() {
@@ -141,6 +145,13 @@ public class Produto extends PanacheEntity {
     }
 
     @Override
+    public String toString() {
+        return "Produto [id=" + id + ", nome=" + nome + ", dataPublicacao=" + dataPublicacao + ", edicao=" + edicao
+                + ", escritor=" + escritor + ", artistaCapa=" + artistaCapa + ", descricao=" + descricao + ", preco="
+                + preco + ", quantidadeEstoque=" + quantidadeEstoque + ", categoria=" + this.getCategoria().toString() + "]";
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -155,6 +166,7 @@ public class Produto extends PanacheEntity {
         temp = Double.doubleToLongBits(preco);
         result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + quantidadeEstoque;
+        result = prime * result + ((categoria == null) ? 0 : categoria.hashCode());
         return result;
     }
 
@@ -206,8 +218,15 @@ public class Produto extends PanacheEntity {
             return false;
         if (quantidadeEstoque != other.quantidadeEstoque)
             return false;
+        if (categoria == null) {
+            if (other.categoria != null)
+                return false;
+        } else if (!categoria.equals(other.categoria))
+            return false;
         return true;
     }
+
+    
 
     
 }

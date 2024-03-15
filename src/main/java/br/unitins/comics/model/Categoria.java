@@ -7,6 +7,15 @@ import jakarta.persistence.Entity;
 public class Categoria extends PanacheEntity {
     
     private String nome;
+    private Long id;
+    
+    public Categoria() {
+    }
+
+    public Categoria(String nome, Long id) {
+        this.nome = nome;
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -16,8 +25,17 @@ public class Categoria extends PanacheEntity {
         this.nome = nome;
     }
 
-    public Categoria(String nome) {
-        this.nome = nome;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Categoria [nome=" + nome + ", id=" + id + "]";
     }
 
     @Override
@@ -25,6 +43,7 @@ public class Categoria extends PanacheEntity {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -42,13 +61,12 @@ public class Categoria extends PanacheEntity {
                 return false;
         } else if (!nome.equals(other.nome))
             return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "Categoria [nome=" + nome + "]";
-    }
-
     
 }
