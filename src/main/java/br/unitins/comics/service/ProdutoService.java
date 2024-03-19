@@ -1,11 +1,8 @@
 package br.unitins.comics.service;
 
 import br.unitins.comics.dto.ProdutoDTO;
-import br.unitins.comics.model.Categoria;
 import br.unitins.comics.model.Produto;
-import br.unitins.comics.repository.CategoriaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -13,8 +10,7 @@ import jakarta.ws.rs.core.Response.Status;
 @ApplicationScoped
 public class ProdutoService {
     
-    @Inject
-    private CategoriaRepository categoriaRepository;
+
 
     @Transactional
     public Response criarProduto(ProdutoDTO produtoDTO) {
@@ -52,7 +48,6 @@ public class ProdutoService {
         produto.setDescricao(produtoDTO.getDescricao());
         produto.setPreco(produtoDTO.getPreco());
         produto.setQuantidadeEstoque(produtoDTO.getQuantidadeEstoque());
-        Categoria categoria = categoriaRepository.findById(produtoDTO.getCategoriaId());
-        produto.setCategoria(categoria);
+        produto.setEditora(produtoDTO.getEditora());
     }
 }

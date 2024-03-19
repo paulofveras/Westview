@@ -3,7 +3,6 @@ package br.unitins.comics.resources;
 import java.util.List;
 
 import br.unitins.comics.dto.ProdutoDTO;
-import br.unitins.comics.model.Categoria;
 import br.unitins.comics.model.Produto;
 import br.unitins.comics.service.ProdutoService;
 import jakarta.inject.Inject;

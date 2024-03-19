@@ -1,14 +1,16 @@
 package br.unitins.comics.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+// import jakarta.persistence.GeneratedValue;
+// import jakarta.persistence.GenerationType;
+// import jakarta.persistence.Id;
+// import jakarta.persistence.JoinColumn;
+// import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Produto extends PanacheEntity {
@@ -21,9 +23,12 @@ public class Produto extends PanacheEntity {
     private String descricao;
     private double preco;
     private int quantidadeEstoque;
+    private EditoraEnum editora;
+
+    
 
     public Produto(Long id, String nome, LocalDate dataPublicacao, String edicao, String escritor, String artistaCapa,
-        String descricao, double preco, int quantidadeEstoque, Categoria categoria) {
+            String descricao, double preco, int quantidadeEstoque, EditoraEnum editora) {
         this.id = id;
         this.nome = nome;
         this.dataPublicacao = dataPublicacao;
@@ -33,13 +38,8 @@ public class Produto extends PanacheEntity {
         this.descricao = descricao;
         this.preco = preco;
         this.quantidadeEstoque = quantidadeEstoque;
-        this.categoria = categoria;
+        this.editora = editora;
     }
-
-
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
 
 
     public Produto () {
@@ -119,13 +119,13 @@ public class Produto extends PanacheEntity {
         this.id = id;
     }
 
-    
-    public Categoria getCategoria() {
-        return categoria;
+    public EditoraEnum getEditora() {
+        return editora;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+
+    public void setEditora(EditoraEnum editora) {
+        this.editora = editora;
     }
 
     public static Produto findById(Long id) {
@@ -144,12 +144,14 @@ public class Produto extends PanacheEntity {
         delete();
     }
 
+
     @Override
     public String toString() {
         return "Produto [id=" + id + ", nome=" + nome + ", dataPublicacao=" + dataPublicacao + ", edicao=" + edicao
                 + ", escritor=" + escritor + ", artistaCapa=" + artistaCapa + ", descricao=" + descricao + ", preco="
-                + preco + ", quantidadeEstoque=" + quantidadeEstoque + ", categoria=" + this.getCategoria().toString() + "]";
+                + preco + ", quantidadeEstoque=" + quantidadeEstoque + ", editora=" + editora + "]";
     }
+
 
     @Override
     public int hashCode() {
@@ -166,9 +168,10 @@ public class Produto extends PanacheEntity {
         temp = Double.doubleToLongBits(preco);
         result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + quantidadeEstoque;
-        result = prime * result + ((categoria == null) ? 0 : categoria.hashCode());
+        result = prime * result + ((editora == null) ? 0 : editora.hashCode());
         return result;
     }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -218,16 +221,12 @@ public class Produto extends PanacheEntity {
             return false;
         if (quantidadeEstoque != other.quantidadeEstoque)
             return false;
-        if (categoria == null) {
-            if (other.categoria != null)
-                return false;
-        } else if (!categoria.equals(other.categoria))
+        if (editora != other.editora)
             return false;
         return true;
     }
 
     
-
-    
+ 
 }
 

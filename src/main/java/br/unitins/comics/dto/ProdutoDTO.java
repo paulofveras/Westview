@@ -2,6 +2,7 @@ package br.unitins.comics.dto;
 
 import java.time.LocalDate;
 
+import br.unitins.comics.model.EditoraEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,7 +17,7 @@ public class ProdutoDTO {
     private String descricao;
     private double preco;
     private int quantidadeEstoque;
-    private Long categoriaId;
+    private EditoraEnum editora;
     
     public ProdutoDTO() {
     }
@@ -70,15 +71,18 @@ public class ProdutoDTO {
         this.quantidadeEstoque = quantidadeEstoque;
     }
 
-    public Long getCategoriaId() {
-        return categoriaId;
-    }
-    public void setCategoriaId(Long categoriaId) {
-        this.categoriaId = categoriaId;
+    public EditoraEnum getEditora() {
+        return editora;
     }
 
-    public ProdutoDTO(String nome, LocalDate dataPublicacao, String edicao, String escritor, String artistaCapa,
-            String descricao, double preco, int quantidadeEstoque, Long categoriaId) {
+    public void setEditora(EditoraEnum editora) {
+        this.editora = editora;
+    }
+
+    public ProdutoDTO(@NotBlank(message = "O nome do produto é obrigatório") String nome,
+            @NotNull(message = "A data de publicação é obrigatória") LocalDate dataPublicacao, String edicao,
+            String escritor, String artistaCapa, String descricao, double preco, int quantidadeEstoque,
+            EditoraEnum editora) {
         this.nome = nome;
         this.dataPublicacao = dataPublicacao;
         this.edicao = edicao;
@@ -87,15 +91,17 @@ public class ProdutoDTO {
         this.descricao = descricao;
         this.preco = preco;
         this.quantidadeEstoque = quantidadeEstoque;
-        this.categoriaId = categoriaId;
+        this.editora = editora;
     }
+
     @Override
     public String toString() {
         return "ProdutoDTO [nome=" + nome + ", dataPublicacao=" + dataPublicacao + ", edicao=" + edicao + ", escritor="
                 + escritor + ", artistaCapa=" + artistaCapa + ", descricao=" + descricao + ", preco=" + preco
-                + ", quantidadeEstoque=" + quantidadeEstoque + ", categoriaId=" + categoriaId + "]";
+                + ", quantidadeEstoque=" + quantidadeEstoque + ", editora=" + editora + "]";
     }
 
+    
     
     
 }
