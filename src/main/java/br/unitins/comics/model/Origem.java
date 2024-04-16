@@ -4,23 +4,25 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Categoria extends PanacheEntity {
-    
-    private String universo;
-    
-    public Categoria() {
+public class Origem extends PanacheEntity {
+    private String pais;
+
+    public Origem() {
+
     }
 
-    public String getUniverso() {
-        return universo;
+    public String getPais() {
+        return pais;
     }
 
-    public void setUniverso(String universo) {
-        this.universo = universo;
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 
     public void setId(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setId'");
     }
+
+    
 }
