@@ -4,36 +4,27 @@
 -- insert into myentity (id, field) values(2, 'field-2');
 -- insert into myentity (id, field) values(3, 'field-3');
 -- alter sequence myentity_seq restart with 4;
--- Inserir dados para a entidade Categoria
-INSERT INTO Categoria (universo) VALUES ('Categoria 1');
-INSERT INTO Categoria (universo) VALUES ('Categoria 2');
+-- Inserir dados na tabela Pessoa
+INSERT INTO Pessoa (id, nome, cpf, email) VALUES (1, 'João Silva', '123.456.789-00', 'joao.silva@email.com');
+INSERT INTO Pessoa (id, nome, cpf, email) VALUES (2, 'Maria Santos', '987.654.321-00', 'maria.santos@email.com');
+INSERT INTO Pessoa (id, nome, cpf, email) VALUES (3, 'Artista da Capa', '111.222.333-44', 'artista.capa@email.com');
+INSERT INTO Pessoa (id, nome, cpf, email) VALUES (4, 'Escritor Principal', '555.666.777-88', 'escritor.principal@email.com');
 
--- Inserir dados para a entidade Pessoa (Escritor e Artista Capa)
-INSERT INTO Pessoa (nome, cpf, email) VALUES ('Escritor 1', '12345678901', 'escritor1@email.com');
-INSERT INTO Pessoa (nome, cpf, email) VALUES ('Artista Capa 1', '98765432109', 'artistacapa1@email.com');
+-- Inserir dados na tabela Origem
+INSERT INTO Origem (id, pais) VALUES (1, 'Brasil');
 
--- Inserir dados para a entidade Classificacao
-INSERT INTO Classificacao (descricao) VALUES ('Livre');
-INSERT INTO Classificacao (descricao) VALUES ('10 Anos');
--- Faça o mesmo para os demais valores de Classificacao
+-- Inserir dados na tabela Genero
+INSERT INTO Genero (id, genero, descricao) VALUES (1, 'Ação', 'Histórias de ação');
 
--- Inserir dados para a entidade Genero
-INSERT INTO Genero (genero, descricao) VALUES ('Genero 1', 'Descricao Genero 1');
-INSERT INTO Genero (genero, descricao) VALUES ('Genero 2', 'Descricao Genero 2');
--- Faça o mesmo para os demais valores de Genero
+-- Inserir dados na tabela Categoria
+INSERT INTO Categoria (id, universo) VALUES (1, 'Marvel');
 
--- Inserir dados para a entidade Origem
-INSERT INTO Origem (pais) VALUES ('Pais 1');
-INSERT INTO Origem (pais) VALUES ('Pais 2');
--- Faça o mesmo para os demais valores de Origem
+-- Inserir dados na tabela ArtistaCapa
+INSERT INTO ArtistaCapa (id, id_pessoa) VALUES (1, 3);
 
--- Inserir dados para a entidade Quadrinho
-INSERT INTO Quadrinho (nome, datapublicacao, edicao, preco, quantidadeestoque,
-                       id_categoria, id_escritor, id_artista_capa, classificacao,
-                       id_genero, id_origem)
-VALUES ('Quadrinho 1', '2023-01-01', 'Edição 1', 29.99, 100, 1, 1, 2, 1, 1, 2);
-INSERT INTO Quadrinho (nome, datapublicacao, edicao, preco, quantidadeestoque,
-                       id_categoria, id_escritor, id_artista_capa, classificacao,
-                       id_genero, id_origem)
-VALUES ('Quadrinho 2', '2023-02-01', 'Edição 2', 34.99, 150, 2, 2, 1, 2, 2, 1);
--- Insira mais linhas conforme necessário
+-- Inserir dados na tabela Escritor
+INSERT INTO Escritor (id, id_pessoa) VALUES (1, 4);
+
+-- Inserir dados na tabela Quadrinho
+INSERT INTO Quadrinho (id, nome, dataPublicacao, edicao, preco, quantidadeEstoque, id_categoria, id_escritor, id_artista_capa, classificacao, id_genero, id_origem) 
+VALUES (1, 'Homem Aranha', '2024-01-01', 'Edição 1', 19.99, 100, 1, 1, 1, 'LIVRE', 1, 1);

@@ -5,6 +5,7 @@ import java.util.List;
 import br.unitins.comics.dto.QuadrinhoDTO;
 import br.unitins.comics.dto.QuadrinhoResponseDTO;
 import br.unitins.comics.model.Categoria;
+import br.unitins.comics.model.Classificacao;
 import br.unitins.comics.model.Genero;
 import br.unitins.comics.model.Origem;
 import br.unitins.comics.model.Pessoa;
@@ -83,6 +84,7 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
         quadrinho.setEdicao(dto.edicao());
         quadrinho.setPreco(dto.preco());
         quadrinho.setQuantidadeEstoque(dto.quantidadeEstoque());
+        quadrinho.setClassificacao(Classificacao.valueOf(dto.classificacao().getId()));
         // Preenchendo a categoria do quadrinho
         Categoria categoria = categoriaRepository.findById(dto.categoria().id());
         quadrinho.setCategoria(categoria);

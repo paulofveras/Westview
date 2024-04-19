@@ -22,5 +22,11 @@ public class ArtistaCapa extends DefaultEntity{
         this.pessoa = pessoa;
     }
 
+    @Override
+    public String toString() {
+        return "ArtistaCapa [pessoa=" + pessoa + "]";
+    }
+
+    
     
 }

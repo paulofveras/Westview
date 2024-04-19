@@ -21,5 +21,11 @@ public class Funcionario extends DefaultEntity {
         this.pessoa = pessoa;
     }
 
+    @Override
+    public String toString() {
+        return "Funcionario [pessoa=" + pessoa + "]";
+    }
+
+    
     
 }
