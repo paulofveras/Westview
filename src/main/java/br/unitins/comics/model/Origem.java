@@ -1,10 +1,9 @@
 package br.unitins.comics.model;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Origem extends PanacheEntity {
+public class Origem extends DefaultEntity {
     private String pais;
 
     public Origem() {

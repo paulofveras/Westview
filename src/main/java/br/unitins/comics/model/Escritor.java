@@ -1,15 +1,16 @@
 package br.unitins.comics.model;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Funcionario extends DefaultEntity {
+public class Escritor extends DefaultEntity{
     @ManyToOne
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
 
-    public Funcionario() {
+    public Escritor() {
 
     }
 

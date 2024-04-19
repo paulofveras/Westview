@@ -1,6 +1,6 @@
 package br.unitins.comics.dto;
 
-public record OrigemDTO (
+public record EscritorDTO (
     Long id,
-    String pais
+    PessoaDTO pessoa
 ) { }

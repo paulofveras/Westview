@@ -1,10 +1,9 @@
 package br.unitins.comics.model;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Categoria extends PanacheEntity {
+public class Categoria extends DefaultEntity {
     
     private String universo;
     

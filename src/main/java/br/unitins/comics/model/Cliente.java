@@ -1,10 +1,13 @@
 package br.unitins.comics.model;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Cliente extends PanacheEntity{
+public class Cliente extends DefaultEntity{
+    @ManyToOne
+    @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
 
     public Cliente() {

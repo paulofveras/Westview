@@ -1,10 +1,16 @@
 package br.unitins.comics.model;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Pessoa extends PanacheEntity {
+public class Pessoa extends DefaultEntity {
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(length = 100)
     private String nome;
     private String cpf;
     private String email;
@@ -35,12 +41,5 @@ public class Pessoa extends PanacheEntity {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setId(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setId'");
-    }
-
-    
+    }    
 }

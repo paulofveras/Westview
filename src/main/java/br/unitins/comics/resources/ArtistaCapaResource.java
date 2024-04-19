@@ -2,9 +2,9 @@ package br.unitins.comics.resources;
 
 import java.util.List;
 
-import br.unitins.comics.dto.PessoaDTO;
-import br.unitins.comics.dto.PessoaResponseDTO;
-import br.unitins.comics.service.PessoaService;
+import br.unitins.comics.dto.ArtistaCapaDTO;
+import br.unitins.comics.dto.ArtistaCapaResponseDTO;
+import br.unitins.comics.service.ArtistaCapaService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -20,60 +20,61 @@ import jakarta.ws.rs.core.Response.Status;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Path("/pessoas")
-public class PessoaResource {
+@Path("/artistasCapa")
+public class ArtistaCapaResource {
 
     @Inject
-    private PessoaService pessoaService;
+    private ArtistaCapaService artistaCapaService;
 
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
-        PessoaResponseDTO pessoa = pessoaService.findById(id);
-        if (pessoa != null) {
-            return Response.ok(pessoa).build();
+        ArtistaCapaResponseDTO artistaCapa = artistaCapaService.findById(id);
+        if (artistaCapa != null) {
+            return Response.ok(artistaCapa).build();
         } else {
             return Response.status(Status.NOT_FOUND)
-                    .entity("Pessoa não encontrada.")
+                    .entity("ArtistaCapa não encontrado.")
                     .build();
         }
     }
 
     @GET
     public Response findAll() {
-        List<PessoaResponseDTO> pessoas = pessoaService.findAll();
-        return Response.ok(pessoas).build();
+        List<ArtistaCapaResponseDTO> artistasCapa = artistaCapaService.findAll();
+        return Response.ok(artistasCapa).build();
     }
 
     @GET
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome) {
-        List<PessoaResponseDTO> pessoas = pessoaService.findByNome(nome);
-        if (pessoas != null && !pessoas.isEmpty()) {
-            return Response.ok(pessoas).build();
+        List<ArtistaCapaResponseDTO> artistasCapa = artistaCapaService.findByNome(nome);
+        if (artistasCapa != null && !artistasCapa.isEmpty()) {
+            return Response.ok(artistasCapa).build();
         } else {
             return Response.status(Status.NOT_FOUND)
-                    .entity("Nenhuma pessoa encontrada com o nome fornecido.")
+                    .entity("Nenhum ArtistaCapa encontrado com o nome fornecido.")
                     .build();
         }
     }
+
     @POST
-    public Response create(PessoaDTO dto) {
-        pessoaService.create(dto);
+    public Response create(ArtistaCapaDTO dto) {
+        artistaCapaService.create(dto);
         return Response.status(Status.CREATED).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") Long id, PessoaDTO dto) {
-        pessoaService.update(id, dto);
+    public Response update(@PathParam("id") Long id, ArtistaCapaDTO dto) {
+        artistaCapaService.update(id, dto);
         return Response.status(Status.NO_CONTENT).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
-        pessoaService.delete(id);
+        artistaCapaService.delete(id);
         return Response.status(Status.NO_CONTENT).build();
     }
 }

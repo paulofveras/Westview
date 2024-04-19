@@ -1,6 +1,8 @@
 package br.unitins.comics.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Classificacao {
     
     LIVRE(1, "Livre"),
@@ -35,9 +37,9 @@ public enum Classificacao {
     }
 
     public static Classificacao valueOf(Integer id) throws IllegalArgumentException {
-        for (Classificacao sexo : Classificacao.values()) {
-            if (sexo.id == id)
-                return sexo;
+        for (Classificacao idade : Classificacao.values()) {
+            if (idade.id == id)
+                return idade;
         }
         throw new IllegalArgumentException("id classificacao inválido.");
     }

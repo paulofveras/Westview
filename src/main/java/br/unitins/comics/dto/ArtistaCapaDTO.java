@@ -1,6 +1,6 @@
 package br.unitins.comics.dto;
 
-public record ClienteDTO (
+public record ArtistaCapaDTO (
     Long id,
     PessoaDTO pessoa
 ) { }

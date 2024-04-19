@@ -2,42 +2,13 @@ package br.unitins.comics.service;
 
 import java.util.List;
 
-import br.unitins.comics.model.Genero;
-import br.unitins.comics.repository.GeneroRepository;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
+import br.unitins.comics.dto.GeneroDTO;
+import br.unitins.comics.dto.GeneroResponseDTO;
 
-@ApplicationScoped
-public class GeneroService {
-    @Inject
-    private GeneroRepository generoRepository;
-
-    @Transactional
-    public List<Genero> findAll() {
-        return generoRepository.listAll();
-    }
-
-    @Transactional
-    public Genero findById(Long id) {
-        return generoRepository.findById(id);
-    }
-
-    @Transactional
-    public void create(Genero genero) {
-        generoRepository.persist(genero);
-    }
-
-    @Transactional
-    public void update(Genero genero) {
-        generoRepository.getEntityManager().merge(genero);
-    }
-
-    @Transactional
-    public void delete(Long id) {
-        Genero genero = findById(id);
-        if (genero != null) {
-            generoRepository.delete(genero);
-        }
-    }
+public interface GeneroService {
+    void create(GeneroDTO dto);
+    void update(Long id, GeneroDTO dto);
+    void delete(Long id);
+    GeneroResponseDTO findById(Long id);
+    List<GeneroResponseDTO> findAll();
 }

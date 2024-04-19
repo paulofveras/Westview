@@ -2,49 +2,39 @@ package br.unitins.comics.model;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import br.unitins.comics.dto.PessoaDTO;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 @Entity
-public class Quadrinho extends PanacheEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Quadrinho extends DefaultEntity {
 
     private String nome;
     private LocalDate dataPublicacao;
     private String edicao;
-    private double preco;
+    private Double preco;
     private Integer quantidadeEstoque;
 
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
-    @ManyToMany
+    @ElementCollection
     private List<String> personagens;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_escritor")
     private Pessoa escritor;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_artista_capa")
     private Pessoa artistaCapa;
 
-    @ManyToOne
-    @JoinColumn(name = "id_classificacao")
+    @Enumerated(EnumType.STRING)
     private Classificacao classificacao;
 
     @ManyToOne
@@ -55,28 +45,25 @@ public class Quadrinho extends PanacheEntity {
     @JoinColumn(name = "id_origem")
     private Origem origem;
 
-    public static Quadrinho findById(Long id) {
-        return find("id", id).firstResult();
+    public Quadrinho(String nome, LocalDate dataPublicacao, String edicao, Double preco, Integer quantidadeEstoque,
+            Categoria categoria, List<String> personagens, Pessoa escritor, Pessoa artistaCapa,
+            Classificacao classificacao, Genero genero, Origem origem) {
+        this.nome = nome;
+        this.dataPublicacao = dataPublicacao;
+        this.edicao = edicao;
+        this.preco = preco;
+        this.quantidadeEstoque = quantidadeEstoque;
+        this.categoria = categoria;
+        this.personagens = personagens;
+        this.escritor = escritor;
+        this.artistaCapa = artistaCapa;
+        this.classificacao = classificacao;
+        this.genero = genero;
+        this.origem = origem;
     }
 
-    public static List<Quadrinho> findAllQuadrinhos() {
-        return listAll().stream().map(p -> (Quadrinho) p).collect(Collectors.toList());
-    }
-
-    public void alterar() {
-        persistAndFlush();
-    }
-
-    public void excluir() {
-        delete();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public Quadrinho() {
+        //TODO Auto-generated constructor stub
     }
 
     public String getNome() {
@@ -103,11 +90,11 @@ public class Quadrinho extends PanacheEntity {
         this.edicao = edicao;
     }
 
-    public double getPreco() {
+    public Double getPreco() {
         return preco;
     }
 
-    public void setPreco(double preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 

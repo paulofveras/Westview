@@ -1,10 +1,9 @@
 package br.unitins.comics.model;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Genero extends PanacheEntity{
+public class Genero extends DefaultEntity{
     private String genero;
     private String descricao;
 
