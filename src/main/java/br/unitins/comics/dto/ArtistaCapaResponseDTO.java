@@ -9,7 +9,7 @@ public record ArtistaCapaResponseDTO (
     public static ArtistaCapaResponseDTO valueOf(ArtistaCapa artistaCapa) {
         return new ArtistaCapaResponseDTO(
             artistaCapa.getId(),
-            PessoaResponseDTO.valueOf(artistaCapa.getPessoa())
+            PessoaResponseDTO.fromPessoa(artistaCapa.getPessoa())
         );
     }
 }

@@ -50,13 +50,13 @@ public class PessoaServiceImpl implements PessoaService {
     @Override
     public PessoaResponseDTO findById(Long id) {
         Pessoa pessoa = pessoaRepository.findById(id);
-        return PessoaResponseDTO.valueOf(pessoa);
+        return PessoaResponseDTO.fromPessoa(pessoa);
     }
 
     @Override
     public List<PessoaResponseDTO> findByNome(String nome) {
         return pessoaRepository.findByNome(nome).stream()
-            .map(p -> PessoaResponseDTO.valueOf(p)).toList();
+            .map(p -> PessoaResponseDTO.fromPessoa(p)).toList();
     }
 
 
@@ -64,7 +64,7 @@ public class PessoaServiceImpl implements PessoaService {
     public List<PessoaResponseDTO> findAll() {
         List<Pessoa> pessoas = pessoaRepository.listAll();
         return pessoas.stream()
-            .map(PessoaResponseDTO::valueOf)
+            .map(PessoaResponseDTO::fromPessoa)
             .toList();
     }
 }

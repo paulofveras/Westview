@@ -9,7 +9,7 @@ public record ClienteResponseDTO (
     public static ClienteResponseDTO valueOf(Cliente cliente) {
         return new ClienteResponseDTO(
             cliente.getId(),
-            PessoaResponseDTO.valueOf(cliente.getPessoa())
+            PessoaResponseDTO.fromPessoa(cliente.getPessoa())
         );
     }
 }

@@ -9,7 +9,7 @@ public record FuncionarioResponseDTO (
     public static FuncionarioResponseDTO valueOf(Funcionario funcionario) {
         return new FuncionarioResponseDTO(
             funcionario.getId(),
-            PessoaResponseDTO.valueOf(funcionario.getPessoa())
+            PessoaResponseDTO.fromPessoa(funcionario.getPessoa())
         );
     }
 }

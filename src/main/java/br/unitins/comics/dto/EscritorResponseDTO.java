@@ -9,8 +9,9 @@ public record EscritorResponseDTO (
     public static EscritorResponseDTO valueOf(Escritor escritor) {
         return new EscritorResponseDTO(
             escritor.getId(),
-            PessoaResponseDTO.valueOf(escritor.getPessoa())
+            PessoaResponseDTO.fromPessoa(escritor.getPessoa())
         );
     }
 }
+
 

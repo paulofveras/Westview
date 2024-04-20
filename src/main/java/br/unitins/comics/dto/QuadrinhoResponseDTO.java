@@ -1,6 +1,7 @@
 package br.unitins.comics.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.unitins.comics.model.Classificacao;
@@ -30,9 +31,9 @@ public record QuadrinhoResponseDTO (
             quadrinho.getPreco(),
             quadrinho.getQuantidadeEstoque(),
             CategoriaResponseDTO.valueOf(quadrinho.getCategoria()),
-            quadrinho.getPersonagens(),
-            PessoaResponseDTO.valueOf(quadrinho.getEscritor()),
-            PessoaResponseDTO.valueOf(quadrinho.getArtistaCapa()),
+            new ArrayList<>(quadrinho.getPersonagens()),
+            PessoaResponseDTO.fromPessoa(quadrinho.getEscritor()),
+            PessoaResponseDTO.fromPessoa(quadrinho.getArtistaCapa()),
             quadrinho.getClassificacao(),
             GeneroResponseDTO.valueOf(quadrinho.getGenero()),
             OrigemResponseDTO.valueOf(quadrinho.getOrigem())

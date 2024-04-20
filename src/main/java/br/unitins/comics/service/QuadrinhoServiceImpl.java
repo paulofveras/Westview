@@ -1,5 +1,6 @@
 package br.unitins.comics.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.unitins.comics.dto.QuadrinhoDTO;
@@ -84,6 +85,7 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
         quadrinho.setEdicao(dto.edicao());
         quadrinho.setPreco(dto.preco());
         quadrinho.setQuantidadeEstoque(dto.quantidadeEstoque());
+        quadrinho.setPersonagens(new ArrayList<String>());
         quadrinho.setClassificacao(Classificacao.valueOf(dto.classificacao().getId()));
         // Preenchendo a categoria do quadrinho
         Categoria categoria = categoriaRepository.findById(dto.categoria().id());
