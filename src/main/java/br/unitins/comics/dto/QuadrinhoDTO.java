@@ -6,18 +6,16 @@ import java.util.List;
 import br.unitins.comics.model.Classificacao;
 
 public record QuadrinhoDTO (
-    Long id,
     String nome,
     LocalDate dataPublicacao,
     String edicao,
     Double preco,
     Integer quantidadeEstoque,
-    CategoriaDTO categoria,
-    List<String> personagens,
-    PessoaDTO escritor,
-    PessoaDTO artistaCapa,
-    Classificacao classificacao,
-    GeneroDTO genero,
-    OrigemDTO origem
+    Long categoria,
+    List<Long> escritores,
+    List<Long> artistaCapa,
+    Integer id_classificacao,
+    Long genero,
+    Long origem
 ) { }
 

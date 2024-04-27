@@ -18,10 +18,5 @@ public class Origem extends DefaultEntity {
         this.pais = pais;
     }
 
-    public void setId(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setId'");
-    }
-
     
 }

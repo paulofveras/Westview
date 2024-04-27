@@ -1,6 +1,9 @@
 package br.unitins.comics.dto;
 
 public record ClienteDTO (
-    Long id,
-    PessoaDTO pessoa
+    String estado,
+    String cidade,
+    String nome,
+    String cpf,
+    String email
 ) { }

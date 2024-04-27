@@ -8,7 +8,7 @@ public record PessoaResponseDTO (
     String cpf,
     String email
 ) {
-    public static PessoaResponseDTO fromPessoa(Pessoa pessoa) {
+    public static PessoaResponseDTO valueOf(Pessoa pessoa) {
         return new PessoaResponseDTO(
             pessoa.getId(),
             pessoa.getNome(),

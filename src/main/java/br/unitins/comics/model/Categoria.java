@@ -18,8 +18,5 @@ public class Categoria extends DefaultEntity {
         this.universo = universo;
     }
 
-    public void setId(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setId'");
-    }
+
 }

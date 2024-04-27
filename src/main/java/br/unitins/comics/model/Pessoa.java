@@ -2,28 +2,29 @@ package br.unitins.comics.model;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
 @Entity
 public class Pessoa extends DefaultEntity {
+    
+    @Column(nullable = false)
     private String nome;
+
+    @Column(nullable = false)
     private String cpf;
+
+    @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "pessoa")
-    private List<Funcionario> funcionarios;
-
-    @OneToMany(mappedBy = "pessoa")
-    private List<Cliente> clientes;
-
-    @OneToMany(mappedBy = "pessoa")
-    private List<Escritor> escritores;
-
-    @OneToMany(mappedBy = "pessoa")
-    private List<ArtistaCapa> artistasCapa;
-
     public Pessoa() {
+    }
+
+    public Pessoa(String nome, String cpf, String email) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
     }
 
     public String getNome() {
@@ -48,46 +49,6 @@ public class Pessoa extends DefaultEntity {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<Funcionario> getFuncionarios() {
-        return funcionarios;
-    }
-
-    public void setFuncionarios(List<Funcionario> funcionarios) {
-        this.funcionarios = funcionarios;
-    }
-
-    public List<Cliente> getClientes() {
-        return clientes;
-    }
-
-    public void setClientes(List<Cliente> clientes) {
-        this.clientes = clientes;
-    }
-
-    public List<Escritor> getEscritores() {
-        return escritores;
-    }
-
-    public void setEscritores(List<Escritor> escritores) {
-        this.escritores = escritores;
-    }
-
-    public List<ArtistaCapa> getArtistasCapa() {
-        return artistasCapa;
-    }
-
-    public void setArtistasCapa(List<ArtistaCapa> artistasCapa) {
-        this.artistasCapa = artistasCapa;
-    }
-
-    @Override
-    public String toString() {
-        return "Pessoa [nome=" + nome + ", cpf=" + cpf + ", email=" + email + ", funcionarios=" + funcionarios
-                + ", clientes=" + clientes + ", escritores=" + escritores + ", artistasCapa=" + artistasCapa + "]";
-    }
-
-    
+    }   
    
 }

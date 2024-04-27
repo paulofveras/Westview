@@ -1,16 +1,26 @@
 package br.unitins.comics.model;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Funcionario extends DefaultEntity {
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
 
+    @Column(nullable = false)
+    private String cargo;
+
     public Funcionario() {
 
+    }
+
+    public Funcionario(Pessoa pessoa, String cargo) {
+        this.pessoa = pessoa;
+        this.cargo = cargo;
     }
 
     public Pessoa getPessoa() {
@@ -21,10 +31,15 @@ public class Funcionario extends DefaultEntity {
         this.pessoa = pessoa;
     }
 
-    @Override
-    public String toString() {
-        return "Funcionario [pessoa=" + pessoa + "]";
+    public String getCargo() {
+        return cargo;
     }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    
 
     
     

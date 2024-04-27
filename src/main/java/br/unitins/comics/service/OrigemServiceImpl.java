@@ -4,11 +4,13 @@ import java.util.List;
 
 import br.unitins.comics.dto.OrigemDTO;
 import br.unitins.comics.dto.OrigemResponseDTO;
+import br.unitins.comics.dto.PessoaResponseDTO;
 import br.unitins.comics.model.Origem;
 import br.unitins.comics.repository.OrigemRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class OrigemServiceImpl implements OrigemService {
@@ -18,42 +20,36 @@ public class OrigemServiceImpl implements OrigemService {
 
     @Override
     @Transactional
-    public void create(OrigemDTO dto) {
+    public OrigemResponseDTO create(@Valid OrigemDTO dto) {
         Origem origem = new Origem();
         origem.setPais(dto.pais());
         origemRepository.persist(origem);
+        return OrigemResponseDTO.valueOf(origem);
     }
 
     @Override
     @Transactional
     public void update(Long id, OrigemDTO dto) {
-        Origem origem = origemRepository.findById(id);
-        if (origem != null) {
-            origem.setPais(dto.pais());
-            origemRepository.persist(origem);
-        }
+        Origem origemBanco = origemRepository.findById(id);
+
+        origemBanco.setPais(dto.pais());
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        Origem origem = origemRepository.findById(id);
-        if (origem != null) {
-            origemRepository.delete(origem);
-        }
+        origemRepository.deleteById(id);
     }
 
     @Override
     public OrigemResponseDTO findById(Long id) {
-        Origem origem = origemRepository.findById(id);
-        return OrigemResponseDTO.valueOf(origem);
+        return OrigemResponseDTO.valueOf(origemRepository.findById(id));
     }
+
 
     @Override
     public List<OrigemResponseDTO> findAll() {
-        List<Origem> origens = origemRepository.listAll();
-        return origens.stream()
-            .map(OrigemResponseDTO::valueOf)
-            .toList();
-    }
+        return origemRepository.listAll().stream().map(origens -> OrigemResponseDTO.valueOf(origens)).toList();
+    
+}
 }

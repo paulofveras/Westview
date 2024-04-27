@@ -9,8 +9,13 @@ public record EscritorResponseDTO (
     public static EscritorResponseDTO valueOf(Escritor escritor) {
         return new EscritorResponseDTO(
             escritor.getId(),
-            PessoaResponseDTO.fromPessoa(escritor.getPessoa())
+            PessoaResponseDTO.valueOf(escritor.getPessoa())
         );
+    }
+
+    public void setNome(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setNome'");
     }
 }
 

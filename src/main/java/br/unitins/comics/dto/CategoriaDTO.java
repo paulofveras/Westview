@@ -1,6 +1,5 @@
 package br.unitins.comics.dto;
 
-public record CategoriaDTO(
-    Long id,    
+public record CategoriaDTO(   
     String universo
 ) { }

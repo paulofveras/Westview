@@ -1,17 +1,14 @@
 package br.unitins.comics.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.unitins.comics.dto.QuadrinhoDTO;
 import br.unitins.comics.dto.QuadrinhoResponseDTO;
-import br.unitins.comics.model.Categoria;
 import br.unitins.comics.model.Classificacao;
-import br.unitins.comics.model.Genero;
-import br.unitins.comics.model.Origem;
-import br.unitins.comics.model.Pessoa;
 import br.unitins.comics.model.Quadrinho;
+import br.unitins.comics.repository.ArtistaCapaRepository;
 import br.unitins.comics.repository.CategoriaRepository;
+import br.unitins.comics.repository.EscritorRepository;
 import br.unitins.comics.repository.GeneroRepository;
 import br.unitins.comics.repository.OrigemRepository;
 import br.unitins.comics.repository.PessoaRepository;
@@ -19,29 +16,54 @@ import br.unitins.comics.repository.QuadrinhoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class QuadrinhoServiceImpl implements QuadrinhoService {
 
     @Inject
-    private QuadrinhoRepository quadrinhoRepository;
+    public QuadrinhoRepository quadrinhoRepository;
 
     @Inject
-    private CategoriaRepository categoriaRepository;
+    public CategoriaRepository categoriaRepository;
 
     @Inject
-    private GeneroRepository generoRepository;
+    public PessoaRepository pessoaRepository;
 
     @Inject
-    private OrigemRepository origemRepository;
+    public EscritorRepository escritorRepository;
 
-    @Inject PessoaRepository pessoaRepository;
+    @Inject
+    public ArtistaCapaRepository artistaCapaRepository;
+
+    @Inject
+    public GeneroRepository generoRepository;
+
+    @Inject
+    public OrigemRepository origemRepository;
 
     @Override
     @Transactional
-    public QuadrinhoResponseDTO create(QuadrinhoDTO dto) {
+    public QuadrinhoResponseDTO create(@Valid QuadrinhoDTO dto) {
+
         Quadrinho quadrinho = new Quadrinho();
-        preencherQuadrinho(quadrinho, dto);
+        quadrinho.setNome(dto.nome());
+        quadrinho.setDataPublicacao(dto.dataPublicacao());
+        quadrinho.setEdicao(dto.edicao());
+        quadrinho.setPreco(dto.preco());
+        quadrinho.setQuantidadeEstoque(dto.quantidadeEstoque());
+        quadrinho.setCategoria(categoriaRepository.findById(dto.categoria()));
+
+        quadrinho.setListaEscritor((dto.escritores().stream().map(a -> escritorRepository.findById(a)).toList()));
+
+        quadrinho.setListaArtistaCapa((dto.artistaCapa().stream().map(a -> artistaCapaRepository.findById(a)).toList()));
+
+        quadrinho.setClassificacao(Classificacao.valueOf(dto.id_classificacao()));
+        
+        quadrinho.setGenero(generoRepository.findById(dto.genero()));
+
+        quadrinho.setOrigem(origemRepository.findById(dto.origem()));
+
         quadrinhoRepository.persist(quadrinho);
         return QuadrinhoResponseDTO.valueOf(quadrinho);
     }
@@ -49,62 +71,46 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
     @Override
     @Transactional
     public void update(Long id, QuadrinhoDTO dto) {
-        Quadrinho quadrinho = quadrinhoRepository.findById(id);
-        if (quadrinho != null) {
-            preencherQuadrinho(quadrinho, dto);
-            quadrinhoRepository.persist(quadrinho);
-        }
+        Quadrinho quadrinhoBanco =  quadrinhoRepository.findById(id);
+
+        quadrinhoBanco.setNome(dto.nome());
+        quadrinhoBanco.setDataPublicacao(dto.dataPublicacao());
+        quadrinhoBanco.setEdicao(dto.edicao());
+        quadrinhoBanco.setPreco(dto.preco());
+        quadrinhoBanco.setQuantidadeEstoque(dto.quantidadeEstoque());
+        quadrinhoBanco.setCategoria(categoriaRepository.findById(dto.categoria()));
+
+        quadrinhoBanco.setListaEscritor((dto.escritores().stream().map(a -> escritorRepository.findById(a)).toList()));
+
+        quadrinhoBanco.setListaArtistaCapa((dto.artistaCapa().stream().map(a -> artistaCapaRepository.findById(a)).toList()));
+
+        quadrinhoBanco.setClassificacao(Classificacao.valueOf(dto.id_classificacao()));
+        
+        quadrinhoBanco.setGenero(generoRepository.findById(dto.genero()));
+
+        quadrinhoBanco.setOrigem(origemRepository.findById(dto.origem()));
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        Quadrinho quadrinho = quadrinhoRepository.findById(id);
-        if (quadrinho != null) {
-            quadrinhoRepository.delete(quadrinho);
-        }
-    }
-
-    @Override
-    public QuadrinhoResponseDTO findById(Long id) {
-        Quadrinho quadrinho = quadrinhoRepository.findById(id);
-        return QuadrinhoResponseDTO.valueOf(quadrinho);
+        quadrinhoRepository.deleteById(id);
     }
 
     @Override
     public List<QuadrinhoResponseDTO> findAll() {
-        return quadrinhoRepository.listAll()
-                .stream()
-                .map(QuadrinhoResponseDTO::valueOf)
-                .toList();
+        return quadrinhoRepository.listAll().stream().map(quadrinho -> QuadrinhoResponseDTO.valueOf(quadrinho)).toList();
     }
 
-    private void preencherQuadrinho(Quadrinho quadrinho, QuadrinhoDTO dto) {
-        quadrinho.setNome(dto.nome());
-        quadrinho.setDataPublicacao(dto.dataPublicacao());
-        quadrinho.setEdicao(dto.edicao());
-        quadrinho.setPreco(dto.preco());
-        quadrinho.setQuantidadeEstoque(dto.quantidadeEstoque());
-        quadrinho.setPersonagens(new ArrayList<String>());
-        quadrinho.setClassificacao(Classificacao.valueOf(dto.classificacao().getId()));
-        // Preenchendo a categoria do quadrinho
-        Categoria categoria = categoriaRepository.findById(dto.categoria().id());
-        quadrinho.setCategoria(categoria);
-    
-        // Preenchendo o genero do quadrinho
-        Genero genero = generoRepository.findById(dto.genero().id());
-        quadrinho.setGenero(genero);
-    
-        // Preenchendo a origem do quadrinho
-        Origem origem = origemRepository.findById(dto.origem().id());
-        quadrinho.setOrigem(origem);
-    
-        // Preenchendo o escritor do quadrinho
-        Pessoa escritor = pessoaRepository.findById(dto.escritor().id());
-        quadrinho.setEscritor(escritor);
-    
-        // Preenchendo o artista de capa do quadrinho
-        Pessoa artistaCapa = pessoaRepository.findById(dto.artistaCapa().id());
-        quadrinho.setArtistaCapa(artistaCapa);
+    @Override
+    public QuadrinhoResponseDTO findById(Long id) {
+        return QuadrinhoResponseDTO.valueOf(quadrinhoRepository.findById(id));
     }
+
+    @Override
+    public List<QuadrinhoResponseDTO> findByNome(String nome) {
+        return quadrinhoRepository.findByNome(nome).stream()
+        .map(e -> QuadrinhoResponseDTO.valueOf(e)).toList();
+    }
+
 }

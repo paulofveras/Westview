@@ -48,20 +48,12 @@ public class EscritorResource {
     @GET
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome) {
-        List<EscritorResponseDTO> escritores = escritorService.findByNome(nome);
-        if (escritores != null && !escritores.isEmpty()) {
-            return Response.ok(escritores).build();
-        } else {
-            return Response.status(Status.NOT_FOUND)
-                    .entity("Nenhum Escritor encontrado com o nome fornecido.")
-                    .build();
-        }
+        return Response.ok(escritorService.findByNome(nome)).build();
     }
 
     @POST
     public Response create(EscritorDTO dto) {
-        escritorService.create(dto);
-        return Response.status(Status.CREATED).build();
+        return Response.status(Status.CREATED).entity(escritorService.create(dto)).build();
     }
 
     @PUT

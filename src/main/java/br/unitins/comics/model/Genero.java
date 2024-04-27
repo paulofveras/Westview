@@ -26,11 +26,5 @@ public class Genero extends DefaultEntity{
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    public void setId(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setId'");
-    }
-
     
 }

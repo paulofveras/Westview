@@ -6,6 +6,7 @@ import br.unitins.comics.dto.QuadrinhoDTO;
 import br.unitins.comics.dto.QuadrinhoResponseDTO;
 import br.unitins.comics.service.QuadrinhoService;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -28,27 +29,26 @@ public class QuadrinhoResource {
 
     @GET
     public Response findAll() {
-        List<QuadrinhoResponseDTO> quadrinhos = quadrinhoService.findAll();
-        return Response.ok(quadrinhos).build();
+        return Response.ok(quadrinhoService.findAll()).build();
     }
 
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
-        QuadrinhoResponseDTO quadrinho = quadrinhoService.findById(id);
-        if (quadrinho != null) {
-            return Response.ok(quadrinho).build();
-        } else {
-            return Response.status(Status.NOT_FOUND)
-                    .entity("Quadrinho não encontrado.")
-                    .build();
-        }
+       return Response.ok(quadrinhoService.findById(id)).build();
+
+    }
+
+    @GET
+    @Path("/search/nome/{nome}")
+    public Response findByNome(@PathParam("nome") String nome){
+        return Response.ok(quadrinhoService.findByNome(nome)).build();
     }
 
     @POST
-    public Response create(QuadrinhoDTO dto) {
-        QuadrinhoResponseDTO created = quadrinhoService.create(dto);
-        return Response.status(Status.CREATED).entity(created).build();
+    public Response create(@Valid QuadrinhoDTO dto) {
+        QuadrinhoResponseDTO response = quadrinhoService.create(dto);
+        return Response.status(Status.CREATED).entity(response).build();
     }
 
     @PUT

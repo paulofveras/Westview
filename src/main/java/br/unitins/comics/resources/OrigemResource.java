@@ -6,6 +6,8 @@ import br.unitins.comics.dto.OrigemDTO;
 import br.unitins.comics.dto.OrigemResponseDTO;
 import br.unitins.comics.service.OrigemService;
 import jakarta.inject.Inject;
+import jakarta.persistence.PersistenceException;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -29,26 +31,17 @@ public class OrigemResource {
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
-        OrigemResponseDTO origem = origemService.findById(id);
-        if (origem != null) {
-            return Response.ok(origem).build();
-        } else {
-            return Response.status(Status.NOT_FOUND)
-                    .entity("Origem não encontrada.")
-                    .build();
-        }
+        return Response.ok(origemService.findById(id)).build();
     }
 
     @GET
     public Response findAll() {
-        List<OrigemResponseDTO> origens = origemService.findAll();
-        return Response.ok(origens).build();
+        return Response.ok(origemService.findAll()).build();
     }
 
     @POST
     public Response create(OrigemDTO dto) {
-        origemService.create(dto);
-        return Response.status(Status.CREATED).build();
+        return Response.status(Status.CREATED).entity(origemService.create(dto)).build();
     }
 
     @PUT
@@ -60,8 +53,14 @@ public class OrigemResource {
 
     @DELETE
     @Path("/{id}")
+    @Transactional
     public Response delete(@PathParam("id") Long id) {
-        origemService.delete(id);
-        return Response.status(Status.NO_CONTENT).build();
+        try {
+            origemService.delete(id);
+            return Response.status(Status.NO_CONTENT).build();
+        } catch (PersistenceException e) {
+            return Response.status(Status.BAD_REQUEST)
+                    .entity("Não é possível excluir a origem devido a registros dependentes.").build();
+        }
     }
 }

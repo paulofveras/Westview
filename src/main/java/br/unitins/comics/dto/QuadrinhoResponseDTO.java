@@ -15,14 +15,24 @@ public record QuadrinhoResponseDTO (
     Double preco,
     Integer quantidadeEstoque,
     CategoriaResponseDTO categoria,
-    List<String> personagens,
-    PessoaResponseDTO escritor,
-    PessoaResponseDTO artistaCapa,
-    Classificacao classificacao,
+    List<EscritorResponseDTO> escritor,
+    List<ArtistaCapaResponseDTO> artistaCapa,
+    Classificacao id_classificacao,
     GeneroResponseDTO genero,
     OrigemResponseDTO origem
 ) {
     public static QuadrinhoResponseDTO valueOf(Quadrinho quadrinho) {
+
+        List<EscritorResponseDTO> listaEscritor = quadrinho.getListaEscritor()
+                .stream()
+                .map(EscritorResponseDTO::valueOf)
+                .toList();
+
+        List<ArtistaCapaResponseDTO> listaArtistaCapa = quadrinho.getListaArtistaCapa()
+                .stream()
+                .map(ArtistaCapaResponseDTO::valueOf)
+                .toList();
+
         return new QuadrinhoResponseDTO(
             quadrinho.getId(),
             quadrinho.getNome(),
@@ -31,9 +41,8 @@ public record QuadrinhoResponseDTO (
             quadrinho.getPreco(),
             quadrinho.getQuantidadeEstoque(),
             CategoriaResponseDTO.valueOf(quadrinho.getCategoria()),
-            new ArrayList<>(quadrinho.getPersonagens()),
-            PessoaResponseDTO.fromPessoa(quadrinho.getEscritor()),
-            PessoaResponseDTO.fromPessoa(quadrinho.getArtistaCapa()),
+            listaEscritor,
+            listaArtistaCapa,
             quadrinho.getClassificacao(),
             GeneroResponseDTO.valueOf(quadrinho.getGenero()),
             OrigemResponseDTO.valueOf(quadrinho.getOrigem())

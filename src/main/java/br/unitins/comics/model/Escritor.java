@@ -1,7 +1,10 @@
 package br.unitins.comics.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -9,6 +12,9 @@ public class Escritor extends DefaultEntity{
     @ManyToOne
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
+
+    @ManyToMany(mappedBy = "listaEscritor")
+    private List<Quadrinho> listaQuadrinhos;
 
     public Escritor() {
 
@@ -22,10 +28,16 @@ public class Escritor extends DefaultEntity{
         this.pessoa = pessoa;
     }
 
-    @Override
-    public String toString() {
-        return "Escritor [pessoa=" + pessoa + "]";
+    public List<Quadrinho> getListaQuadrinhos() {
+        return listaQuadrinhos;
     }
+
+    public void setListaQuadrinhos(List<Quadrinho> listaQuadrinhos) {
+        this.listaQuadrinhos = listaQuadrinhos;
+    }
+
+    
+
 
     
     

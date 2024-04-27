@@ -9,6 +9,7 @@ import br.unitins.comics.repository.GeneroRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class GeneroServiceImpl implements GeneroService {
@@ -18,44 +19,37 @@ public class GeneroServiceImpl implements GeneroService {
 
     @Override
     @Transactional
-    public void create(GeneroDTO dto) {
+    public GeneroResponseDTO create(@Valid GeneroDTO dto) {
         Genero genero = new Genero();
         genero.setGenero(dto.genero());
         genero.setDescricao(dto.descricao());
         generoRepository.persist(genero);
+        
+        return GeneroResponseDTO.valueOf(genero);
     }
 
     @Override
     @Transactional
     public void update(Long id, GeneroDTO dto) {
-        Genero genero = generoRepository.findById(id);
-        if (genero != null) {
-            genero.setGenero(dto.genero());
-            genero.setDescricao(dto.descricao());
-            generoRepository.persist(genero);
-        }
+       Genero generoBanco = generoRepository.findById(id);
+
+       generoBanco.setGenero(dto.genero());
+       generoBanco.setDescricao(dto.descricao());
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        Genero genero = generoRepository.findById(id);
-        if (genero != null) {
-            generoRepository.delete(genero);
-        }
+        generoRepository.deleteById(id);
     }
 
     @Override
     public GeneroResponseDTO findById(Long id) {
-        Genero genero = generoRepository.findById(id);
-        return GeneroResponseDTO.valueOf(genero);
+        return GeneroResponseDTO.valueOf(generoRepository.findById(id));
     }
 
     @Override
     public List<GeneroResponseDTO> findAll() {
-        List<Genero> generos = generoRepository.listAll();
-        return generos.stream()
-            .map(GeneroResponseDTO::valueOf)
-            .toList();
+        return generoRepository.listAll().stream().map(generos -> GeneroResponseDTO.valueOf(generos)).toList();
     }
 }

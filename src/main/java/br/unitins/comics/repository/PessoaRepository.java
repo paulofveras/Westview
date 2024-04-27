@@ -17,5 +17,9 @@ public class PessoaRepository implements PanacheRepository<Pessoa> {
         return find("cpf = ?1", cpf).list();
     }
 
+    public Pessoa findByCpfPessoa(String cpf){
+        return find("cpf LIKE ?1", "%" + cpf + "%").firstResult();
+    }
+
     // Outros métodos de busca, se necessário
 }

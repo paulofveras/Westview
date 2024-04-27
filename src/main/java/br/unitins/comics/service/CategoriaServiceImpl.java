@@ -9,6 +9,7 @@ import br.unitins.comics.repository.CategoriaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class CategoriaServiceImpl implements CategoriaService {
@@ -18,42 +19,35 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     @Transactional
-    public void create(CategoriaDTO dto) {
+    public CategoriaResponseDTO create(@Valid CategoriaDTO dto) {
         Categoria categoria = new Categoria();
         categoria.setUniverso(dto.universo());
         categoriaRepository.persist(categoria);
+
+        return CategoriaResponseDTO.valueOf(categoria);
     }
 
     @Override
     @Transactional
     public void update(Long id, CategoriaDTO dto) {
-        Categoria categoria = categoriaRepository.findById(id);
-        if (categoria != null) {
-            categoria.setUniverso(dto.universo());
-            categoriaRepository.persist(categoria);
-        }
+        Categoria categoriaBanco = categoriaRepository.findById(id);
+
+        categoriaBanco.setUniverso(dto.universo());
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        Categoria categoria = categoriaRepository.findById(id);
-        if (categoria != null) {
-            categoriaRepository.delete(categoria);
-        }
+       categoriaRepository.deleteById(id);
     }
 
     @Override
     public CategoriaResponseDTO findById(Long id) {
-        Categoria categoria = categoriaRepository.findById(id);
-        return CategoriaResponseDTO.valueOf(categoria);
+        return CategoriaResponseDTO.valueOf(categoriaRepository.findById(id));
     }
 
     @Override
     public List<CategoriaResponseDTO> findAll() {
-        List<Categoria> categorias = categoriaRepository.listAll();
-        return categorias.stream()
-            .map(CategoriaResponseDTO::valueOf)
-            .toList();
+        return categoriaRepository.listAll().stream().map(categorias -> CategoriaResponseDTO.valueOf(categorias)).toList();
     }
 }

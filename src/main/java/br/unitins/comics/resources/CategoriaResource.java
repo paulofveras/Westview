@@ -29,14 +29,7 @@ public class CategoriaResource {
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
-        CategoriaResponseDTO categoria = categoriaService.findById(id);
-        if (categoria != null) {
-            return Response.ok(categoria).build();
-        } else {
-            return Response.status(Status.NOT_FOUND)
-                    .entity("Categoria não encontrada.")
-                    .build();
-        }
+        return Response.ok(categoriaService.findById(id)).build();
     }
 
     @GET
