@@ -1,10 +1,14 @@
 package br.unitins.comics.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 @Entity
 public class Genero extends DefaultEntity{
+    @Column(length = 60, nullable = false)
     private String genero;
+
+    @Column(length = 60, nullable = false)
     private String descricao;
 
     public Genero() {
