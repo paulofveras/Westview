@@ -8,7 +8,7 @@ public class Genero extends DefaultEntity{
     @Column(length = 60, nullable = false)
     private String genero;
 
-    @Column(length = 60, nullable = false)
+    @Column(length = 5000, nullable = false)
     private String descricao;
 
     public Genero() {

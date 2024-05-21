@@ -13,7 +13,6 @@ import br.unitins.comics.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.GET;
 
 @ApplicationScoped
@@ -27,7 +26,7 @@ public class ArtistaCapaServiceImpl implements ArtistaCapaService {
 
     @Override
     @Transactional
-    public ArtistaCapaResponseDTO create(@Valid ArtistaCapaDTO dto) {
+    public ArtistaCapaResponseDTO create(ArtistaCapaDTO dto) {
         ArtistaCapa artistaCapa = new ArtistaCapa();
         validarCpfCliente(dto.cpf());
         

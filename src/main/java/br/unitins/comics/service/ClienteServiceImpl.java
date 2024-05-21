@@ -12,7 +12,6 @@ import br.unitins.comics.repository.PessoaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import br.unitins.comics.validation.ValidationException;
 import jakarta.ws.rs.GET;
 
@@ -27,7 +26,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     @Transactional
-    public ClienteResponseDTO create(@Valid ClienteDTO dto){
+    public ClienteResponseDTO create(ClienteDTO dto){
         validarCpfCliente(dto.cpf());
         
          // Criar uma instância de Usuario com os dados do ClienteDTO

@@ -13,7 +13,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import br.unitins.comics.validation.ValidationException;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.GET;
 
 @ApplicationScoped
@@ -27,7 +26,7 @@ public class EscritorServiceImpl implements EscritorService {
 
     @Override
     @Transactional
-    public EscritorResponseDTO create(@Valid EscritorDTO dto) {
+    public EscritorResponseDTO create(EscritorDTO dto) {
         Escritor escritor = new Escritor();
         validarCpfCliente(dto.cpf());
         

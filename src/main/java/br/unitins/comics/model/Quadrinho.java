@@ -26,10 +26,9 @@ public class Quadrinho extends DefaultEntity {
 
     private String edicao;
 
-    @Column(length = 60, nullable = false)
+    @Column(nullable = false)
     private Double preco;
 
-    @Column(length = 60)
     private Integer quantidadeEstoque;
 
     @ManyToOne

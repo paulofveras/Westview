@@ -9,7 +9,6 @@ import br.unitins.comics.repository.CategoriaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class CategoriaServiceImpl implements CategoriaService {
@@ -19,7 +18,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     @Transactional
-    public CategoriaResponseDTO create(@Valid CategoriaDTO dto) {
+    public CategoriaResponseDTO create(CategoriaDTO dto) {
         Categoria categoria = new Categoria();
         categoria.setUniverso(dto.universo());
         categoriaRepository.persist(categoria);

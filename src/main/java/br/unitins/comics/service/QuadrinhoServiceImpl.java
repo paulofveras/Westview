@@ -16,7 +16,6 @@ import br.unitins.comics.repository.QuadrinhoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class QuadrinhoServiceImpl implements QuadrinhoService {
@@ -44,7 +43,7 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
 
     @Override
     @Transactional
-    public QuadrinhoResponseDTO create(@Valid QuadrinhoDTO dto) {
+    public QuadrinhoResponseDTO create(QuadrinhoDTO dto) {
 
         Quadrinho quadrinho = new Quadrinho();
         quadrinho.setNome(dto.nome());

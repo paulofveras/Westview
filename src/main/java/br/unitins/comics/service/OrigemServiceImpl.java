@@ -9,7 +9,6 @@ import br.unitins.comics.repository.OrigemRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class OrigemServiceImpl implements OrigemService {
@@ -19,7 +18,7 @@ public class OrigemServiceImpl implements OrigemService {
 
     @Override
     @Transactional
-    public OrigemResponseDTO create(@Valid OrigemDTO dto) {
+    public OrigemResponseDTO create(OrigemDTO dto) {
         Origem origem = new Origem();
         origem.setPais(dto.pais());
         origemRepository.persist(origem);

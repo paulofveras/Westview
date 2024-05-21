@@ -9,7 +9,6 @@ import br.unitins.comics.repository.GeneroRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class GeneroServiceImpl implements GeneroService {
@@ -19,7 +18,7 @@ public class GeneroServiceImpl implements GeneroService {
 
     @Override
     @Transactional
-    public GeneroResponseDTO create(@Valid GeneroDTO dto) {
+    public GeneroResponseDTO create(GeneroDTO dto) {
         Genero genero = new Genero();
         genero.setGenero(dto.genero());
         genero.setDescricao(dto.descricao());

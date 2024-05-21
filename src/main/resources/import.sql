@@ -5,11 +5,13 @@
 -- insert into myentity (id, field) values(3, 'field-3');
 -- alter sequence myentity_seq restart with 4;
 -- Inserindo dados na tabela Pessoa
-INSERT INTO Pessoa (id, nome, cpf, email) VALUES (1, 'João Silva', '123.456.789-00', 'joao.silva@email.com');
-INSERT INTO Pessoa (id, nome, cpf, email) VALUES (2, 'Maria Santos', '987.654.321-00', 'maria.santos@email.com');
-INSERT INTO Pessoa (id, nome, cpf, email) VALUES (3, 'Lala Ri', '123.456.789-00', 'lalari@email.com');
-INSERT INTO Pessoa (id, nome, cpf, email) VALUES (4, 'Ru Paul', '987.654.321-00', 'rupaul@email.com');
+INSERT INTO Pessoa (id, nome, cpf, email, username, senha) VALUES 
+(1, 'João Silva', '123.456.789-00', 'joao.silva@email.com', 'joaosilva', 'senha123'),
+(2, 'Maria Santos', '987.654.321-00', 'maria.santos@email.com', 'mariasantos', 'senha456'),
+(3, 'Lala Ri', '123.456.789-00', 'lalari@email.com', 'lalari', 'senha789'),
+(4, 'Ru Paul', '987.654.321-00', 'rupaul@email.com', 'rupaul', 'senhaabc');
 
+-- Inserindo dados na tabela Funcionario
 INSERT INTO Funcionario (cargo, id_pessoa) VALUES ('Gerente', 4);
 
 -- Inserindo dados na tabela Cliente
@@ -24,18 +26,17 @@ INSERT INTO Escritor (id_pessoa) VALUES (2);
 -- Inserindo dados na tabela Categoria
 INSERT INTO Categoria (id, universo) VALUES (1, 'DC Comics');
 
-
 -- Inserindo dados na tabela Genero
-INSERT INTO Genero (id, descricao, genero) VALUES (1, 'Histórias de ação', 'Ação');
+INSERT INTO Genero (id, genero, descricao) VALUES (1, 'Ação', 'Histórias de ação');
 
 -- Inserindo dados na tabela Origem
 INSERT INTO Origem (id, pais) VALUES (1, 'Estados Unidos');
 
 -- Inserindo dados na tabela Quadrinho
-INSERT INTO Quadrinho (id, nome, datapublicacao, edicao, preco, quantidadeEstoque, id_categoria, classificacao, id_genero, id_origem) VALUES (1, 'Batman: O Cavaleiro das Trevas', '1986-02-01', 'Edição Especial', 19.90, 10, 1, 'DEZANOS', 1, 1);
+INSERT INTO Quadrinho (id, nome, dataPublicacao, edicao, preco, quantidadeEstoque, id_categoria, classificacao, id_genero, id_origem) VALUES 
+(1, 'Batman: O Cavaleiro das Trevas', '1986-02-01', 'Edição Especial', 19.90, 10, 1, 'DEZANOS', 1, 1);
 
+-- Relacionando Quadrinho com ArtistaCapa e Escritor
 INSERT INTO quadrinho_artistacapa (id_quadrinho, id_artista_capa) VALUES (1, 1);
-
-INSERT INTO quadrinho_escritor (id_quadrinho, id_escritor) VALUES (1, 1);
-
+INSERT INTO quadrinho_escritor (id_quadrinho, id_escritor) VALUES (1, 2);
 
