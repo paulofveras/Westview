@@ -1,20 +1,18 @@
 package br.unitins.comics.resource;
 
 import br.unitins.comics.dto.FuncionarioDTO;
-import br.unitins.comics.service.FuncionarioService;
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+
+
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.*;
 
 @QuarkusTest
 public class FuncionarioResourceTest {
-
-    @Inject
-    private FuncionarioService funcionarioService;
 
     @Test
     public void findAllTest() {
@@ -31,7 +29,8 @@ public class FuncionarioResourceTest {
             .when()
             .get("/funcionarios/search/cargo/Gerente")
         .then()
-            .statusCode(200);
+            .statusCode(200)
+            .body("cargo", everyItem(containsStringIgnoringCase("gerente") ));
     }
 
     @Test
@@ -49,16 +48,19 @@ public class FuncionarioResourceTest {
             .when()
             .get("/funcionarios/1")
         .then()
-            .statusCode(200);
+            .statusCode(200)
+            .body("id", is(1));
     }
 
     @Test
     public void createTest() {
         FuncionarioDTO dto = new FuncionarioDTO(
-            "Novo Funcionário",
+            "Gerente",
+            "Novo Funcionario",
             "123.456.789-00",
             "novo.funcionario@email.com",
-            "Gerente"
+            "Funcionario",
+            "funcionario123"
         );
 
         given()
@@ -67,26 +69,29 @@ public class FuncionarioResourceTest {
         .when()
             .post("/funcionarios")
         .then()
-            .statusCode(Status.CREATED.getStatusCode());
+            .statusCode(201)
+            .body("cargo", is("Gerente"));
     }
 
     @Test
     public void updateTest() {
         FuncionarioDTO dto = new FuncionarioDTO(
-            "Funcionário Atualizado",
-            "987.654.321-00",
-            "funcionario.atualizado@email.com",
-            "Atendente"
+            "Gerente",
+            "Novo Funcionario Atualizado",
+            "123.456.789-00",
+            "novo.funcionario@email.com",
+            "Funcionario",
+            "funcionario123"
         );
 
         given()
             .contentType(MediaType.APPLICATION_JSON)
             .body(dto)
         .when()
-            .pathParam("id", 1)
+            .pathParam("id", 2)
             .put("/funcionarios/{id}")
         .then()
-            .statusCode(Status.NO_CONTENT.getStatusCode());
+            .statusCode(204);
     }
 
     @Test

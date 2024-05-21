@@ -15,4 +15,8 @@ public class ClienteRepository implements PanacheRepository<Cliente>{
     public Cliente findByEstadoCliente(String estado){
         return find("UPPER(estado) LIKE ?1", "%" + estado.toUpperCase() ).firstResult();
     }
+
+    public Cliente findByUsernameAndSenha(String username, String senha) {
+        return find("pessoa.username = ?1 AND pessoa.senha = ?2", username, senha).firstResult();
+    }
 }

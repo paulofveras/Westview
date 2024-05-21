@@ -4,5 +4,7 @@ public record FuncionarioDTO (
     String cargo,
     String nome,
     String cpf,
-    String email
+    String email,
+    String username,
+    String senha
 ) { }

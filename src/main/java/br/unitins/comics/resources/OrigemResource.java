@@ -1,9 +1,6 @@
 package br.unitins.comics.resources;
 
-import java.util.List;
-
 import br.unitins.comics.dto.OrigemDTO;
-import br.unitins.comics.dto.OrigemResponseDTO;
 import br.unitins.comics.service.OrigemService;
 import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;

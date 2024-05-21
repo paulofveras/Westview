@@ -5,5 +5,7 @@ public record ClienteDTO (
     String cidade,
     String nome,
     String cpf,
-    String email
+    String email,
+    String username,
+    String senha
 ) { }

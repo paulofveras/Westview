@@ -1,10 +1,8 @@
 package br.unitins.comics.resources;
 
-import java.util.List;
-
 import br.unitins.comics.dto.QuadrinhoDTO;
-import br.unitins.comics.dto.QuadrinhoResponseDTO;
 import br.unitins.comics.service.QuadrinhoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -28,31 +26,35 @@ public class QuadrinhoResource {
     private QuadrinhoService quadrinhoService;
 
     @GET
+    @RolesAllowed({"Funcionario", "Cliente"})
     public Response findAll() {
         return Response.ok(quadrinhoService.findAll()).build();
     }
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"Funcionario", "Cliente"})
     public Response findById(@PathParam("id") Long id) {
        return Response.ok(quadrinhoService.findById(id)).build();
 
     }
 
     @GET
+    @RolesAllowed({"Funcionario", "Cliente"})
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
         return Response.ok(quadrinhoService.findByNome(nome)).build();
     }
 
     @POST
+    @RolesAllowed({"Funcionario"})
     public Response create(@Valid QuadrinhoDTO dto) {
-        QuadrinhoResponseDTO response = quadrinhoService.create(dto);
-        return Response.status(Status.CREATED).entity(response).build();
+        return Response.status(Status.CREATED).entity(quadrinhoService.create(dto)).build();
     }
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Funcionario"})
     public Response update(@PathParam("id") Long id, QuadrinhoDTO dto) {
         quadrinhoService.update(id, dto);
         return Response.status(Status.NO_CONTENT).build();
@@ -60,6 +62,7 @@ public class QuadrinhoResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Funcionario"})
     public Response delete(@PathParam("id") Long id) {
         quadrinhoService.delete(id);
         return Response.status(Status.NO_CONTENT).build();

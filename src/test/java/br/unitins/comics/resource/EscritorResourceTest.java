@@ -1,26 +1,14 @@
 package br.unitins.comics.resource;
 
 import br.unitins.comics.dto.EscritorDTO;
-import br.unitins.comics.dto.EscritorResponseDTO;
-import br.unitins.comics.model.Escritor;
-import br.unitins.comics.service.EscritorService;
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
-
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.Matchers.empty;
 
 @QuarkusTest
 public class EscritorResourceTest {
-
-    @Inject
-    private EscritorService escritorService;
 
     @Test
     public void findAllTest() {
@@ -72,7 +60,7 @@ public class EscritorResourceTest {
         .when()
             .post("/escritores")
         .then()
-            .statusCode(Status.CREATED.getStatusCode());
+            .statusCode(201);
     }
 
     @Test
@@ -87,10 +75,10 @@ public class EscritorResourceTest {
             .contentType(MediaType.APPLICATION_JSON)
             .body(dto)
         .when()
-            .pathParam("id", 1)
+            .pathParam("id", 2)
             .put("/escritores/{id}")
         .then()
-            .statusCode(Status.NO_CONTENT.getStatusCode());
+            .statusCode(204);
     }
 
     @Test
@@ -100,6 +88,6 @@ public class EscritorResourceTest {
         .when()
             .delete("/escritores/{id}")
         .then()
-            .statusCode(Status.NO_CONTENT.getStatusCode());
+            .statusCode(204);
     }
 }

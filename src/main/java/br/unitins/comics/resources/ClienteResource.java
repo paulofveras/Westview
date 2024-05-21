@@ -2,9 +2,7 @@ package br.unitins.comics.resources;
 
 
 import br.unitins.comics.dto.ClienteDTO;
-import br.unitins.comics.dto.ClienteDTO;
 import br.unitins.comics.service.ClienteService;
-import br.unitins.comics.service.FuncionarioService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -34,7 +32,7 @@ public class ClienteResource {
 
     @GET
     @Path("/search/estado/{estado}")
-    public Response findByCargo(@PathParam("estado") String cargo) {
+    public Response findByEstado(@PathParam("estado") String cargo) {
         return Response.ok(clienteService.findByEstado(cargo)).build();
     }
 

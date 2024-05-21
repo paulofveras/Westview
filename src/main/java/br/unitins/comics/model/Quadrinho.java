@@ -3,7 +3,6 @@ package br.unitins.comics.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import br.unitins.comics.dto.PessoaDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

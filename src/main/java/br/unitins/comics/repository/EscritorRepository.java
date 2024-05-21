@@ -2,9 +2,7 @@ package br.unitins.comics.repository;
 
 import java.util.List;
 
-import br.unitins.comics.model.ArtistaCapa;
 import br.unitins.comics.model.Escritor;
-import br.unitins.comics.model.Pessoa;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 

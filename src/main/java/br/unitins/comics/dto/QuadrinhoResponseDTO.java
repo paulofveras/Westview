@@ -1,7 +1,6 @@
 package br.unitins.comics.dto;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.unitins.comics.model.Classificacao;

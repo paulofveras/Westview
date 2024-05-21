@@ -1,0 +1,91 @@
+@startuml westview_quadrinhos
+
+enum Classificaçao {
+    LIVRE:int
+    10_ANOS:int
+    12_ANOS:int
+    14_ANOS:int
+    16_ANOS:int
+    18_ANOS:int
+}
+
+class Quadrinho {
+    - id: Long
+    - nome: String
+    - dataPublicacao: LocalDate
+    - edicao: String
+    - descricao: String
+    - preco: double
+    - quantidadeEstoque: int
+    - categoria: Categoria
+    - personagens: List<String>
+    - escritor: Escritor
+    - artistaCapa: ArtistaCapa
+    + criarProduto(produtoDTO: ProdutoDTO): Response
+    + atualizarProduto(id: Long, produtoDTO: ProdutoDTO): void
+    + excluirProduto(id: Long): void
+}
+
+class Pessoa {
+    - id: Long
+    - nome: String
+    - cpf: String
+    - email: String
+    - username: String
+    - senha: String
+    +criarPessoa(): Pessoa
+}
+
+class Genero {
+  -id: Long
+  -genero: String
+  -descricao: String
+  +criarGenero():Genero
+}
+
+class Origem {
+  -id: Long
+  -pais:String
+  +criarOrigem():Origem
+}
+
+class Categoria {
+  -id: Long
+  -universo: String
+  +criarCategoria():Categoria
+}
+
+class Cliente {
+    - id: Long
+    - pessoa: Pessoa
+    - produtosComprados: List<Produto>
+    - carrinho: CarrinhoCompras
+    +CriarCliente(): Cliente
+}
+
+class Funcionario {
+    - id: Long
+    - pessoa: Pessoa
+    + acessarProdutos(): void
+}
+
+class CarrinhoCompras {
+    - id: Long
+    - itens: List<Produto>
+    - total: double
+    + adicionarItem(produto: Produto): void
+    + removerItem(produto: Produto): void
+    + calcularTotal(): void
+}
+
+Quadrinho "1" --> "*" Categoria
+Quadrinho "1" --> "*" Genero
+Quadrinho "1" --> "*" Origem 
+Quadrinho "1" --> "1" Classificaçao
+Quadrinho "1" --> "1" Pessoa : Escritor
+Quadrinho "1" --> "1" Pessoa : ArtistaCapa
+Funcionario "1" <-- "1" Pessoa
+Cliente "1" <-- "1" Pessoa
+Cliente "1" --> "1" CarrinhoCompras
+
+@enduml

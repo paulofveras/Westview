@@ -16,4 +16,8 @@ public class FuncionarioRepository implements PanacheRepository<Funcionario>{
         return find("UPPER(cargo) LIKE ?1", "%" + cargo.toUpperCase() ).firstResult();
     }
 
+    public Funcionario findByUsernameAndSenha(String username, String senha) {
+    return find("pessoa.username = ?1 AND pessoa.senha = ?2", username, senha).firstResult();
+    }
+
 }

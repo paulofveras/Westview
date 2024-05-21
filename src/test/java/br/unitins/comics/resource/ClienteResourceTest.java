@@ -1,23 +1,19 @@
 package br.unitins.comics.resource;
 
 import br.unitins.comics.dto.ClienteDTO;
-import br.unitins.comics.model.Cliente;
-import br.unitins.comics.service.ClienteService;
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.everyItem;
+
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
 public class ClienteResourceTest {
 
-    @Inject
-    private ClienteService clienteService;
 
     @Test
     public void findAllTest() {
@@ -29,12 +25,14 @@ public class ClienteResourceTest {
     }
 
     @Test
-    public void findByCargoTest() {
+    public void findByEstadoTest() {
         given()
             .when()
-            .get("/clientes/search/estado/São Paulo")
+            .get("/clientes/search/estado/Sao")
         .then()
-            .statusCode(200);
+            .statusCode(200)
+        .body("estado", everyItem(containsString("Paulo")));
+        
     }
 
     @Test
@@ -43,7 +41,8 @@ public class ClienteResourceTest {
             .when()
             .get("/clientes/search/cpf/123.456.789-00")
         .then()
-            .statusCode(200);
+            .statusCode(200)
+        .body("cpf", everyItem(containsString("123")));
     }
 
     @Test
@@ -62,7 +61,9 @@ public class ClienteResourceTest {
             "123.456.789-00",
             "novo.cliente@email.com",
             "São Paulo",
-            "São Paulo"
+            "São Paulo",
+            "Cliente",
+            "cliente123"
         );
 
         given()
@@ -81,7 +82,9 @@ public class ClienteResourceTest {
             "987.654.321-00",
             "cliente.atualizado@email.com",
             "Rio de Janeiro",
-            "RJ"
+            "RJ",
+            "Cliente",
+            "cliente123"
         );
 
         given()

@@ -15,5 +15,6 @@ public interface FuncionarioService {
     public List<FuncionarioResponseDTO> findAll();
     public List<FuncionarioResponseDTO> findByCargo(String cargo);
     public List<PessoaResponseDTO> findByCpf(String cpf);
+    public PessoaResponseDTO login(String username, String senha);
     
 }

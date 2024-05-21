@@ -1,10 +1,7 @@
 package br.unitins.comics.model;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class Pessoa extends DefaultEntity {
@@ -18,13 +15,21 @@ public class Pessoa extends DefaultEntity {
     @Column(nullable = false)
     private String email;
 
+    @Column(unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String senha;
+
     public Pessoa() {
     }
 
-    public Pessoa(String nome, String cpf, String email) {
+    public Pessoa(String nome, String cpf, String email, String username, String senha) {
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
+        this.username = username;
+        this.senha = senha;
     }
 
     public String getNome() {
@@ -49,6 +54,24 @@ public class Pessoa extends DefaultEntity {
 
     public void setEmail(String email) {
         this.email = email;
-    }   
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    
    
 }

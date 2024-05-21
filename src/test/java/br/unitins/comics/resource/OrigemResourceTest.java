@@ -1,21 +1,14 @@
 package br.unitins.comics.resource;
 
 import br.unitins.comics.dto.OrigemDTO;
-import br.unitins.comics.service.OrigemService;
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 
 @QuarkusTest
 public class OrigemResourceTest {
-
-    @Inject
-    private OrigemService origemService;
 
     @Test
     public void findByIdTest() {
@@ -45,7 +38,7 @@ public class OrigemResourceTest {
         .when()
             .post("/origens")
         .then()
-            .statusCode(Status.CREATED.getStatusCode());
+            .statusCode(201);
     }
 
     @Test
@@ -56,10 +49,10 @@ public class OrigemResourceTest {
             .contentType(MediaType.APPLICATION_JSON)
             .body(dto)
         .when()
-            .pathParam("id", 1)
+            .pathParam("id", 2)
             .put("/origens/{id}")
         .then()
-            .statusCode(Status.NO_CONTENT.getStatusCode());
+            .statusCode(204);
     }
 
     @Test
@@ -69,6 +62,6 @@ public class OrigemResourceTest {
         .when()
             .delete("/origens/{id}")
         .then()
-            .statusCode(Status.NO_CONTENT.getStatusCode());
+            .statusCode(204);
     }
 }

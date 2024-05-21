@@ -1,12 +1,8 @@
 package br.unitins.comics.resource;
 
 import br.unitins.comics.dto.ArtistaCapaDTO;
-import br.unitins.comics.service.ArtistaCapaService;
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -14,8 +10,6 @@ import static io.restassured.RestAssured.given;
 @QuarkusTest
 public class ArtistaCapaResourceTest {
 
-    @Inject
-    private ArtistaCapaService artistaCapaService;
 
     @Test
     public void findByIdTest() {
@@ -58,7 +52,7 @@ public class ArtistaCapaResourceTest {
         .when()
             .post("/artistasCapa")
         .then()
-            .statusCode(Status.CREATED.getStatusCode());
+            .statusCode(201);
     }
 
     @Test
@@ -73,10 +67,10 @@ public class ArtistaCapaResourceTest {
             .contentType(MediaType.APPLICATION_JSON)
             .body(dto)
         .when()
-            .pathParam("id", 1)
+            .pathParam("id", 2)
             .put("/artistasCapa/{id}")
         .then()
-            .statusCode(Status.NO_CONTENT.getStatusCode());
+            .statusCode(204);
     }
 
     @Test
@@ -86,6 +80,6 @@ public class ArtistaCapaResourceTest {
         .when()
             .delete("/artistasCapa/{id}")
         .then()
-            .statusCode(Status.NO_CONTENT.getStatusCode());
+            .statusCode(204);
     }
 }

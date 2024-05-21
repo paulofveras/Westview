@@ -4,7 +4,6 @@ import java.util.List;
 
 import br.unitins.comics.dto.OrigemDTO;
 import br.unitins.comics.dto.OrigemResponseDTO;
-import br.unitins.comics.dto.PessoaResponseDTO;
 import br.unitins.comics.model.Origem;
 import br.unitins.comics.repository.OrigemRepository;
 import jakarta.enterprise.context.ApplicationScoped;

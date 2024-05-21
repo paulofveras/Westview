@@ -97,4 +97,10 @@ public class ClienteServiceImpl implements ClienteService {
     public List<ClienteResponseDTO> findByEstado(String estado) {
         return clienteRepository.findByEstado(estado).stream().map(clientes -> ClienteResponseDTO.valueOf(clientes)).toList();
     }
+
+    @Override
+    public PessoaResponseDTO login (String username, String senha) {
+        Cliente cliente = clienteRepository.findByUsernameAndSenha(username, senha);
+        return PessoaResponseDTO.valueOf(cliente.getPessoa());
+    }
 }

@@ -15,5 +15,6 @@ public interface ClienteService {
     public List<ClienteResponseDTO> findAll();
     public List<ClienteResponseDTO> findByEstado(String estado);
     public List<PessoaResponseDTO> findByCpf(String cpf);
+    public PessoaResponseDTO login(String login, String senha);
     
 }

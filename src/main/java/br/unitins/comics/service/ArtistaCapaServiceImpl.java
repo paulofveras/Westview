@@ -4,13 +4,8 @@ import java.util.List;
 
 import br.unitins.comics.dto.ArtistaCapaDTO;
 import br.unitins.comics.dto.ArtistaCapaResponseDTO;
-import br.unitins.comics.dto.ClienteDTO;
-import br.unitins.comics.dto.ClienteResponseDTO;
-import br.unitins.comics.dto.PessoaDTO;
 import br.unitins.comics.dto.PessoaResponseDTO;
-import br.unitins.comics.dto.QuadrinhoResponseDTO;
 import br.unitins.comics.model.ArtistaCapa;
-import br.unitins.comics.model.Cliente;
 import br.unitins.comics.model.Pessoa;
 import br.unitins.comics.repository.ArtistaCapaRepository;
 import br.unitins.comics.repository.PessoaRepository;
