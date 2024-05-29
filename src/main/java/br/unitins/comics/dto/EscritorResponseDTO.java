@@ -12,11 +12,6 @@ public record EscritorResponseDTO (
             PessoaResponseDTO.valueOf(escritor.getPessoa())
         );
     }
-
-    public void setNome(String string) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setNome'");
-    }
 }
 
 

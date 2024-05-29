@@ -8,9 +8,6 @@ public class Categoria extends DefaultEntity {
     
     @Column(length = 60, nullable = false)
     private String universo;
-    
-    public Categoria() {
-    }
 
     public String getUniverso() {
         return universo;

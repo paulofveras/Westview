@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import br.unitins.comics.dto.AuthUsuarioDTO;
 import br.unitins.comics.dto.PessoaResponseDTO;
 import br.unitins.comics.service.jwt.JwtService;
 import io.smallrye.jwt.build.Jwt;
@@ -17,20 +18,20 @@ public class JwtServiceImpl implements JwtService {
     private static final Duration EXPIRATION_TIME = Duration.ofHours(24);
 
     @Override
-    public String generateJwt(PessoaResponseDTO dto, int perfil) {
+    public String generateJwt(AuthUsuarioDTO authDTO, PessoaResponseDTO dto) {
         Instant now = Instant.now();
         Instant expiryDate = now.plus(EXPIRATION_TIME);
 
         Set<String> roles = new HashSet<String>();
     
-        if(perfil == 1){
+        if(authDTO.perfil() == 1){
             roles.add("Funcionario");
-        }else if (perfil == 2){
+        }else if (authDTO.perfil() == 2){
             roles.add("Cliente");
         }
       
         return Jwt.issuer("unitins-jwt")
-            .subject(dto.nome())
+            .subject(dto.username())
             .groups(roles)
             .expiresAt(expiryDate)
             .sign();

@@ -1,18 +1,12 @@
 package br.unitins.comics.model;
 
 import java.time.LocalDate;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
 public class Quadrinho extends DefaultEntity {
@@ -21,7 +15,6 @@ public class Quadrinho extends DefaultEntity {
     private String nome;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
     private LocalDate dataPublicacao;
 
     private String edicao;
@@ -35,21 +28,13 @@ public class Quadrinho extends DefaultEntity {
     @JoinColumn(name = "id_categoria", nullable = false)
     private Categoria categoria;
 
-    @ManyToMany
-    @JoinTable(
-        name = "quadrinho_escritor",
-        joinColumns = @JoinColumn(name = "id_quadrinho"),
-        inverseJoinColumns = @JoinColumn(name = "id_escritor") 
-    )
-    private List<Escritor> listaEscritor;
+    @ManyToOne
+    @JoinColumn(name = "id_escritor")
+    private Escritor escritor;
 
-    @ManyToMany
-    @JoinTable(
-        name = "quadrinho_artistacapa",
-        joinColumns = @JoinColumn(name = "id_quadrinho"),
-        inverseJoinColumns = @JoinColumn(name = "id_artista_capa") 
-    )
-    private List<ArtistaCapa> listaArtistaCapa;
+    @ManyToOne
+    @JoinColumn(name="id_artista_capa")
+    private ArtistaCapa artistaCapa;
 
     @Enumerated(EnumType.STRING)
     private Classificacao classificacao;
@@ -61,25 +46,6 @@ public class Quadrinho extends DefaultEntity {
     @ManyToOne
     @JoinColumn(name = "id_origem", nullable = false)
     private Origem origem;
-
-    public Quadrinho() {
-    }
-
-    public Quadrinho(String nome, LocalDate dataPublicacao, String edicao, Double preco, Integer quantidadeEstoque,
-            Categoria categoria, List<Escritor> listaEscritor, List<ArtistaCapa> listaArtistaCapa, Classificacao classificacao,
-            Genero genero, Origem origem) {
-        this.nome = nome;
-        this.dataPublicacao = dataPublicacao;
-        this.edicao = edicao;
-        this.preco = preco;
-        this.quantidadeEstoque = quantidadeEstoque;
-        this.categoria = categoria;
-        this.listaEscritor = listaEscritor;
-        this.listaArtistaCapa = listaArtistaCapa;
-        this.classificacao = classificacao;
-        this.genero = genero;
-        this.origem = origem;
-    }
 
     public String getNome() {
         return nome;
@@ -129,20 +95,20 @@ public class Quadrinho extends DefaultEntity {
         this.categoria = categoria;
     }
 
-    public List<Escritor> getListaEscritor() {
-        return listaEscritor;
+    public Escritor getEscritor() {
+        return escritor;
     }
 
-    public void setListaEscritor(List<Escritor> listaEscritor) {
-        this.listaEscritor = listaEscritor;
+    public void setEscritor(Escritor escritor) {
+        this.escritor = escritor;
     }
 
-    public List<ArtistaCapa> getListaArtistaCapa() {
-        return listaArtistaCapa;
+    public ArtistaCapa getArtistaCapa() {
+        return artistaCapa;
     }
 
-    public void setListaArtistaCapa(List<ArtistaCapa> listaArtistaCapa) {
-        this.listaArtistaCapa = listaArtistaCapa;
+    public void setArtistaCapa(ArtistaCapa artistaCapa) {
+        this.artistaCapa = artistaCapa;
     }
 
     public Classificacao getClassificacao() {
@@ -168,9 +134,6 @@ public class Quadrinho extends DefaultEntity {
     public void setOrigem(Origem origem) {
         this.origem = origem;
     }
-
-
-
-    
+ 
 }
 

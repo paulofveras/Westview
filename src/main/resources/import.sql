@@ -33,10 +33,6 @@ INSERT INTO Genero (id, genero, descricao) VALUES (1, 'Ação', 'Histórias de a
 INSERT INTO Origem (id, pais) VALUES (1, 'Estados Unidos');
 
 -- Inserindo dados na tabela Quadrinho
-INSERT INTO Quadrinho (id, nome, dataPublicacao, edicao, preco, quantidadeEstoque, id_categoria, classificacao, id_genero, id_origem) VALUES 
-(1, 'Batman: O Cavaleiro das Trevas', '1986-02-01', 'Edição Especial', 19.90, 10, 1, 'DEZANOS', 1, 1);
-
--- Relacionando Quadrinho com ArtistaCapa e Escritor
-INSERT INTO quadrinho_artistacapa (id_quadrinho, id_artista_capa) VALUES (1, 1);
-INSERT INTO quadrinho_escritor (id_quadrinho, id_escritor) VALUES (1, 2);
+INSERT INTO Quadrinho (id, nome, dataPublicacao, edicao, preco, quantidadeEstoque, id_categoria, classificacao, id_genero, id_origem, id_escritor, id_artista_capa) VALUES 
+(1, 'Batman: O Cavaleiro das Trevas', '1986-02-01', 'Edição Especial', 19.90, 10, 1, 'DEZANOS', 1, 1, 1, 1);
 

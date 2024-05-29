@@ -6,6 +6,7 @@ import br.unitins.comics.dto.ClienteDTO;
 import br.unitins.comics.dto.ClienteResponseDTO;
 import br.unitins.comics.dto.PessoaResponseDTO;
 import br.unitins.comics.model.Cliente;
+import br.unitins.comics.model.Funcionario;
 import br.unitins.comics.model.Pessoa;
 import br.unitins.comics.repository.ClienteRepository;
 import br.unitins.comics.repository.PessoaRepository;
@@ -88,8 +89,13 @@ public class ClienteServiceImpl implements ClienteService {
     }
     
     @Override
-    public List<PessoaResponseDTO> findByCpf(String cpf) {
-        return pessoaRepository.findByCpf(cpf).stream().map(c -> PessoaResponseDTO.valueOf(c)).toList();
+    public ClienteResponseDTO findByCpf(String cpf) {
+        Cliente cliente = clienteRepository.findByCpf(cpf);
+
+        if (cliente != null) {
+            return ClienteResponseDTO.valueOf(cliente);
+        }
+        return null;
     }
 
     @Override
@@ -100,6 +106,13 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public PessoaResponseDTO login (String username, String senha) {
         Cliente cliente = clienteRepository.findByUsernameAndSenha(username, senha);
-        return PessoaResponseDTO.valueOf(cliente.getPessoa());
+    if (cliente != null) {
+        Pessoa pessoa = cliente.getPessoa();
+        if (pessoa != null) {
+            return PessoaResponseDTO.valueOf(pessoa);
+        }
+    }
+    // Você pode querer lançar uma exceção aqui ou retornar algum tipo de erro
+    return null;
     }
 }

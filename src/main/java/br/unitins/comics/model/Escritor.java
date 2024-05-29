@@ -4,8 +4,8 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Escritor extends DefaultEntity{
@@ -13,12 +13,8 @@ public class Escritor extends DefaultEntity{
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
 
-    @ManyToMany(mappedBy = "listaEscritor")
-    private List<Quadrinho> listaQuadrinhos;
-
-    public Escritor() {
-
-    }
+    @OneToMany(mappedBy = "escritor")
+    private List<Quadrinho> quadrinhos;
 
     public Pessoa getPessoa() {
         return pessoa;
@@ -28,17 +24,12 @@ public class Escritor extends DefaultEntity{
         this.pessoa = pessoa;
     }
 
-    public List<Quadrinho> getListaQuadrinhos() {
-        return listaQuadrinhos;
+    public List<Quadrinho> getQuadrinhos() {
+        return quadrinhos;
     }
 
-    public void setListaQuadrinhos(List<Quadrinho> listaQuadrinhos) {
-        this.listaQuadrinhos = listaQuadrinhos;
+    public void setQuadrinhos(List<Quadrinho> quadrinhos) {
+        this.quadrinhos = quadrinhos;
     }
-
-    
-
-
-    
-    
+   
 }

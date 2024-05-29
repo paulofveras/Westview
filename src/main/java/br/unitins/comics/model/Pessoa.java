@@ -21,17 +21,6 @@ public class Pessoa extends DefaultEntity {
     @Column(nullable = false)
     private String senha;
 
-    public Pessoa() {
-    }
-
-    public Pessoa(String nome, String cpf, String email, String username, String senha) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.email = email;
-        this.username = username;
-        this.senha = senha;
-    }
-
     public String getNome() {
         return nome;
     }

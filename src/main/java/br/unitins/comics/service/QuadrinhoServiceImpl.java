@@ -52,10 +52,8 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
         quadrinho.setPreco(dto.preco());
         quadrinho.setQuantidadeEstoque(dto.quantidadeEstoque());
         quadrinho.setCategoria(categoriaRepository.findById(dto.categoria()));
-
-        quadrinho.setListaEscritor((dto.escritores().stream().map(a -> escritorRepository.findById(a)).toList()));
-
-        quadrinho.setListaArtistaCapa((dto.artistaCapa().stream().map(a -> artistaCapaRepository.findById(a)).toList()));
+        quadrinho.setEscritor(escritorRepository.findById(dto.escritorId()));
+        quadrinho.setArtistaCapa(artistaCapaRepository.findById(dto.artistaCapaId()));
 
         quadrinho.setClassificacao(Classificacao.valueOf(dto.id_classificacao()));
         
@@ -78,10 +76,8 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
         quadrinhoBanco.setPreco(dto.preco());
         quadrinhoBanco.setQuantidadeEstoque(dto.quantidadeEstoque());
         quadrinhoBanco.setCategoria(categoriaRepository.findById(dto.categoria()));
-
-        quadrinhoBanco.setListaEscritor((dto.escritores().stream().map(a -> escritorRepository.findById(a)).toList()));
-
-        quadrinhoBanco.setListaArtistaCapa((dto.artistaCapa().stream().map(a -> artistaCapaRepository.findById(a)).toList()));
+        quadrinhoBanco.setEscritor(escritorRepository.findById(dto.escritorId()));
+        quadrinhoBanco.setArtistaCapa(artistaCapaRepository.findById(dto.artistaCapaId()));
 
         quadrinhoBanco.setClassificacao(Classificacao.valueOf(dto.id_classificacao()));
         

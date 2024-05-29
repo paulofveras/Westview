@@ -91,14 +91,20 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
     
     @Override
-    public List<PessoaResponseDTO> findByCpf(String cpf) {
-        return pessoaRepository.findByCpf(cpf).stream().map(c -> PessoaResponseDTO.valueOf(c)).toList();
+    public FuncionarioResponseDTO findByCpf(String cpf) {
+        Funcionario funcionario = funcionarioRepository.findByCpf(cpf);
+        if(funcionario != null)
+            return FuncionarioResponseDTO.valueOf(funcionario);
+        return null;  
     }
 
     @Override
     public PessoaResponseDTO login (String username, String senha) {
     Funcionario funcionario = funcionarioRepository.findByUsernameAndSenha(username, senha);
-    return PessoaResponseDTO.valueOf(funcionario.getPessoa());
+        if (funcionario != null) {
+            return PessoaResponseDTO.valueOf(funcionario.getPessoa());
+        }
+        return null;
     }
 
 }

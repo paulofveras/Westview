@@ -18,15 +18,6 @@ public class Cliente extends DefaultEntity{
     @Column(nullable = false)
     private String cidade;
 
-    public Cliente() {
-    }
-
-    public Cliente(Pessoa pessoa, String estado, String cidade) {
-        this.pessoa = pessoa;
-        this.estado = estado;
-        this.cidade = cidade;
-    }
-
     public Pessoa getPessoa() {
         return pessoa;
     }

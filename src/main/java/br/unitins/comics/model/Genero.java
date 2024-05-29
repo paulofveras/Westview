@@ -11,10 +11,6 @@ public class Genero extends DefaultEntity{
     @Column(length = 5000, nullable = false)
     private String descricao;
 
-    public Genero() {
-
-    }
-
     public String getGenero() {
         return genero;
     }

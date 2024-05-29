@@ -1,7 +1,6 @@
 package br.unitins.comics.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public record QuadrinhoDTO (
     String nome,
@@ -10,8 +9,8 @@ public record QuadrinhoDTO (
     Double preco,
     Integer quantidadeEstoque,
     Long categoria,
-    List<Long> escritores,
-    List<Long> artistaCapa,
+    Long escritorId,
+    Long artistaCapaId,
     Integer id_classificacao,
     Long genero,
     Long origem

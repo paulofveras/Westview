@@ -13,15 +13,6 @@ public class Funcionario extends DefaultEntity {
     @Column(nullable = false)
     private String cargo;
 
-    public Funcionario() {
-
-    }
-
-    public Funcionario(Pessoa pessoa, String cargo) {
-        this.pessoa = pessoa;
-        this.cargo = cargo;
-    }
-
     public Pessoa getPessoa() {
         return pessoa;
     }
