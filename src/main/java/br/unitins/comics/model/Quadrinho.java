@@ -47,6 +47,8 @@ public class Quadrinho extends DefaultEntity {
     @JoinColumn(name = "id_origem", nullable = false)
     private Origem origem;
 
+    private String nomeImagem;
+
     public String getNome() {
         return nome;
     }
@@ -133,6 +135,14 @@ public class Quadrinho extends DefaultEntity {
 
     public void setOrigem(Origem origem) {
         this.origem = origem;
+    }
+
+    public String getNomeImagem() {
+        return nomeImagem;
+    }
+
+    public void setNomeImagem(String nomeImagem) {
+        this.nomeImagem = nomeImagem;
     }
  
 }

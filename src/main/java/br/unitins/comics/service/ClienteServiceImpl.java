@@ -6,7 +6,6 @@ import br.unitins.comics.dto.ClienteDTO;
 import br.unitins.comics.dto.ClienteResponseDTO;
 import br.unitins.comics.dto.PessoaResponseDTO;
 import br.unitins.comics.model.Cliente;
-import br.unitins.comics.model.Funcionario;
 import br.unitins.comics.model.Pessoa;
 import br.unitins.comics.repository.ClienteRepository;
 import br.unitins.comics.repository.PessoaRepository;
