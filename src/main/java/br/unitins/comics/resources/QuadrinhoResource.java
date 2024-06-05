@@ -1,5 +1,6 @@
 package br.unitins.comics.resources;
 
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.unitins.comics.dto.QuadrinhoDTO;
@@ -34,9 +35,12 @@ public class QuadrinhoResource {
     @Inject
     public QuadrinhoFileServiceImpl fileService;
 
+    private static final Logger LOG = Logger.getLogger(QuadrinhoResource.class);
+
     @GET
     @RolesAllowed({"Funcionario", "Cliente"})
     public Response findAll() {
+        LOG.info("Executando o findAll");
         return Response.ok(quadrinhoService.findAll()).build();
     }
 
@@ -44,8 +48,9 @@ public class QuadrinhoResource {
     @Path("/{id}")
     @RolesAllowed({"Funcionario", "Cliente"})
     public Response findById(@PathParam("id") Long id) {
+        LOG.info("Executando o findById");
+        LOG.infof("Executando o método findById. Id: %s", Long.toString(0));
        return Response.ok(quadrinhoService.findById(id)).build();
-
     }
 
     @GET
@@ -58,6 +63,12 @@ public class QuadrinhoResource {
     @POST
     @RolesAllowed({"Funcionario"})
     public Response create(@Valid QuadrinhoDTO dto) {
+        LOG.info("INFO");
+        LOG.warn("WARN");
+        LOG.error("ERROR");
+        LOG.fatal("FATAL");
+        LOG.trace("TRACE");
+        LOG.debugf("DTO: %s", dto);
         return Response.status(Status.CREATED).entity(quadrinhoService.create(dto)).build();
     }
 
