@@ -5,11 +5,19 @@
 -- insert into myentity (id, field) values(3, 'field-3');
 -- alter sequence myentity_seq restart with 4;
 -- Inserindo dados na tabela Pessoa
-INSERT INTO Pessoa (id, nome, cpf, email, username, senha) VALUES 
-(1, 'João Silva', '123.456.789-00', 'joao.silva@email.com', 'joaosilva', 'senha123'),
-(2, 'Maria Santos', '987.654.321-00', 'maria.santos@email.com', 'mariasantos', 'senha456'),
-(3, 'Lala Ri', '123.456.789-00', 'lalari@email.com', 'lalari', 'senha789'),
-(4, 'Ru Paul', '987.654.321-00', 'rupaul@email.com', 'rupaul', 'senhaabc');
+-- Inserindo dados na tabela Usuario
+INSERT INTO Usuario (id, username, password) VALUES
+(1, 'joaosilva', 'senha123'),
+(2, 'mariasantos', 'senha456'),
+(3, 'lalari', 'senha789'),
+(4, 'rupaul', 'senhaabc');
+
+-- Inserindo dados na tabela Pessoa
+INSERT INTO Pessoa (id, nome, cpf, email, id_usuario) VALUES 
+(1, 'João Silva', '123.456.789-00', 'joao.silva@email.com', 1),
+(2, 'Maria Santos', '987.654.321-00', 'maria.santos@email.com', 2),
+(3, 'Lala Ri', '123.456.789-00', 'lalari@email.com', 3),
+(4, 'Ru Paul', '987.654.321-00', 'rupaul@email.com', 4);
 
 -- Inserindo dados na tabela Funcionario
 INSERT INTO Funcionario (cargo, id_pessoa) VALUES ('Gerente', 4);
