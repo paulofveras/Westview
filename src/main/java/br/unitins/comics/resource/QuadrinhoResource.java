@@ -1,4 +1,4 @@
-package br.unitins.comics.resources;
+package br.unitins.comics.resource;
 
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;

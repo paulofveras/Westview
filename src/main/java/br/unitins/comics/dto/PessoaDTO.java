@@ -5,5 +5,5 @@ public record PessoaDTO (
     String cpf,
     String email,
     String username,
-    String senha
+    String password
 ) { }

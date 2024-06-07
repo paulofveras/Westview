@@ -2,6 +2,8 @@ package br.unitins.comics.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Pessoa extends DefaultEntity {
@@ -15,11 +17,9 @@ public class Pessoa extends DefaultEntity {
     @Column(nullable = false)
     private String email;
 
-    @Column(unique = true)
-    private String username;
-
-    @Column(nullable = false)
-    private String senha;
+    @OneToOne
+    @JoinColumn(name = "id_usuario", unique = true)
+    private Usuario usuario;
 
     public String getNome() {
         return nome;
@@ -45,22 +45,12 @@ public class Pessoa extends DefaultEntity {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    
    
 }

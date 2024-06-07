@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.unitins.comics.dto.ClienteDTO;
 import br.unitins.comics.dto.ClienteResponseDTO;
-import br.unitins.comics.dto.PessoaResponseDTO;
+import br.unitins.comics.dto.UsuarioResponseDTO;
 import jakarta.validation.Valid;
 
 public interface ClienteService {
@@ -15,6 +15,6 @@ public interface ClienteService {
     public List<ClienteResponseDTO> findAll();
     public List<ClienteResponseDTO> findByEstado(String estado);
     public ClienteResponseDTO findByCpf(String cpf);
-    public PessoaResponseDTO login(String login, String senha);
+    public UsuarioResponseDTO login(String login, String senha);
     
 }

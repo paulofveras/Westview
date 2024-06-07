@@ -1,7 +1,7 @@
-package br.unitins.comics.resources;
+package br.unitins.comics.resource;
 
 import br.unitins.comics.dto.AuthUsuarioDTO;
-import br.unitins.comics.dto.PessoaResponseDTO;
+import br.unitins.comics.dto.UsuarioResponseDTO;
 import br.unitins.comics.service.ClienteService;
 import br.unitins.comics.service.FuncionarioService;
 import br.unitins.comics.service.hash.HashService;
@@ -36,7 +36,7 @@ public class AuthUsuarioResource {
     public Response login(AuthUsuarioDTO dto) {
         String hash = hashService.getHashSenha(dto.senha());
 
-        PessoaResponseDTO usuario = null;
+        UsuarioResponseDTO usuario = null;
         // perfil 1 = funcionario
         if (dto.perfil() == 1) {
             usuario = funcionarioService.login(dto.username(), hash);

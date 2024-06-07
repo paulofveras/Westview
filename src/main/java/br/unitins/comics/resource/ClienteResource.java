@@ -1,4 +1,4 @@
-package br.unitins.comics.resources;
+package br.unitins.comics.resource;
 
 
 import br.unitins.comics.dto.ClienteDTO;

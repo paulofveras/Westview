@@ -1,4 +1,4 @@
-package br.unitins.comics.resources;
+package br.unitins.comics.resource;
 
 import java.util.List;
 

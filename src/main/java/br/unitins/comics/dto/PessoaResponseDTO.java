@@ -8,7 +8,7 @@ public record PessoaResponseDTO (
     String cpf,
     String email,
     String username,
-    String senha
+    String password
 ) {
     public static PessoaResponseDTO valueOf(Pessoa pessoa) {
         return new PessoaResponseDTO(
@@ -16,8 +16,8 @@ public record PessoaResponseDTO (
             pessoa.getNome(),
             pessoa.getCpf(),
             pessoa.getEmail(),
-            pessoa.getUsername(),
-            pessoa.getSenha()
+            pessoa.getUsuario().getUsername(),
+            pessoa.getUsuario().getPassword()
         );
     }
 }

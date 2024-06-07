@@ -4,11 +4,12 @@ import java.util.List;
 
 import br.unitins.comics.dto.ClienteDTO;
 import br.unitins.comics.dto.ClienteResponseDTO;
-import br.unitins.comics.dto.PessoaResponseDTO;
+import br.unitins.comics.dto.UsuarioResponseDTO;
 import br.unitins.comics.model.Cliente;
 import br.unitins.comics.model.Pessoa;
 import br.unitins.comics.repository.ClienteRepository;
 import br.unitins.comics.repository.PessoaRepository;
+import br.unitins.comics.repository.UsuarioRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -23,6 +24,9 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Inject
     public PessoaRepository pessoaRepository;
+    
+    @Inject
+    public UsuarioRepository usuarioRepository;
 
     @Override
     @Transactional
@@ -103,12 +107,12 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public PessoaResponseDTO login (String username, String senha) {
+    public UsuarioResponseDTO login (String username, String senha) {
         Cliente cliente = clienteRepository.findByUsernameAndSenha(username, senha);
     if (cliente != null) {
         Pessoa pessoa = cliente.getPessoa();
         if (pessoa != null) {
-            return PessoaResponseDTO.valueOf(pessoa);
+            return UsuarioResponseDTO.valueof(pessoa);
         }
     }
     // Você pode querer lançar uma exceção aqui ou retornar algum tipo de erro

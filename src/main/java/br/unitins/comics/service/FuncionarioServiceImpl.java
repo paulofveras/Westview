@@ -4,11 +4,12 @@ import java.util.List;
 
 import br.unitins.comics.dto.FuncionarioDTO;
 import br.unitins.comics.dto.FuncionarioResponseDTO;
-import br.unitins.comics.dto.PessoaResponseDTO;
+import br.unitins.comics.dto.UsuarioResponseDTO;
 import br.unitins.comics.model.Funcionario;
 import br.unitins.comics.model.Pessoa;
 import br.unitins.comics.repository.FuncionarioRepository;
 import br.unitins.comics.repository.PessoaRepository;
+import br.unitins.comics.repository.UsuarioRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -23,6 +24,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Inject
     public PessoaRepository pessoaRepository;
+
+    @Inject
+    public UsuarioRepository usuarioRepository;
 
     @Override
     @Transactional
@@ -99,10 +103,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
 
     @Override
-    public PessoaResponseDTO login (String username, String senha) {
+    public UsuarioResponseDTO login (String username, String senha) {
     Funcionario funcionario = funcionarioRepository.findByUsernameAndSenha(username, senha);
         if (funcionario != null) {
-            return PessoaResponseDTO.valueOf(funcionario.getPessoa());
+            return UsuarioResponseDTO.valueof(funcionario.getPessoa());
         }
         return null;
     }
