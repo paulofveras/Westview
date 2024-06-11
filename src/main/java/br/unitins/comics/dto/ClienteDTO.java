@@ -1,11 +1,17 @@
 package br.unitins.comics.dto;
 
+import java.time.LocalDate;
+
 public record ClienteDTO (
+    String cep,
+    String endereco,
     String estado,
-    String cidade,
+    String cidade, 
     String nome,
-    String cpf,
-    String email,
     String username,
-    String senha
+    LocalDate dataNascimento,
+    String email,
+    String senha,
+    String cpf,
+    String genero
 ) { }

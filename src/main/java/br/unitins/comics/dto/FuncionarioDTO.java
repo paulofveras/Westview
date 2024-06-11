@@ -1,10 +1,16 @@
 package br.unitins.comics.dto;
 
+import java.time.LocalDate;
+
+
 public record FuncionarioDTO (
+    Double salario,
     String cargo,
     String nome,
-    String cpf,
-    String email,
     String username,
-    String senha
+    LocalDate dataNascimento,
+    String email,
+    String senha,
+    String cpf,
+    String genero
 ) { }

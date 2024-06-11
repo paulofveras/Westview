@@ -4,14 +4,13 @@ import java.util.List;
 
 import br.unitins.comics.dto.ArtistaCapaDTO;
 import br.unitins.comics.dto.ArtistaCapaResponseDTO;
-import br.unitins.comics.dto.PessoaResponseDTO;
+import jakarta.validation.Valid;
 
 public interface ArtistaCapaService {
-    ArtistaCapaResponseDTO create(ArtistaCapaDTO dto);
-    void update(Long id, ArtistaCapaDTO dto);
-    void delete(Long id);
-    ArtistaCapaResponseDTO findById(Long id);
-    List<ArtistaCapaResponseDTO> findAll();
-    List<ArtistaCapaResponseDTO> findByNome(String nome);
-    List<PessoaResponseDTO> findByCpf(String cpf);
+    ArtistaCapaResponseDTO create(@Valid ArtistaCapaDTO dto);
+    public void update(Long id, ArtistaCapaDTO dto);
+    public void delete(Long id);
+    public ArtistaCapaResponseDTO findById(Long id);
+    public List<ArtistaCapaResponseDTO> findAll();
+    public List<ArtistaCapaResponseDTO> findByNome(String nome);
 }

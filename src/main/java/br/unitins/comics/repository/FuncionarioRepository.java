@@ -17,11 +17,7 @@ public class FuncionarioRepository implements PanacheRepository<Funcionario>{
     }
 
     public Funcionario findByUsernameAndSenha(String username, String senha) {
-    return find("pessoa.username = ?1 AND pessoa.senha = ?2", username, senha).firstResult();
-    }
-
-    public Funcionario findByCpf(String cpf){
-        return find("pessoa.cpf = ?1", cpf).firstResult();
+        return find("usuario.username = ?1 AND usuario.senha = ?2", username, senha).firstResult();
     }
 
 }

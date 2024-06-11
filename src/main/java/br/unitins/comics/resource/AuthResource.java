@@ -18,7 +18,7 @@ import jakarta.ws.rs.core.Response.Status;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/auth")
-public class AuthUsuarioResource {
+public class AuthResource {
 
     @Inject
     public FuncionarioService funcionarioService;
@@ -34,7 +34,7 @@ public class AuthUsuarioResource {
 
     @POST
     public Response login(AuthUsuarioDTO dto) {
-        String hash = hashService.getHashSenha(dto.senha());
+       String hash = hashService.getHashSenha(dto.senha());
 
         UsuarioResponseDTO usuario = null;
         // perfil 1 = funcionario
@@ -45,9 +45,13 @@ public class AuthUsuarioResource {
         } else {
             return Response.status(Status.NOT_FOUND).build();
         }
-        return Response.ok(usuario)
-            .header("Authorization", jwtService.generateJwt(dto, usuario))
-            .build();
-    }
 
+        if (usuario!=null){
+            return Response.ok(usuario)
+            .header("Authorization", jwtService.generateJwt(dto))
+            .build();
+        } else{
+            return Response.status(Status.NOT_FOUND).header("ERRO","Usuário ou senha incorretos").build();
+        }
+    }
 }

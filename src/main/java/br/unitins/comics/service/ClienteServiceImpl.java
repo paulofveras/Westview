@@ -6,73 +6,84 @@ import br.unitins.comics.dto.ClienteDTO;
 import br.unitins.comics.dto.ClienteResponseDTO;
 import br.unitins.comics.dto.UsuarioResponseDTO;
 import br.unitins.comics.model.Cliente;
-import br.unitins.comics.model.Pessoa;
+import br.unitins.comics.model.Usuario;
 import br.unitins.comics.repository.ClienteRepository;
-import br.unitins.comics.repository.PessoaRepository;
 import br.unitins.comics.repository.UsuarioRepository;
+import br.unitins.comics.service.hash.HashService;
+import br.unitins.comics.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import br.unitins.comics.validation.ValidationException;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class ClienteServiceImpl implements ClienteService {
-    
+
     @Inject
     public ClienteRepository clienteRepository;
 
     @Inject
-    public PessoaRepository pessoaRepository;
-    
-    @Inject
     public UsuarioRepository usuarioRepository;
+
+    @Inject
+    public HashService hashService;
 
     @Override
     @Transactional
-    public ClienteResponseDTO create(ClienteDTO dto){
+    public ClienteResponseDTO create(@Valid ClienteDTO dto){
         validarCpfCliente(dto.cpf());
-        
-         // Criar uma instância de Usuario com os dados do ClienteDTO
-        Pessoa pessoa = new Pessoa();
-        pessoa.setNome(dto.nome());
-        pessoa.setEmail(dto.email());
-        pessoa.setCpf(dto.cpf());
 
+        Usuario usuario = new Usuario();
+        usuario.setNome(dto.nome());
+        usuario.setUsername(dto.username());
+        usuario.setSenha(hashService.getHashSenha(dto.senha())); 
+        usuario.setDataNascimento(dto.dataNascimento());
+        usuario.setEmail(dto.email());
+        usuario.setCpf(dto.cpf());
+        usuario.setGenero(dto.genero());
 
-        // Persistir o Usuario no banco de dados antes de associá-lo ao Cliente
-        pessoaRepository.persist(pessoa);
+        usuarioRepository.persist(usuario);
 
-        // Criar uma instância de Cliente com os dados do ClienteDTO
         Cliente cliente = new Cliente();
+        cliente.setEndereco(dto.endereco());
+        cliente.setCep(dto.cep());
         cliente.setCidade(dto.cidade());
         cliente.setEstado(dto.estado());
+        cliente.setUsuario(usuario);
 
-        // Persistir o Cliente no banco de dados
         clienteRepository.persist(cliente);
-
-        // Retornar uma representação do funcionário criado
         return ClienteResponseDTO.valueOf(cliente);
     }
 
     public void validarCpfCliente(String cpf){
-        Pessoa cliente = pessoaRepository.findByCpfPessoa(cpf);
+        Usuario cliente = usuarioRepository.findByCpfUsuario(cpf);
         if (cliente != null)
-        throw  new ValidationException("cpf", "O  CPF: '"+ cpf +"' já existe.");
-    }
+            throw new ValidationException("cpf", "O CPF: '"+ cpf +"' já existe.");
+    }   
 
     @Override
     @Transactional
     public void update(Long id, ClienteDTO dto){
         Cliente clienteBanco = clienteRepository.findById(id);
+        if (clienteBanco == null) {
+            throw new NotFoundException("Cliente não encontrado");
+        }
+
+        clienteBanco.setEndereco(dto.endereco());
+        clienteBanco.setCep(dto.cep());
         clienteBanco.setCidade(dto.cidade());
         clienteBanco.setEstado(dto.estado());
 
-         // Criar uma instância de Usuario com os dados do ClienteDTO
-        Pessoa pessoa =  clienteBanco.getPessoa();
-        pessoa.setNome(dto.nome());
-        pessoa.setEmail(dto.email());
-        pessoa.setCpf(dto.cpf());
+        Usuario usuario = clienteBanco.getUsuario();
+        usuario.setNome(dto.nome());
+        usuario.setUsername(dto.username());
+        usuario.setSenha(hashService.getHashSenha(dto.senha())); 
+        usuario.setDataNascimento(dto.dataNascimento());
+        usuario.setEmail(dto.email());
+        usuario.setCpf(dto.cpf());
+        usuario.setGenero(dto.genero());
     }
 
     @Override
@@ -90,16 +101,6 @@ public class ClienteServiceImpl implements ClienteService {
     public List<ClienteResponseDTO> findAll(){
         return clienteRepository.listAll().stream().map(a -> ClienteResponseDTO.valueOf(a)).toList();
     }
-    
-    @Override
-    public ClienteResponseDTO findByCpf(String cpf) {
-        Cliente cliente = clienteRepository.findByCpf(cpf);
-
-        if (cliente != null) {
-            return ClienteResponseDTO.valueOf(cliente);
-        }
-        return null;
-    }
 
     @Override
     public List<ClienteResponseDTO> findByEstado(String estado) {
@@ -107,15 +108,20 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public UsuarioResponseDTO login (String username, String senha) {
+    public List<UsuarioResponseDTO> findByCpf(String cpf) {
+        return usuarioRepository.findByCpf(cpf).stream().map(c -> UsuarioResponseDTO.valueof(c)).toList();
+    }
+
+    @Override
+    public UsuarioResponseDTO login(String username, String senha) {
         Cliente cliente = clienteRepository.findByUsernameAndSenha(username, senha);
-    if (cliente != null) {
-        Pessoa pessoa = cliente.getPessoa();
-        if (pessoa != null) {
-            return UsuarioResponseDTO.valueof(pessoa);
+
+        if (cliente !=null){
+            return UsuarioResponseDTO.valueOf(cliente);
+        }else{
+            return null;
         }
+
     }
-    // Você pode querer lançar uma exceção aqui ou retornar algum tipo de erro
-    return null;
-    }
+    
 }

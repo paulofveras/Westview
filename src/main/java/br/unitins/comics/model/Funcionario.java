@@ -6,19 +6,22 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class Funcionario extends DefaultEntity {
-    @OneToOne
-    @JoinColumn(name = "id_pessoa")
-    private Pessoa pessoa;
+    @Column(nullable = false)
+    private Double salario;
 
     @Column(nullable = false)
-    private String cargo;
+    private String cargo;   
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    @OneToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
+    public Double getSalario() {
+        return salario;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setSalario(Double salario) {
+        this.salario = salario;
     }
 
     public String getCargo() {
@@ -29,8 +32,17 @@ public class Funcionario extends DefaultEntity {
         this.cargo = cargo;
     }
 
-    
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-    
-    
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Object getNome() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getNome'");
+    }
+
 }

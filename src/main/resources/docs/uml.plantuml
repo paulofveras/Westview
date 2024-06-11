@@ -20,7 +20,7 @@ class Quadrinho {
     - categoria: Categoria
     - personagens: List<String>
     - escritor: Escritor
-    - artistaCapa: ArtistaCapa
+    - artistaCapa: Escritor
     + criarProduto(produtoDTO: ProdutoDTO): Response
     + atualizarProduto(id: Long, produtoDTO: ProdutoDTO): void
     + excluirProduto(id: Long): void
@@ -83,7 +83,7 @@ Quadrinho "1" --> "*" Genero
 Quadrinho "1" --> "*" Origem 
 Quadrinho "1" --> "1" Classificaçao
 Quadrinho "1" --> "1" Pessoa : Escritor
-Quadrinho "1" --> "1" Pessoa : ArtistaCapa
+Quadrinho "1" --> "1" Pessoa : Escritor
 Funcionario "1" <-- "1" Pessoa
 Cliente "1" <-- "1" Pessoa
 Cliente "1" --> "1" CarrinhoCompras

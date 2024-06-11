@@ -9,21 +9,43 @@ import jakarta.persistence.OneToOne;
 public class Cliente extends DefaultEntity{
     
     @OneToOne
-    @JoinColumn(name = "id_pessoa")
-    private Pessoa pessoa;
-
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+    
     @Column(nullable = false)
-    private String estado;
-
+    private String cep;
+    
+    @Column(nullable = false)
+    private String endereco;
+    
+    @Column(nullable = false)
+    private String estado; 
+    
     @Column(nullable = false)
     private String cidade;
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     public String getEstado() {
@@ -42,6 +64,6 @@ public class Cliente extends DefaultEntity{
         this.cidade = cidade;
     }
 
-    
+
     
 }

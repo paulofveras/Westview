@@ -13,4 +13,9 @@ public class ArtistaCapaRepository implements PanacheRepository<ArtistaCapa>{
         return find("UPPER(nome) LIKE ?1", "%"+ nome.toUpperCase() + "%").list();
     }
 
+    
+    public ArtistaCapa findByNomeCompleto(String nome) {
+        return find("UPPER(nome) = ?1",  nome.toUpperCase() ).firstResult();
+    }
+
 }

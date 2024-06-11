@@ -12,5 +12,9 @@ public class EscritorRepository implements PanacheRepository<Escritor>{
     public List<Escritor> findByNome(String nome) {
         return find("UPPER(nome) LIKE ?1", "%"+ nome.toUpperCase() +"%").list();
     }
+
+        public Escritor findByNomeCompleto(String nome) {
+        return find("UPPER(nome) = ?1",  nome.toUpperCase() ).firstResult();
+    }
 }
 

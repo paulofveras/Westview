@@ -4,14 +4,16 @@ import br.unitins.comics.model.Funcionario;
 
 public record FuncionarioResponseDTO (
     Long id,
+    Double salario,
     String cargo,
-    PessoaResponseDTO pessoa
+    UsuarioResponseDTO usuario
 ) {
     public static FuncionarioResponseDTO valueOf(Funcionario funcionario) {
         return new FuncionarioResponseDTO(
             funcionario.getId(),
+            funcionario.getSalario(),
             funcionario.getCargo(),
-            PessoaResponseDTO.valueOf(funcionario.getPessoa())
+            UsuarioResponseDTO.valueof(funcionario.getUsuario())
         );
     }
 }

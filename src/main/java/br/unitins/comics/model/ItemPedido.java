@@ -3,7 +3,7 @@ package br.unitins.comics.model;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-public class QuadrinhoPedido extends DefaultEntity {
+public class ItemPedido extends DefaultEntity {
     
     private Double preco;
     private Double desconto;

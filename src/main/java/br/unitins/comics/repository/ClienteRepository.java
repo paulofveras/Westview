@@ -8,6 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ClienteRepository implements PanacheRepository<Cliente>{
+       
     public List<Cliente> findByEstado(String estado){
         return find("UPPER(estado) LIKE ?1", "%" + estado.toUpperCase() + "%").list();
     }
@@ -17,10 +18,7 @@ public class ClienteRepository implements PanacheRepository<Cliente>{
     }
 
     public Cliente findByUsernameAndSenha(String username, String senha) {
-        return find("pessoa.username = ?1 AND pessoa.senha = ?2", username, senha).firstResult();
+        return find("usuario.username = ?1 AND usuario.senha = ?2", username, senha).firstResult();
     }
-
-        public Cliente findByCpf(String cpf){
-        return find("pessoa.cpf = ?1", cpf).firstResult();
-    }
+    
 }

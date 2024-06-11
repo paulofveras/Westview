@@ -1,11 +1,10 @@
 package br.unitins.comics.resource;
 
-import java.util.List;
-
 import br.unitins.comics.dto.EscritorDTO;
-import br.unitins.comics.dto.EscritorResponseDTO;
 import br.unitins.comics.service.EscritorService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -23,41 +22,38 @@ import jakarta.ws.rs.core.Response.Status;
 @Path("/escritores")
 public class EscritorResource {
 
-    @Inject
-    private EscritorService escritorService;
+   @Inject
+    public EscritorService escritorService;
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"Funcionario", "Cliente"})
     public Response findById(@PathParam("id") Long id) {
-        EscritorResponseDTO escritor = escritorService.findById(id);
-        if (escritor != null) {
-            return Response.ok(escritor).build();
-        } else {
-            return Response.status(Status.NOT_FOUND)
-                    .entity("Escritor não encontrado.")
-                    .build();
-        }
+        return Response.ok(escritorService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario", "Cliente"})
     public Response findAll() {
-        List<EscritorResponseDTO> escritores = escritorService.findAll();
-        return Response.ok(escritores).build();
+        return Response.ok(escritorService.findAll()).build();
     }
 
     @GET
     @Path("/search/nome/{nome}")
+    @RolesAllowed({"Funcionario", "Cliente"})
     public Response findByNome(@PathParam("nome") String nome) {
         return Response.ok(escritorService.findByNome(nome)).build();
     }
 
     @POST
-    public Response create(EscritorDTO dto) {
+    @RolesAllowed({"Funcionario"}) // Permite acesso apenas a funcionários
+    public Response create(@Valid EscritorDTO dto) {
         return Response.status(Status.CREATED).entity(escritorService.create(dto)).build();
     }
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Funcionario"}) // Permite acesso apenas a funcionários
     public Response update(@PathParam("id") Long id, EscritorDTO dto) {
         escritorService.update(id, dto);
         return Response.status(Status.NO_CONTENT).build();
@@ -65,6 +61,7 @@ public class EscritorResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Funcionario"}) // Permite acesso apenas a funcionários
     public Response delete(@PathParam("id") Long id) {
         escritorService.delete(id);
         return Response.status(Status.NO_CONTENT).build();

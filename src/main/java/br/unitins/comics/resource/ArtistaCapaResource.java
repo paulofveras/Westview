@@ -1,11 +1,10 @@
 package br.unitins.comics.resource;
 
-import java.util.List;
-
 import br.unitins.comics.dto.ArtistaCapaDTO;
-import br.unitins.comics.dto.ArtistaCapaResponseDTO;
 import br.unitins.comics.service.ArtistaCapaService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -20,52 +19,41 @@ import jakarta.ws.rs.core.Response.Status;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Path("/artistasCapa")
+@Path("/autores")
 public class ArtistaCapaResource {
 
     @Inject
-    private ArtistaCapaService artistaCapaService;
+    public ArtistaCapaService artistaCapaService;
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"Funcionario", "Cliente"})
     public Response findById(@PathParam("id") Long id) {
-        ArtistaCapaResponseDTO artistaCapa = artistaCapaService.findById(id);
-        if (artistaCapa != null) {
-            return Response.ok(artistaCapa).build();
-        } else {
-            return Response.status(Status.NOT_FOUND)
-                    .entity("ArtistaCapa não encontrado.")
-                    .build();
-        }
+        return Response.ok(artistaCapaService.findById(id)).build();
     }
 
     @GET
+    @RolesAllowed({"Funcionario", "Cliente"})
     public Response findAll() {
-        List<ArtistaCapaResponseDTO> artistasCapa = artistaCapaService.findAll();
-        return Response.ok(artistasCapa).build();
+        return Response.ok(artistaCapaService.findAll()).build();
     }
 
     @GET
     @Path("/search/nome/{nome}")
+    @RolesAllowed({"Funcionario", "Cliente"})
     public Response findByNome(@PathParam("nome") String nome) {
-        List<ArtistaCapaResponseDTO> artistasCapa = artistaCapaService.findByNome(nome);
-        if (artistasCapa != null && !artistasCapa.isEmpty()) {
-            return Response.ok(artistasCapa).build();
-        } else {
-            return Response.status(Status.NOT_FOUND)
-                    .entity("Nenhum ArtistaCapa encontrado com o nome fornecido.")
-                    .build();
-        }
+        return Response.ok(artistaCapaService.findByNome(nome)).build();
     }
 
     @POST
-    public Response create(ArtistaCapaDTO dto) {
-        artistaCapaService.create(dto);
-        return Response.status(Status.CREATED).build();
+    @RolesAllowed({"Funcionario"}) // Permite acesso apenas a funcionários
+    public Response create(@Valid ArtistaCapaDTO dto) {
+        return Response.status(Status.CREATED).entity(artistaCapaService.create(dto)).build();
     }
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Funcionario"}) // Permite acesso apenas a funcionários
     public Response update(@PathParam("id") Long id, ArtistaCapaDTO dto) {
         artistaCapaService.update(id, dto);
         return Response.status(Status.NO_CONTENT).build();
@@ -73,6 +61,7 @@ public class ArtistaCapaResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Funcionario"}) // Permite acesso apenas a funcionários
     public Response delete(@PathParam("id") Long id) {
         artistaCapaService.delete(id);
         return Response.status(Status.NO_CONTENT).build();

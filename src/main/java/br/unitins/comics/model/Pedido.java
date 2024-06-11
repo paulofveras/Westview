@@ -18,8 +18,8 @@ public class Pedido extends DefaultEntity {
 
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_quadrinho")
-    private List<QuadrinhoPedido> quadrinhos;
+    @JoinColumn(name = "id_pedido")
+    private List<ItemPedido> itens;
 
     public LocalDateTime getData() {
         return data;
@@ -51,14 +51,16 @@ public class Pedido extends DefaultEntity {
     }
 
 
-    public List<QuadrinhoPedido> getQuadrinhos() {
-        return quadrinhos;
+    public List<ItemPedido> getItens() {
+        return itens;
     }
 
 
-    public void setQuadrinhos(List<QuadrinhoPedido> quadrinhos) {
-        this.quadrinhos = quadrinhos;
+    public void setItens(List<ItemPedido> itens) {
+        this.itens = itens;
     }
+
+
     
     
 }

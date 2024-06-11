@@ -32,8 +32,8 @@ public class ClienteResource {
 
     @GET
     @Path("/search/estado/{estado}")
-    public Response findByEstado(@PathParam("estado") String cargo) {
-        return Response.ok(clienteService.findByEstado(cargo)).build();
+    public Response findByEndereco(@PathParam("estado") String estado) {
+        return Response.ok(clienteService.findByEstado(estado)).build();
     }
 
     @GET
@@ -66,5 +66,4 @@ public class ClienteResource {
         clienteService.delete(id);
         return Response.status(Status.NO_CONTENT).build();
     }
-
 }

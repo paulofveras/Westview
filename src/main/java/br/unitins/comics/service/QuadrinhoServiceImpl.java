@@ -11,7 +11,6 @@ import br.unitins.comics.repository.CategoriaRepository;
 import br.unitins.comics.repository.EscritorRepository;
 import br.unitins.comics.repository.GeneroRepository;
 import br.unitins.comics.repository.OrigemRepository;
-import br.unitins.comics.repository.PessoaRepository;
 import br.unitins.comics.repository.QuadrinhoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -26,8 +25,6 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
     @Inject
     public CategoriaRepository categoriaRepository;
 
-    @Inject
-    public PessoaRepository pessoaRepository;
 
     @Inject
     public EscritorRepository escritorRepository;

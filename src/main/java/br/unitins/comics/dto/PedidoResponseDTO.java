@@ -8,18 +8,18 @@ public record PedidoResponseDTO(
     Long id,
     ClienteResponseDTO cliente,
     Double total,
-    List<QuadrinhoPedidoResponseDTO> quadrinhos 
-
+    List<ItemPedidoResponseDTO> itens
 ) {
     public static PedidoResponseDTO valueOf(Pedido pedido) {
-        List<QuadrinhoPedidoResponseDTO> listaQuadrinhos = pedido.getQuadrinhos()
-                                                            .stream()
-                                                            .map(QuadrinhoPedidoResponseDTO::valueOf)
-                                                            .toList();
+        List<ItemPedidoResponseDTO> lista = pedido.getItens()
+                                            .stream()
+                                            .map(ItemPedidoResponseDTO::valueOf)
+                                            .toList();
         return new PedidoResponseDTO(
-            pedido.getId(),
+            pedido.getId(), 
             ClienteResponseDTO.valueOf(pedido.getCliente()),
             pedido.getTotal(),
-            listaQuadrinhos);
+            lista);
     }
+
 }

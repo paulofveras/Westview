@@ -2,34 +2,32 @@ package br.unitins.comics.model;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
 public class Escritor extends DefaultEntity{
-    @ManyToOne
-    @JoinColumn(name = "id_pessoa")
-    private Pessoa pessoa;
+@Column(length = 60, nullable = false)
+    private String nome;
 
     @OneToMany(mappedBy = "escritor")
-    private List<Quadrinho> quadrinhos;
+    private List<Quadrinho> listaQuadrinhos;
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public String getNome() {
+        return nome;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public List<Quadrinho> getQuadrinhos() {
-        return quadrinhos;
+    public List<Quadrinho> getListaQuadrinhos() {
+        return listaQuadrinhos;
     }
 
-    public void setQuadrinhos(List<Quadrinho> quadrinhos) {
-        this.quadrinhos = quadrinhos;
+    public void setListaQuadrinhos(List<Quadrinho> listaQuadrinhos) {
+        this.listaQuadrinhos = listaQuadrinhos;
     }
    
 }

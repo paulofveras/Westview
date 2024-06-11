@@ -4,14 +4,13 @@ import java.util.List;
 
 import br.unitins.comics.dto.EscritorDTO;
 import br.unitins.comics.dto.EscritorResponseDTO;
-import br.unitins.comics.dto.PessoaResponseDTO;
+import jakarta.validation.Valid;
 
 public interface EscritorService {
-    EscritorResponseDTO create(EscritorDTO dto);
-    void update(Long id, EscritorDTO dto);
-    void delete(Long id);
-    EscritorResponseDTO findById(Long id);
-    List<EscritorResponseDTO> findAll();
-    List<EscritorResponseDTO> findByNome(String nome);
-    List<PessoaResponseDTO> findByCpf(String cpf);
+    EscritorResponseDTO create(@Valid EscritorDTO dto);
+    public void update(Long id, EscritorDTO dto);
+    public void delete(Long id);
+    public EscritorResponseDTO findById(Long id);
+    public List<EscritorResponseDTO> findAll();
+    public List<EscritorResponseDTO> findByNome(String nome);
 }
