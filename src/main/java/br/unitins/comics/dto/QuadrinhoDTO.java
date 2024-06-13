@@ -13,6 +13,7 @@ public record QuadrinhoDTO (
     Long artistaCapaId,
     Integer id_classificacao,
     Long genero,
-    Long origem
+    Long origem,
+    Integer estoque
 ) { }
 

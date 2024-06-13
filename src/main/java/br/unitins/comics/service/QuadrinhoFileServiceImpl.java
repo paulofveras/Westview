@@ -17,11 +17,11 @@ import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class QuadrinhoFileServiceImpl implements FileService {
-    // ex = /user/janio/quarkus/images/psicologo
+    // ex = /user/janio/quarkus/images/quadrinho
     private final String PATH_USER = System.getProperty("user.home")
         + File.separator + "quarkus"
         + File.separator + "images"
-        + File.separator + "psicologo" + File.separator;
+        + File.separator + "quadrinho" + File.separator;
 
     @Inject
     QuadrinhoRepository quadrinhoRepository;

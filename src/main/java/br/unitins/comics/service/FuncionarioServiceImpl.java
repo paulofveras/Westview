@@ -4,6 +4,8 @@ import java.util.List;
 
 import br.unitins.comics.dto.FuncionarioDTO;
 import br.unitins.comics.dto.FuncionarioResponseDTO;
+import br.unitins.comics.dto.UpdatePasswordDTO;
+import br.unitins.comics.dto.UpdateUsernameDTO;
 import br.unitins.comics.dto.UsuarioResponseDTO;
 import br.unitins.comics.model.Funcionario;
 import br.unitins.comics.model.Usuario;
@@ -81,6 +83,38 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         usuario.setEmail(dto.email());
         usuario.setCpf(dto.cpf());
         usuario.setGenero(dto.genero());
+    }
+
+    @Override
+    @Transactional
+    public void updatePassword(Long id, UpdatePasswordDTO dto) {
+
+        Funcionario funcionario = funcionarioRepository.findById(id);
+        String hashSenhaAntiga = hashService.getHashSenha(dto.oldPassword());
+
+        if (funcionario != null) {
+            if (funcionario.getUsuario().getSenha().equals(hashSenhaAntiga)) {
+                String hashNovaSenha = hashService.getHashSenha(dto.newPassword());
+                funcionario.getUsuario().setSenha(hashNovaSenha);
+            } else {
+                throw new ValidationException("ERRO", "Senha antiga nao corresponde");
+            }
+        } else {
+            throw new NotFoundException();
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateUsername(Long id, UpdateUsernameDTO dto) {
+
+        Funcionario funcionario = funcionarioRepository.findById(id);
+
+        if (funcionario != null) {
+            funcionario.getUsuario().setUsername(dto.newUsername());;
+        } else {
+            throw new NotFoundException();
+        }
     }
 
     @Override

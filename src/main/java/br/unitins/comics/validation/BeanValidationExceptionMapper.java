@@ -14,7 +14,7 @@ import jakarta.ws.rs.ext.Provider;
 public class BeanValidationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {
 
     private static final Logger LOG = Logger.getLogger(BeanValidationExceptionMapper.class);
-
+    
     @Override
     public Response toResponse(ConstraintViolationException exception) {
 

@@ -49,6 +49,8 @@ public class Quadrinho extends DefaultEntity {
 
     private String nomeImagem;
 
+    private Integer estoque;
+
     public String getNome() {
         return nome;
     }
@@ -143,6 +145,14 @@ public class Quadrinho extends DefaultEntity {
 
     public void setNomeImagem(String nomeImagem) {
         this.nomeImagem = nomeImagem;
+    }
+
+    public Integer getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
     }
  
 }

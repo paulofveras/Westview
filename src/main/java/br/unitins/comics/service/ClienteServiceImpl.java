@@ -4,6 +4,10 @@ import java.util.List;
 
 import br.unitins.comics.dto.ClienteDTO;
 import br.unitins.comics.dto.ClienteResponseDTO;
+import br.unitins.comics.dto.ClienteUpdatePasswordDTO;
+import br.unitins.comics.dto.ClienteUpdateUsernameDTO;
+import br.unitins.comics.dto.UpdatePasswordDTO;
+import br.unitins.comics.dto.UpdateUsernameDTO;
 import br.unitins.comics.dto.UsuarioResponseDTO;
 import br.unitins.comics.model.Cliente;
 import br.unitins.comics.model.Usuario;
@@ -84,6 +88,38 @@ public class ClienteServiceImpl implements ClienteService {
         usuario.setEmail(dto.email());
         usuario.setCpf(dto.cpf());
         usuario.setGenero(dto.genero());
+    }
+
+    @Override
+    @Transactional
+    public void updatePassword(Long id, UpdatePasswordDTO dto) {
+
+        Cliente cliente = clienteRepository.findById(id);
+        String hashSenhaAntiga = hashService.getHashSenha(dto.oldPassword());
+
+        if (cliente != null) {
+            if (cliente.getUsuario().getSenha().equals(hashSenhaAntiga)) {
+                String hashNovaSenha = hashService.getHashSenha(dto.newPassword());
+                cliente.getUsuario().setSenha(hashNovaSenha);
+            } else {
+                throw new ValidationException("ERRO", "Senha antiga nao corresponde");
+            }
+        } else {
+            throw new NotFoundException();
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateUsername(Long id, UpdateUsernameDTO dto) {
+
+        Cliente cliente = clienteRepository.findById(id);
+
+        if (cliente != null) {
+            cliente.getUsuario().setUsername(dto.newUsername());;
+        } else {
+            throw new NotFoundException();
+        }
     }
 
     @Override

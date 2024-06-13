@@ -1,5 +1,7 @@
 package br.unitins.comics.resource;
 
+import org.jboss.logging.Logger;
+
 import br.unitins.comics.dto.ArtistaCapaDTO;
 import br.unitins.comics.service.ArtistaCapaService;
 import jakarta.annotation.security.RolesAllowed;
@@ -25,16 +27,20 @@ public class ArtistaCapaResource {
     @Inject
     public ArtistaCapaService artistaCapaService;
 
+    private static final Logger LOG = Logger.getLogger(QuadrinhoResource.class);
+
     @GET
     @Path("/{id}")
     @RolesAllowed({"Funcionario", "Cliente"})
     public Response findById(@PathParam("id") Long id) {
+        LOG.infof("Executando o metodo findById. Id: %s", id.toString());
         return Response.ok(artistaCapaService.findById(id)).build();
     }
 
     @GET
     @RolesAllowed({"Funcionario", "Cliente"})
     public Response findAll() {
+        LOG.info("Executando o findAll");
         return Response.ok(artistaCapaService.findAll()).build();
     }
 
@@ -42,12 +48,14 @@ public class ArtistaCapaResource {
     @Path("/search/nome/{nome}")
     @RolesAllowed({"Funcionario", "Cliente"})
     public Response findByNome(@PathParam("nome") String nome) {
+        LOG.info("Executando o findByNome");
         return Response.ok(artistaCapaService.findByNome(nome)).build();
     }
 
     @POST
     @RolesAllowed({"Funcionario"}) // Permite acesso apenas a funcionários
     public Response create(@Valid ArtistaCapaDTO dto) {
+        LOG.info("Criando um Artista de Capas de Quadrinhos");
         return Response.status(Status.CREATED).entity(artistaCapaService.create(dto)).build();
     }
 
@@ -55,6 +63,7 @@ public class ArtistaCapaResource {
     @Path("/{id}")
     @RolesAllowed({"Funcionario"}) // Permite acesso apenas a funcionários
     public Response update(@PathParam("id") Long id, ArtistaCapaDTO dto) {
+        LOG.info("Atualizando um Artista de Capas.");
         artistaCapaService.update(id, dto);
         return Response.status(Status.NO_CONTENT).build();
     }
@@ -63,6 +72,7 @@ public class ArtistaCapaResource {
     @Path("/{id}")
     @RolesAllowed({"Funcionario"}) // Permite acesso apenas a funcionários
     public Response delete(@PathParam("id") Long id) {
+        LOG.infof("Deletando o artista da capa. Id: %s", id.toString());
         artistaCapaService.delete(id);
         return Response.status(Status.NO_CONTENT).build();
     }

@@ -16,7 +16,8 @@ public record QuadrinhoResponseDTO (
     Long artistaCapaId,
     Integer classificacaoId,
     Long generoId,
-    Long origemId
+    Long origemId,
+    Integer estoque
 ) {
     public static QuadrinhoResponseDTO valueOf(Quadrinho quadrinho) {
         return new QuadrinhoResponseDTO(
@@ -31,7 +32,8 @@ public record QuadrinhoResponseDTO (
             quadrinho.getArtistaCapa().getId(),
             quadrinho.getClassificacao().getId(),
             quadrinho.getGenero().getId(),
-            quadrinho.getOrigem().getId()
+            quadrinho.getOrigem().getId(),
+            quadrinho.getEstoque()
         );
     }
 }

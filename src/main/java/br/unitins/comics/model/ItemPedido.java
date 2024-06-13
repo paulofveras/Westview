@@ -1,8 +1,10 @@
 package br.unitins.comics.model;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+@Entity
 public class ItemPedido extends DefaultEntity {
     
     private Double preco;
@@ -11,7 +13,7 @@ public class ItemPedido extends DefaultEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_quadrinho")
-    private Quadrinho quadrinhos;
+    private Quadrinho quadrinho;
 
     public Double getPreco() {
         return preco;
@@ -38,11 +40,11 @@ public class ItemPedido extends DefaultEntity {
     }
 
     public Quadrinho getQuadrinho() {
-        return quadrinhos;
+        return quadrinho;
     }
 
     public void setQuadrinho(Quadrinho quadrinho) {
-        this.quadrinhos = quadrinho;
+        this.quadrinho = quadrinho;
     }
 
     

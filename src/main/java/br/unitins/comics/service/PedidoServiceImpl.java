@@ -8,12 +8,20 @@ import br.unitins.comics.dto.ItemPedidoDTO;
 import br.unitins.comics.dto.PedidoDTO;
 import br.unitins.comics.dto.PedidoResponseDTO;
 import br.unitins.comics.model.ItemPedido;
+import br.unitins.comics.model.Pagamento;
 import br.unitins.comics.model.Pedido;
+import br.unitins.comics.model.Quadrinho;
+import br.unitins.comics.model.Status;
 import br.unitins.comics.repository.PedidoRepository;
+import br.unitins.comics.repository.QuadrinhoRepository;
+import br.unitins.comics.repository.ClienteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.BadRequestException;
+import br.unitins.comics.validation.ValidationError;
+import br.unitins.comics.validation.ValidationException;
 
 @ApplicationScoped
 public class PedidoServiceImpl implements PedidoService {
@@ -21,11 +29,11 @@ public class PedidoServiceImpl implements PedidoService {
     @Inject
     public PedidoRepository pedidoRepository;
 
-    // @Inject
-    // public ConsultaRepository consultaRepository;
+    @Inject
+    public QuadrinhoRepository quadrinhoRepository;
 
-    // @Inject
-    // public PacienteRepository pacienteRepository;
+    @Inject
+    public ClienteRepository clienteRepository;
 
     @Override
     @Transactional
@@ -33,26 +41,50 @@ public class PedidoServiceImpl implements PedidoService {
 
         Pedido pedido = new Pedido();
         pedido.setData(LocalDateTime.now());
-       // pedido.setPaciente(pacienteRepository.findById(dto.idPaciente()));
-        // total calculado
+        pedido.setCliente(clienteRepository.findById(dto.idCliente()));
+        pedido.setTotal(0d);
+        pedido.setFormaPagamento(Pagamento.valueOf(dto.idPagamento()));
+
         List<ItemPedido> itens = new ArrayList<ItemPedido>();
 
         for (ItemPedidoDTO itemDTO : dto.itens()) {
+
+            Quadrinho quadrinho = quadrinhoRepository.findById(itemDTO.idQuadrinho());
+
             ItemPedido item = new ItemPedido();
-            //item.setConsulta(consultaRepository.findById(itemDTO.idConsulta()));
+           
             item.setDesconto(itemDTO.desconto());
-            item.setPreco(itemDTO.preco());
-            // adicionando na lista
-            itens.add(item);
+            item.setQuantidade(itemDTO.quantidade());
+
+            Double precoDesconto = Double.valueOf(quadrinho.getPreco() * item.getQuantidade())-((itemDTO.desconto()/100) * Double.valueOf(quadrinho.getPreco() * item.getQuantidade()));
+
+            item.setPreco(precoDesconto);
+            item.setQuadrinho(quadrinho);
+
+            pedido.setTotal(pedido.getTotal() + item.getPreco());
 
             // trabalhar o estoque de cada produto
+            if(itemDTO.quantidade() <= quadrinho.getEstoque()){
+                // adicionando na lista
+                itens.add(item);
+                
+                quadrinho.setEstoque(quadrinho.getEstoque() - itemDTO.quantidade());
+                quadrinhoRepository.persist(quadrinho);
+            } else {
+                throw new ValidationException("Pedido não finalizado", "Estoque insuficiente do produto: "+quadrinho.getNome());
+            }
+           
+            
         }
-
         pedido.setItens(itens);
+        pedido.setStatusPagamento(Status.NAO_PAGO);
+
+        
 
         pedidoRepository.persist(pedido);
         return PedidoResponseDTO.valueOf(pedido);
     }
+
 
     @Override
     public PedidoResponseDTO findById(Long id) {
@@ -71,9 +103,30 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public List<PedidoResponseDTO> findByCliente(Long idPaciente) {
-        return pedidoRepository.findByCliente(idPaciente).stream()
+    public List<PedidoResponseDTO> findByCliente(Long idCliente) {
+        return pedidoRepository.findByCliente(idCliente).stream()
         .map(e -> PedidoResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
+    @Transactional
+    public void switchStatus(Long id){
+        Pedido pedido = pedidoRepository.findById(id);
+
+        if(pedido != null){
+            
+            if(pedido.getStatusPagamento() == Status.PAGO){
+                pedido.setStatusPagamento(Status.NAO_PAGO);
+            } else if (pedido.getStatusPagamento() == Status.NAO_PAGO){
+                pedido.setStatusPagamento(Status.PAGO);
+            }
+
+        } else {
+            throw new BadRequestException("Pedido não encontrado");
+        }
+
+       
+        
     }
 
 }

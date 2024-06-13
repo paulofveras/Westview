@@ -1,13 +1,18 @@
 package br.unitins.comics.resource;
 
 
+import org.jboss.logging.Logger;
+
 import br.unitins.comics.dto.ClienteDTO;
+import br.unitins.comics.dto.UpdatePasswordDTO;
+import br.unitins.comics.dto.UpdateUsernameDTO;
 import br.unitins.comics.service.ClienteService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -25,45 +30,71 @@ public class ClienteResource {
     @Inject
     public ClienteService clienteService;
 
+    private static final Logger LOG = Logger.getLogger(QuadrinhoResource.class);
+
+
     @GET
     public Response findAll() {
+        LOG.info("Executando o findAll");
         return Response.ok(clienteService.findAll()).build();
     }
 
     @GET
     @Path("/search/estado/{estado}")
     public Response findByEndereco(@PathParam("estado") String estado) {
+        LOG.info("Executando o findByEndereco");
         return Response.ok(clienteService.findByEstado(estado)).build();
     }
 
     @GET
     @Path("/search/cpf/{cpf}")
     public Response findByCpf(@PathParam("cpf") String cpf) {
+        LOG.info("Executando o findbyCpf");
         return Response.ok(clienteService.findByCpf(cpf)).build();
     }
 
-    @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
+        LOG.infof("Executando o metodo findById. Id: %s", id.toString());
         return Response.ok(clienteService.findById(id)).build();
     }
 
-    @POST
+     @POST
     public Response create(@Valid ClienteDTO dto) {
+        LOG.info("Criando um novo cliente");
         return Response.status(Status.CREATED).entity(clienteService.create(dto)).build();
     }
 
     @PUT
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, ClienteDTO dto) {
+        LOG.debugf("DTO Atualizado: %s", dto);
         clienteService.update(id, dto);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @PATCH
+    @Path("/update-password/{id}")
+    public Response updateUsuarioSenha(@PathParam("id") Long id, UpdatePasswordDTO dto){
+        LOG.info("Atualizando senha");
+        clienteService.updatePassword(id, dto);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @PATCH
+    @Path("/update-username/{id}")
+    public Response updateUsuarioUsername(@PathParam("id") Long id, UpdateUsernameDTO dto){
+        LOG.info("Atualizando username");
+        clienteService.updateUsername(id, dto);
         return Response.status(Status.NO_CONTENT).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
+        LOG.infof("Deletando cliente. Id: %s", id.toString());
         clienteService.delete(id);
         return Response.status(Status.NO_CONTENT).build();
     }
+
 }

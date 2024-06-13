@@ -1,6 +1,5 @@
 -- This file allow to write SQL commands that will be emitted in test and dev.
 -- Inserindo dados na tabela Usuario
--- Inserindo dados na tabela Usuario
 INSERT INTO Usuario (id, nome, username, dataNascimento, email, senha, genero, cpf) VALUES
 (1, 'João Silva', 'joaosilva', '1985-05-10', 'joao.silva@email.com', 'senha123', 'Masculino', '123.456.789-00'),
 (2, 'Maria Santos', 'mariasantos', '1990-08-20', 'maria.santos@email.com', 'senha456', 'Feminino', '987.654.321-00'),
@@ -37,16 +36,12 @@ INSERT INTO Origem (id, pais) VALUES
 
 -- Inserindo dados na tabela Quadrinho
 INSERT INTO Quadrinho (id, nome, dataPublicacao, edicao, preco, quantidadeEstoque, id_categoria, classificacao, id_genero, id_origem, id_escritor, id_artista_capa) VALUES 
-(1, 'Batman: O Cavaleiro das Trevas', '1986-02-01', 'Edição Especial', 19.90, 10, 1, 'DEZANOS', 1, 1, 1, 1);
+(1, 'Batman: O Cavaleiro das Trevas', '1986-02-01', 'Edição Especial', 19.90, 10, 1, 3, 1, 1, 1, 1);
 
--- -- Inserindo dados na tabela QuadrinhoPedido
--- INSERT INTO QuadrinhoPedido (id, preco, desconto, quantidade, id_quadrinho) VALUES 
--- (1, 19.90, 0, 1, 1);
+-- -- Inserindo dados na tabela Pedido 
+-- INSERT INTO Pedido (id, data, total, id_cliente, forma_pagamento, status_pagamento) VALUES 
+-- (1, '2024-06-01 10:00:00', 199.00, 1, 'PIX', 'PAGO');
 
--- -- Inserindo dados na tabela Pedido
--- INSERT INTO Pedido (id, data, total, id_cliente) VALUES 
--- (1, '2024-06-01 12:00:00', 19.90, 1);
-
--- -- Vinculando QuadrinhoPedido ao Pedido
--- INSERT INTO Pedido_QuadrinhoPedido (id_pedido, id_quadrinho_pedido) VALUES 
--- (1, 1);
+-- Inserindo dados na tabela ItemPedido
+INSERT INTO ItemPedido (id, preco, desconto, quantidade, id_quadrinho) VALUES 
+(1, 19.90, 0.00, 10, 1);
