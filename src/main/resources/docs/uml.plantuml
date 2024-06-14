@@ -16,7 +16,7 @@ class Quadrinho {
     - edicao: String
     - descricao: String
     - preco: double
-    - quantidadeEstoque: int
+    - quantidadePaginas: int
     - categoria: Categoria
     - personagens: List<String>
     - escritor: Escritor

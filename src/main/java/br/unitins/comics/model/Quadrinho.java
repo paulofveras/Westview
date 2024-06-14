@@ -22,7 +22,7 @@ public class Quadrinho extends DefaultEntity {
     @Column(nullable = false)
     private Double preco;
 
-    private Integer quantidadeEstoque;
+    private Integer quantidadePaginas;
 
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false)
@@ -83,12 +83,12 @@ public class Quadrinho extends DefaultEntity {
         this.preco = preco;
     }
 
-    public Integer getQuantidadeEstoque() {
-        return quantidadeEstoque;
+    public Integer getQuantidadePaginas() {
+        return quantidadePaginas;
     }
 
-    public void setQuantidadeEstoque(Integer quantidadeEstoque) {
-        this.quantidadeEstoque = quantidadeEstoque;
+    public void setQuantidadePaginas(Integer quantidadePaginas) {
+        this.quantidadePaginas = quantidadePaginas;
     }
 
     public Categoria getCategoria() {

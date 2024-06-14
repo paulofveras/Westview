@@ -20,7 +20,6 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.BadRequestException;
-import br.unitins.comics.validation.ValidationError;
 import br.unitins.comics.validation.ValidationException;
 
 @ApplicationScoped

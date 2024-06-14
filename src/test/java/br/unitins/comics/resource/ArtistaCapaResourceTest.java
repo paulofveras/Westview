@@ -1,85 +1,105 @@
-// package br.unitins.comics.resource;
+package br.unitins.comics.resource;
 
-// import br.unitins.comics.dto.ArtistaCapaDTO;
-// import io.quarkus.test.junit.QuarkusTest;
-// import jakarta.ws.rs.core.MediaType;
-// import org.junit.jupiter.api.Test;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.not;
 
-// import static io.restassured.RestAssured.given;
+import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
+import io.restassured.http.ContentType;
+import org.junit.jupiter.api.Test;
 
-// @QuarkusTest
-// public class ArtistaCapaResourceTest {
+import br.unitins.comics.dto.ArtistaCapaDTO;
 
+@QuarkusTest
+public class ArtistaCapaResourceTest {
 
-//     @Test
-//     public void findByIdTest() {
-//         given()
-//             .when()
-//             .get("/artistasCapa/1")
-//         .then()
-//             .statusCode(200);
-//     }
+    @Test
+    @TestSecurity(user = "user", roles = {"Funcionario"})
+    public void testCreateArtistaCapa() {
+        ArtistaCapaDTO dto = new ArtistaCapaDTO("Test Artista");
 
-//     @Test
-//     public void findAllTest() {
-//         given()
-//             .when()
-//             .get("/artistasCapa")
-//         .then()
-//             .statusCode(200);
-//     }
+        given()
+            .contentType(ContentType.JSON)
+            .body(dto)
+            .when()
+            .post("/autores")
+            .then()
+            .statusCode(201)
+            .body("id", notNullValue())
+            .body("nome", equalTo("Test Artista"));
+    }
 
-//     @Test
-//     public void findByNomeTest() {
-//         given()
-//             .when()
-//             .get("/artistasCapa/search/nome/Joao Silva")
-//         .then()
-//             .statusCode(200);
-//     }
+    @Test
+    @TestSecurity(user = "user", roles = {"Funcionario"})
+    public void testUpdateArtistaCapa() {
+        ArtistaCapaDTO dto = new ArtistaCapaDTO("Updated Artista");
 
-//     @Test
-//     public void createTest() {
-//         ArtistaCapaDTO dto = new ArtistaCapaDTO(
-//             "Novo ArtistaCapa",
-//             "123.456.789-00",
-//             "novo.artista@email.com"
-//         );
+        given()
+            .contentType(ContentType.JSON)
+            .body(dto)
+            .when()
+            .put("/autores/1")
+            .then()
+            .statusCode(204);
+        
+        given()
+            .when()
+            .get("/autores/1")
+            .then()
+            .statusCode(200)
+            .body("nome", equalTo("Updated Artista"));
+    }
 
-//         given()
-//             .contentType(MediaType.APPLICATION_JSON)
-//             .body(dto)
-//         .when()
-//             .post("/artistasCapa")
-//         .then()
-//             .statusCode(201);
-//     }
+    @Test
+    @TestSecurity(user = "user", roles = {"Funcionario"})
+    public void testDeleteArtistaCapa() {
+        given()
+            .when()
+            .delete("/autores/1")
+            .then()
+            .statusCode(204);
+        
+        given()
+            .when()
+            .get("/autores/1")
+            .then()
+            .statusCode(404);
+    }
 
-//     @Test
-//     public void updateTest() {
-//         ArtistaCapaDTO dto = new ArtistaCapaDTO(
-//             "ArtistaCapa Atualizado",
-//             "987.654.321-00",
-//             "artista.atualizado@email.com"
-//         );
+    @Test
+    @TestSecurity(user = "user", roles = {"Funcionario", "Cliente"})
+    public void testFindArtistaCapaById() {
+        given()
+            .when()
+            .get("/autores/1")
+            .then()
+            .statusCode(200)
+            .body("id", equalTo(1))
+            .body("nome", equalTo("Test Artista"));
+    }
 
-//         given()
-//             .contentType(MediaType.APPLICATION_JSON)
-//             .body(dto)
-//         .when()
-//             .pathParam("id", 2)
-//             .put("/artistasCapa/{id}")
-//         .then()
-//             .statusCode(204);
-//     }
+    @Test
+    @TestSecurity(user = "user", roles = {"Funcionario", "Cliente"})
+    public void testFindAllArtistaCapas() {
+        given()
+            .when()
+            .get("/autores")
+            .then()
+            .statusCode(200)
+            .body("size()", not(equalTo(0)));
+    }
 
-//     @Test
-//     public void deleteTest() {
-//         given()
-//             .pathParam("id", 2)
-//         .when()
-//             .delete("/artistasCapa/{id}")
-//         .then()
-//             .statusCode(204);
-//     }
-// }
+    @Test
+    @TestSecurity(user = "user", roles = {"Funcionario", "Cliente"})
+    public void testFindArtistaCapasByNome() {
+        given()
+            .when()
+            .get("/autores/search/nome/Test Artista")
+            .then()
+            .statusCode(200)
+            .body("size()", not(equalTo(0)))
+            .body("[0].nome", equalTo("Test Artista"));
+    }
+}

@@ -10,13 +10,14 @@ public record QuadrinhoResponseDTO (
     LocalDate dataPublicacao,
     String edicao,
     Double preco,
-    Integer quantidadeEstoque,
+    Integer quantidadePaginas,
     Long categoriaId,
     Long escritorId,
     Long artistaCapaId,
     Integer classificacaoId,
     Long generoId,
     Long origemId,
+    String nomeImagem,
     Integer estoque
 ) {
     public static QuadrinhoResponseDTO valueOf(Quadrinho quadrinho) {
@@ -26,13 +27,14 @@ public record QuadrinhoResponseDTO (
             quadrinho.getDataPublicacao(),
             quadrinho.getEdicao(),
             quadrinho.getPreco(),
-            quadrinho.getQuantidadeEstoque(),
+            quadrinho.getQuantidadePaginas(),
             quadrinho.getCategoria().getId(),
             quadrinho.getEscritor().getId(),
             quadrinho.getArtistaCapa().getId(),
             quadrinho.getClassificacao().getId(),
             quadrinho.getGenero().getId(),
             quadrinho.getOrigem().getId(),
+            quadrinho.getNomeImagem(),
             quadrinho.getEstoque()
         );
     }

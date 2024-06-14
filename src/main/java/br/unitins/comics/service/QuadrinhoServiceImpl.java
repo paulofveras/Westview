@@ -12,6 +12,7 @@ import br.unitins.comics.repository.EscritorRepository;
 import br.unitins.comics.repository.GeneroRepository;
 import br.unitins.comics.repository.OrigemRepository;
 import br.unitins.comics.repository.QuadrinhoRepository;
+import br.unitins.comics.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -47,40 +48,42 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
         quadrinho.setDataPublicacao(dto.dataPublicacao());
         quadrinho.setEdicao(dto.edicao());
         quadrinho.setPreco(dto.preco());
-        quadrinho.setQuantidadeEstoque(dto.quantidadeEstoque());
+        quadrinho.setQuantidadePaginas(dto.quantidadePaginas());
         quadrinho.setCategoria(categoriaRepository.findById(dto.categoria()));
         quadrinho.setEscritor(escritorRepository.findById(dto.escritorId()));
         quadrinho.setArtistaCapa(artistaCapaRepository.findById(dto.artistaCapaId()));
-
         quadrinho.setClassificacao(Classificacao.valueOf(dto.id_classificacao()));
-        
-        quadrinho.setGenero(generoRepository.findById(dto.genero()));
-
-        quadrinho.setOrigem(origemRepository.findById(dto.origem()));
+        quadrinho.setGenero(generoRepository.findById(dto.generoId()));
+        quadrinho.setOrigem(origemRepository.findById(dto.origemId()));
+        quadrinho.setEstoque(dto.estoque());
 
         quadrinhoRepository.persist(quadrinho);
         return QuadrinhoResponseDTO.valueOf(quadrinho);
     }
 
+    public void validarNomeQuadrinho(String nome) {
+        Quadrinho quadrinho = quadrinhoRepository.findByNomeCompleto(nome);
+        if (quadrinho != null)
+            throw  new ValidationException("nome", "O nome '"+nome+"' já existe.");
+    }
+
     @Override
     @Transactional
     public void update(Long id, QuadrinhoDTO dto) {
-        Quadrinho quadrinhoBanco =  quadrinhoRepository.findById(id);
-
+        Quadrinho quadrinhoBanco = quadrinhoRepository.findById(id);
+        
         quadrinhoBanco.setNome(dto.nome());
         quadrinhoBanco.setDataPublicacao(dto.dataPublicacao());
         quadrinhoBanco.setEdicao(dto.edicao());
         quadrinhoBanco.setPreco(dto.preco());
-        quadrinhoBanco.setQuantidadeEstoque(dto.quantidadeEstoque());
+        quadrinhoBanco.setQuantidadePaginas(dto.quantidadePaginas());
         quadrinhoBanco.setCategoria(categoriaRepository.findById(dto.categoria()));
         quadrinhoBanco.setEscritor(escritorRepository.findById(dto.escritorId()));
         quadrinhoBanco.setArtistaCapa(artistaCapaRepository.findById(dto.artistaCapaId()));
-
         quadrinhoBanco.setClassificacao(Classificacao.valueOf(dto.id_classificacao()));
-        
-        quadrinhoBanco.setGenero(generoRepository.findById(dto.genero()));
-
-        quadrinhoBanco.setOrigem(origemRepository.findById(dto.origem()));
+        quadrinhoBanco.setGenero(generoRepository.findById(dto.generoId()));
+        quadrinhoBanco.setOrigem(origemRepository.findById(dto.origemId()));
+        quadrinhoBanco.setEstoque(dto.estoque());
     }
 
     @Override

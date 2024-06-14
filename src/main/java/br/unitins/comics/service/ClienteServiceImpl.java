@@ -4,8 +4,6 @@ import java.util.List;
 
 import br.unitins.comics.dto.ClienteDTO;
 import br.unitins.comics.dto.ClienteResponseDTO;
-import br.unitins.comics.dto.ClienteUpdatePasswordDTO;
-import br.unitins.comics.dto.ClienteUpdateUsernameDTO;
 import br.unitins.comics.dto.UpdatePasswordDTO;
 import br.unitins.comics.dto.UpdateUsernameDTO;
 import br.unitins.comics.dto.UsuarioResponseDTO;
@@ -24,7 +22,6 @@ import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class ClienteServiceImpl implements ClienteService {
-
     @Inject
     public ClienteRepository clienteRepository;
 

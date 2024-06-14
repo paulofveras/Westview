@@ -8,9 +8,9 @@ import jakarta.validation.Valid;
 
 public interface ArtistaCapaService {
     ArtistaCapaResponseDTO create(@Valid ArtistaCapaDTO dto);
-    public void update(Long id, ArtistaCapaDTO dto);
-    public void delete(Long id);
-    public ArtistaCapaResponseDTO findById(Long id);
-    public List<ArtistaCapaResponseDTO> findAll();
-    public List<ArtistaCapaResponseDTO> findByNome(String nome);
+    void update(Long id, ArtistaCapaDTO dto);
+    void delete(Long id);
+    ArtistaCapaResponseDTO findById(Long id);
+    List<ArtistaCapaResponseDTO> findAll();
+    List<ArtistaCapaResponseDTO> findByNome(String nome);
 }

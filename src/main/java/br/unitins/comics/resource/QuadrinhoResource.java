@@ -48,7 +48,7 @@ public class QuadrinhoResource {
     @Path("/{id}")
     @RolesAllowed({"Funcionario", "Cliente"})
     public Response findById(@PathParam("id") Long id) {
-        LOG.info("Executando o findById");
+        
         LOG.infof("Executando o método findById. Id: %s", Long.toString(0));
        return Response.ok(quadrinhoService.findById(id)).build();
     }
@@ -57,50 +57,59 @@ public class QuadrinhoResource {
     @RolesAllowed({"Funcionario", "Cliente"})
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
+        LOG.info("Executando o findByNome");
         return Response.ok(quadrinhoService.findByNome(nome)).build();
     }
 
     @POST
-    @RolesAllowed({"Funcionario"})
+    @RolesAllowed("Funcionario")
     public Response create(@Valid QuadrinhoDTO dto) {
-        LOG.info("INFO");
-        LOG.warn("WARN");
-        LOG.error("ERROR");
-        LOG.fatal("FATAL");
-        LOG.trace("TRACE");
-        LOG.debugf("DTO: %s", dto);
-        return Response.status(Status.CREATED).entity(quadrinhoService.create(dto)).build();
-    }
+        LOG.info("Criando uma nova caneca");
+        try {
+            LOG.infof("Quadrinho criado com sucesso. Nome: %d", dto.nome());
+            return Response.status(Status.CREATED).entity(quadrinhoService.create(dto)).build();
+         }  catch (Exception e) {
+        LOG.error("Erro ao criar quadrinho", e);
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }    }
 
     @PUT
+    @RolesAllowed("Funcionario")
     @Path("/{id}")
-    @RolesAllowed({"Funcionario"})
     public Response update(@PathParam("id") Long id, QuadrinhoDTO dto) {
+        LOG.debugf("DTO Atualizado: %s", dto);
         quadrinhoService.update(id, dto);
         return Response.status(Status.NO_CONTENT).build();
     }
 
     @DELETE
+    @RolesAllowed("Funcionario")
     @Path("/{id}")
-    @RolesAllowed({"Funcionario"})
     public Response delete(@PathParam("id") Long id) {
+        LOG.infof("Deletando quadrinho. Id: %s", id.toString());
         quadrinhoService.delete(id);
         return Response.status(Status.NO_CONTENT).build();
     }
 
     @PATCH
+    @RolesAllowed("Funcionario")
     @Path("/{id}/image/upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response upload(@PathParam("id") Long id, @MultipartForm ImageForm form) {
+        LOG.info("Fazendo upload de imagem");
         fileService.salvar(id, form.getNomeImagem(), form.getImagem());
         return Response.noContent().build();
     }
 
+
     @GET
+    @RolesAllowed("Funcionario")
     @Path("/image/download/{nomeImagem}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response download(@PathParam("nomeImagem") String nomeImagem) {
+        LOG.info("Fazendo download de imagem");
         ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
         response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
         return response.build();
-    }   
+    }    
 }

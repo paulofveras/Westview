@@ -16,8 +16,9 @@ public class Pedido extends DefaultEntity {
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_pedido")
+    @JoinColumn(name = "id_item")
     private List<ItemPedido> itens;
 
     private Pagamento formaPagamento;

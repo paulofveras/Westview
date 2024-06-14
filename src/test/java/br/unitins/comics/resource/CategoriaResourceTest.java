@@ -1,67 +1,84 @@
-// package br.unitins.comics.resource;
+package br.unitins.comics.resource;
 
-// import br.unitins.comics.dto.CategoriaDTO;
-// import io.quarkus.test.junit.QuarkusTest;
-// import jakarta.ws.rs.core.MediaType;
-// import org.junit.jupiter.api.Test;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
-// import static io.restassured.RestAssured.given;
+import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.http.ContentType;
+import org.junit.jupiter.api.Test;
 
-// @QuarkusTest
-// public class CategoriaResourceTest {
+import br.unitins.comics.dto.CategoriaDTO;
 
-//     @Test
-//     public void findByIdTest() {
-//         given()
-//             .when()
-//             .get("/categorias/1")
-//         .then()
-//             .statusCode(200);
-//     }
+@QuarkusTest
+public class CategoriaResourceTest {
 
-//     @Test
-//     public void findAllTest() {
-//         given()
-//             .when()
-//             .get("/categorias")
-//         .then()
-//             .statusCode(200);
-//     }
+    @Test
+    public void testCreateCategoria() {
+        CategoriaDTO dto = new CategoriaDTO("Universo Teste");
 
-//     @Test
-//     public void createTest() {
-//         CategoriaDTO dto = new CategoriaDTO("Marvel");
+        given()
+            .contentType(ContentType.JSON)
+            .body(dto)
+            .when()
+            .post("/categorias")
+            .then()
+            .statusCode(201);
+    }
 
-//         given()
-//             .contentType(MediaType.APPLICATION_JSON)
-//             .body(dto)
-//         .when()
-//             .post("/categorias")
-//         .then()
-//             .statusCode(201);
-//     }
+    @Test
+    public void testUpdateCategoria() {
+        CategoriaDTO dto = new CategoriaDTO("Universo Atualizado");
 
-//     @Test
-//     public void updateTest() {
-//         CategoriaDTO dto = new CategoriaDTO("DC Comics");
+        given()
+            .contentType(ContentType.JSON)
+            .body(dto)
+            .when()
+            .put("/categorias/1")
+            .then()
+            .statusCode(204);
+        
+        given()
+            .when()
+            .get("/categorias/1")
+            .then()
+            .statusCode(200)
+            .body("universo", equalTo("Universo Atualizado"));
+    }
 
-//         given()
-//             .contentType(MediaType.APPLICATION_JSON)
-//             .body(dto)
-//         .when()
-//             .pathParam("id", 2)
-//             .put("/categorias/{id}")
-//         .then()
-//             .statusCode(204);
-//     }
+    @Test
+    public void testDeleteCategoria() {
+        given()
+            .when()
+            .delete("/categorias/1")
+            .then()
+            .statusCode(204);
+        
+        given()
+            .when()
+            .get("/categorias/1")
+            .then()
+            .statusCode(404);
+    }
 
-//     @Test
-//     public void deleteTest() {
-//         given()
-//             .pathParam("id", 2)
-//         .when()
-//             .delete("/categorias/{id}")
-//         .then()
-//             .statusCode(204);
-//     }
-// }
+    @Test
+    public void testFindCategoriaById() {
+        given()
+            .when()
+            .get("/categorias/1")
+            .then()
+            .statusCode(200)
+            .body("id", equalTo(1))
+            .body("universo", equalTo("Universo Teste"));
+    }
+
+    @Test
+    public void testFindAllCategorias() {
+        given()
+            .when()
+            .get("/categorias")
+            .then()
+            .statusCode(200)
+            .body("size()", notNullValue());
+    }
+}

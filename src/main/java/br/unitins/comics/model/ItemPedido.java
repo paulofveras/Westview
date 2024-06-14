@@ -15,6 +15,14 @@ public class ItemPedido extends DefaultEntity {
     @JoinColumn(name = "id_quadrinho")
     private Quadrinho quadrinho;
 
+    public Quadrinho getQuadrinho() {
+        return quadrinho;
+    }
+
+    public void setQuadrinho(Quadrinho quadrinho) {
+        this.quadrinho = quadrinho;
+    }
+
     public Double getPreco() {
         return preco;
     }
@@ -39,13 +47,7 @@ public class ItemPedido extends DefaultEntity {
         this.quantidade = quantidade;
     }
 
-    public Quadrinho getQuadrinho() {
-        return quadrinho;
-    }
-
-    public void setQuadrinho(Quadrinho quadrinho) {
-        this.quadrinho = quadrinho;
-    }
+   
 
     
 }

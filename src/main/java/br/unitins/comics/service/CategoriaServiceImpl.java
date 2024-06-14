@@ -12,7 +12,6 @@ import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class CategoriaServiceImpl implements CategoriaService {
-
     @Inject
     private CategoriaRepository categoriaRepository;
 

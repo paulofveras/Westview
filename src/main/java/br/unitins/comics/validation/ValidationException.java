@@ -12,6 +12,6 @@ public class ValidationException extends RuntimeException {
     public String getFieldName() {
         return fieldName;
     }
-
+    
 }
 

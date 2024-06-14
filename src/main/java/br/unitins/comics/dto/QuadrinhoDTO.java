@@ -7,13 +7,13 @@ public record QuadrinhoDTO (
     LocalDate dataPublicacao,
     String edicao,
     Double preco,
-    Integer quantidadeEstoque,
+    Integer quantidadePaginas,
     Long categoria,
     Long escritorId,
     Long artistaCapaId,
     Integer id_classificacao,
-    Long genero,
-    Long origem,
+    Long generoId,
+    Long origemId,
     Integer estoque
 ) { }
 

@@ -14,7 +14,6 @@ import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class EscritorServiceImpl implements EscritorService {
-
     @Inject
     public EscritorRepository escritorRepository;
 

@@ -14,7 +14,6 @@ import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class ArtistaCapaServiceImpl implements ArtistaCapaService{
-
     @Inject
     public ArtistaCapaRepository artistaCapaRepository;
 
@@ -64,5 +63,4 @@ public class ArtistaCapaServiceImpl implements ArtistaCapaService{
     public List<ArtistaCapaResponseDTO> findByNome(String nome){
         return artistaCapaRepository.findByNome(nome).stream().map(artistaCapa -> ArtistaCapaResponseDTO.valueOf(artistaCapa)).toList();
     }
-
 }
