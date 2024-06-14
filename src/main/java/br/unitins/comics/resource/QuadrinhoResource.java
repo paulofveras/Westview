@@ -64,7 +64,7 @@ public class QuadrinhoResource {
     @POST
     @RolesAllowed("Funcionario")
     public Response create(@Valid QuadrinhoDTO dto) {
-        LOG.info("Criando uma nova caneca");
+        LOG.info("Criando um novo quadrinho");
         try {
             LOG.infof("Quadrinho criado com sucesso. Nome: %d", dto.nome());
             return Response.status(Status.CREATED).entity(quadrinhoService.create(dto)).build();

@@ -40,9 +40,4 @@ public class Funcionario extends DefaultEntity {
         this.usuario = usuario;
     }
 
-    public Object getNome() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getNome'");
-    }
-
 }

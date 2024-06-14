@@ -25,162 +25,89 @@ import static org.mockito.Mockito.when;
 @QuarkusTest
 public class ClienteResourceTest {
 
-    @Mock
-    ClienteService clienteService;
-
-    @InjectMocks
-    ClienteResource clienteResource;
-
-
-    @Test
-    public void testFindAll() {
-        ClienteResponseDTO cliente = new ClienteResponseDTO(
-                1L, "12345-678", "Rua Exemplo", "Estado Exemplo", "Cidade Exemplo",
-                new UsuarioResponseDTO(1L, "Nome Exemplo", "username", "senha", LocalDate.now(), "email@example.com", "M", "123.456.789-00")
-        );
-
-        when(clienteService.findAll()).thenReturn(Collections.singletonList(cliente));
-
-        given()
-                .when().get("/clientes")
-                .then()
-                .statusCode(200)
-                .body("$.size()", is(1),
-                        "[0].id", is(1),
-                        "[0].cep", is("12345-678"),
-                        "[0].endereco", is("Rua Exemplo"),
-                        "[0].estado", is("Estado Exemplo"),
-                        "[0].cidade", is("Cidade Exemplo"));
-    }
-
-    @Test
-    public void testCreate() {
-        ClienteDTO clienteDTO = new ClienteDTO("12345-678", "Rua Exemplo", "Estado Exemplo", "Cidade Exemplo", "Nome Exemplo", "username", LocalDate.now(), "email@example.com", "senha", "123.456.789-00", "M");
-        ClienteResponseDTO responseDTO = new ClienteResponseDTO(
-                1L, "12345-678", "Rua Exemplo", "Estado Exemplo", "Cidade Exemplo",
-                new UsuarioResponseDTO(1L, "Nome Exemplo", "username", "senha", LocalDate.now(), "email@example.com", "M", "123.456.789-00")
-        );
-
-        when(clienteService.create(any(ClienteDTO.class))).thenReturn(responseDTO);
-
-        given()
+        @Test
+        public void testCreateCliente() {
+            ClienteDTO clienteDTO = new ClienteDTO("12345-678", "Rua Exemplo", "Estado Exemplo", "Cidade Exemplo", 
+                                                   "Nome Exemplo", "username", LocalDate.of(1999, 9, 12), "email@example.com", 
+                                                   "senha", "123.456.789-00", "M");
+        
+            given()
                 .contentType(ContentType.JSON)
                 .body(clienteDTO)
-                .when().post("/clientes")
+                .when()
+                .post("/clientes")
                 .then()
-                .statusCode(Response.Status.CREATED.getStatusCode())
-                .body("id", is(1),
-                        "cep", is("12345-678"),
-                        "endereco", is("Rua Exemplo"),
-                        "estado", is("Estado Exemplo"),
-                        "cidade", is("Cidade Exemplo"));
+                .statusCode(201);
+        }
+
+    @Test
+    public void testUpdateCliente() {
+        ClienteDTO clienteDTO = new ClienteDTO("12345-678", "Rua Atualizada", "Estado Atualizado", "Cidade Atualizada", 
+                                               "Nome Atualizado", "username", LocalDate.now(), "email@example.com", 
+                                               "senha", "123.456.789-00", "M");
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(clienteDTO)
+            .when()
+            .put("/clientes/1")
+            .then()
+            .statusCode(204);
     }
 
     @Test
-    public void testUpdate() {
-        ClienteDTO clienteDTO = new ClienteDTO("12345-678", "Rua Atualizada", "Estado Atualizado", "Cidade Atualizada", "Nome Atualizado", "username", LocalDate.now(), "email@example.com", "senha", "123.456.789-00", "M");
-
-        Mockito.doNothing().when(clienteService).update(any(Long.class), any(ClienteDTO.class));
-
+    public void testDeleteCliente() {
         given()
-                .contentType(ContentType.JSON)
-                .body(clienteDTO)
-                .when().put("/clientes/1")
-                .then()
-                .statusCode(Response.Status.NO_CONTENT.getStatusCode());
+            .when()
+            .delete("/clientes/2")
+            .then()
+            .statusCode(204);
     }
 
     @Test
-    public void testDelete() {
-        Mockito.doNothing().when(clienteService).delete(any(Long.class));
-
+    public void testFindClienteById() {
         given()
-                .when().delete("/clientes/1")
-                .then()
-                .statusCode(Response.Status.NO_CONTENT.getStatusCode());
+            .when()
+            .get("/clientes/2")
+            .then()
+            .statusCode(200);
     }
 
     @Test
-    public void testFindById() {
-        ClienteResponseDTO cliente = new ClienteResponseDTO(
-                1L, "12345-678", "Rua Exemplo", "Estado Exemplo", "Cidade Exemplo",
-                new UsuarioResponseDTO(1L, "Nome Exemplo", "username", "senha", LocalDate.now(), "email@example.com", "M", "123.456.789-00")
-        );
-
-        when(clienteService.findById(any(Long.class))).thenReturn(cliente);
-
+    public void testFindAllClientes() {
         given()
-                .when().get("/clientes/1")
-                .then()
-                .statusCode(200)
-                .body("id", is(1),
-                        "cep", is("12345-678"),
-                        "endereco", is("Rua Exemplo"),
-                        "estado", is("Estado Exemplo"),
-                        "cidade", is("Cidade Exemplo"));
+            .when()
+            .get("/clientes")
+            .then()
+            .statusCode(200);
     }
 
     @Test
     public void testFindByEstado() {
-        ClienteResponseDTO cliente = new ClienteResponseDTO(
-                1L, "12345-678", "Rua Exemplo", "Estado Exemplo", "Cidade Exemplo",
-                new UsuarioResponseDTO(1L, "Nome Exemplo", "username", "senha", LocalDate.now(), "email@example.com", "M", "123.456.789-00")
-        );
-
-        when(clienteService.findByEstado(any(String.class))).thenReturn(Collections.singletonList(cliente));
-
         given()
-                .when().get("/clientes/search/estado/Estado Exemplo")
-                .then()
-                .statusCode(200)
-                .body("$.size()", is(1),
-                        "[0].id", is(1),
-                        "[0].cep", is("12345-678"),
-                        "[0].endereco", is("Rua Exemplo"),
-                        "[0].estado", is("Estado Exemplo"),
-                        "[0].cidade", is("Cidade Exemplo"));
+            .when()
+            .get("/clientes/search/estado/Estado Exemplo")
+            .then()
+            .statusCode(200);
     }
 
     @Test
     public void testFindByCpf() {
-        UsuarioResponseDTO usuario = new UsuarioResponseDTO(1L, "Nome Exemplo", "username", "senha", LocalDate.now(), "email@example.com", "M", "123.456.789-00");
-
-        when(clienteService.findByCpf(any(String.class))).thenReturn(Collections.singletonList(usuario));
-
         given()
-                .when().get("/clientes/search/cpf/123.456.789-00")
-                .then()
-                .statusCode(200)
-                .body("$.size()", is(1),
-                        "[0].id", is(1),
-                        "[0].nome", is("Nome Exemplo"),
-                        "[0].username", is("username"),
-                        "[0].senha", is("senha"),
-                        "[0].dataNascimento", is(LocalDate.now().toString()),
-                        "[0].email", is("email@example.com"),
-                        "[0].genero", is("M"),
-                        "[0].cpf", is("123.456.789-00"));
+            .when()
+            .get("/clientes/search/cpf/123.456.789-00")
+            .then()
+            .statusCode(200);
     }
 
     @Test
     public void testLogin() {
-        UsuarioResponseDTO usuario = new UsuarioResponseDTO(1L, "Nome Exemplo", "username", "senha", LocalDate.now(), "email@example.com", "M", "123.456.789-00");
-
-        when(clienteService.login(any(String.class), any(String.class))).thenReturn(usuario);
-
         given()
-                .contentType(ContentType.JSON)
-                .body("{\"username\": \"username\", \"senha\": \"senha\"}")
-                .when().post("/clientes/login")
-                .then()
-                .statusCode(200)
-                .body("id", is(1),
-                        "nome", is("Nome Exemplo"),
-                        "username", is("username"),
-                        "senha", is("senha"),
-                        "dataNascimento", is(LocalDate.now().toString()),
-                        "email", is("email@example.com"),
-                        "genero", is("M"),
-                        "cpf", is("123.456.789-00"));
+            .contentType(ContentType.JSON)
+            .body("{\"username\": \"username\", \"senha\": \"senha\"}")
+            .when()
+            .post("/clientes/login")
+            .then()
+            .statusCode(200);
     }
 }

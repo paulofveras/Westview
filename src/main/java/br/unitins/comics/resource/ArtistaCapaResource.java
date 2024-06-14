@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.Response.Status;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Path("/autores")
+@Path("/artistas")
 public class ArtistaCapaResource {
 
     @Inject
