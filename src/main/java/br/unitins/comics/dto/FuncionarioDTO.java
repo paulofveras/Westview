@@ -1,16 +1,14 @@
 package br.unitins.comics.dto;
 
-import java.time.LocalDate;
-
+import jakarta.validation.constraints.NotBlank;
 
 public record FuncionarioDTO (
-    Double salario,
-    String cargo,
+    @NotBlank(message = "O nome não pode ser nulo ou vazio")
     String nome,
-    String username,
-    LocalDate dataNascimento,
+    @NotBlank(message = "O cargo não pode ser nulo ou vazio")
+    String cargo, 
+    Long id_endereco, 
+    Long id_telefone, 
     String email,
-    String senha,
-    String cpf,
-    String genero
-) { }
+    String username,
+    String senha) { }

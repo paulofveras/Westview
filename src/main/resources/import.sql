@@ -1,58 +1,38 @@
--- This file allow to write SQL commands that will be emitted in test and dev.
--- Insere categorias
-INSERT INTO Categoria (id, universo) VALUES (1, 'Marvel');
-INSERT INTO Categoria (id, universo) VALUES (2, 'DC');
+insert into telefone (codigoArea, numero) values ('63','888888888');
+insert into telefone (codigoArea, numero) values ('61','333333333');
+insert into telefone (codigoArea, numero) values ('62','222222222');
+insert into telefone (codigoArea, numero) values ('11','111111111');
+insert into telefone (codigoArea, numero) values ('22','442223344');
+insert into telefone (codigoArea, numero) values ('11','333333333');
+insert into telefone (codigoArea, numero) values ('22','555555555');
+insert into telefone (codigoArea, numero) values ('63','848484848');
+
+insert into endereco (cep, rua, numero) values (11111111,'Rua 1',12);
+insert into endereco (cep, rua, numero) values (10101010,'Rua 10',2);
+insert into endereco (cep, rua, numero) values (55555555,'Rua 5',14);
+insert into endereco (cep, rua, numero) values (88888888,'Rua Paulista',8);
+insert into endereco (cep, rua, numero) values (25252525,'Rua Cariora',3);
+insert into endereco (cep, rua, numero) values (44445555,'Rua José',34);
+insert into endereco (cep, rua, numero) values (66666777,'Rua Gisele',31);
+insert into endereco (cep, rua, numero) values (77777888,'Rua Marcela',20);
 
 
--- Insere origens
-INSERT INTO Origem (id, pais) VALUES (1, 'Brasil');
-INSERT INTO Origem (id, pais) VALUES (2, 'Estados Unidos');
 
--- Insere generos
-INSERT INTO Genero (id, genero, descricao) VALUES (1, 'Ação', 'Quadrinhos de ação');
-INSERT INTO Genero (id, genero, descricao) VALUES (2, 'Aventura', 'Quadrinhos de aventura');
+INSERT INTO usuario (username, senha) VALUES ('joao123', 'TRwn0XU29Gwl2sagG00bvjrNJvLuYo+dbOBJ7R3xFpU4m/FAUc5q8OoGbVNwPF7F5713RaYkN4qyufNCDHm/mA==');
+INSERT INTO usuario (username, senha) VALUES ('gigi', 'TRwn0XU29Gwl2sagG00bvjrNJvLuYo+dbOBJ7R3xFpU4m/FAUc5q8OoGbVNwPF7F5713RaYkN4qyufNCDHm/mA==');
+INSERT INTO usuario (username, senha) VALUES ('roberto', 'TRwn0XU29Gwl2sagG00bvjrNJvLuYo+dbOBJ7R3xFpU4m/FAUc5q8OoGbVNwPF7F5713RaYkN4qyufNCDHm/mA==');
 
--- Insere artistas de capa
-INSERT INTO ArtistaCapa (id, nome) VALUES (1, 'John Doe');
-INSERT INTO ArtistaCapa (id, nome) VALUES (2, 'Jane Doe');
 
--- Insere escritores
-INSERT INTO Escritor (id, nome) VALUES (1, 'Alan Moore');
-INSERT INTO Escritor (id, nome) VALUES (2, 'Frank Miller');
+insert into funcionario (nome,cargo,id_endereco,id_telefone,email,id_usuario) values ('João','Vendedor',1,1,'joao@gmail.com',1);
 
--- Insere quadrinhos
-INSERT INTO Quadrinho (
-    id, nome, dataPublicacao, edicao, preco, quantidadePaginas, 
-    id_categoria, id_escritor, id_artista_capa, classificacao, 
-    id_genero, id_origem, estoque
-) VALUES (
-    1, 'Secret Wars', '1986-09-01', '1', 29.99, 100, 
-    1, 1, 1, 'LIVRE', -- ou outro valor válido como 'DEZANOS', 'DOZEANOS', etc.
-    1, 2, 50
-);
-INSERT INTO Quadrinho (
-    id, nome, dataPublicacao, edicao, preco, quantidadePaginas, 
-    id_categoria, id_escritor, id_artista_capa, classificacao, 
-    id_genero, id_origem, estoque
-) VALUES (
-    2, 'Secret Wars', '1986-09-01', '1', 29.99, 100, 
-    1, 1, 1, 'LIVRE', -- ou outro valor válido como 'DEZANOS', 'DOZEANOS', etc.
-    1, 2, 50
-);
--- Insere usuários
-INSERT INTO Usuario (id, nome, username, dataNascimento, email, senha, genero, cpf) VALUES (1, 'Cliente 1', 'cliente1', '1990-01-01', 'cliente1@example.com', '2a53Ej+/maOm6nPUip4SVJmEMSQAzRY2ik/yto0ofPfLU07PYEA0UQCqosYGDUc0pgnJFNI4dDREc5eegwPLIA==', 'M', '123.456.789-00');
-INSERT INTO Usuario (id, nome, username, dataNascimento, email, senha, genero, cpf) VALUES (2, 'Funcionario 1', 'funcionario1', '1985-01-01', 'funcionario1@example.com', '2a53Ej+/maOm6nPUip4SVJmEMSQAzRY2ik/yto0ofPfLU07PYEA0UQCqosYGDUc0pgnJFNI4dDREc5eegwPLIA==', 'F', '987.654.321-00');
+INSERT INTO cliente (nome, id_endereco, id_telefone, email, id_usuario)  VALUES ('Giovanna', 2, 2, 'giovanna@gmail.com', 2);
+INSERT INTO cliente (nome, id_endereco, id_telefone, email, id_usuario)  VALUES ('Roberto', 7, 7, 'roberto@gmail.com', 3);
 
--- Insere clientes
-INSERT INTO Cliente (id, cep, endereco, estado, cidade, id_usuario) VALUES (1, '12345-678', 'Rua A', 'SP', 'São Paulo', 1);
 
--- Insere funcionários
-INSERT INTO Funcionario (id, salario, cargo, id_usuario) VALUES (1, 3000.00, 'Gerente', 2);
+insert into fornecedor (nome,id_endereco,id_telefone,email) values ('José',6,6,'jose@gmail.com');
+insert into fornecedor (nome,id_endereco,id_telefone,email) values ('Gisele',7,7,'gisele@gmail.com');
 
--- Insere pedidos
-INSERT INTO Pedido (id, data, total, id_cliente, formaPagamento, statusPagamento) VALUES (1, '2024-06-14 10:00:00', 55.98, 1, 1, 1);
-INSERT INTO Pedido (id, data, total, id_cliente, formaPagamento, statusPagamento) VALUES (2, '2024-06-15 10:00:00', 55.98, 1, 2, 2);
+insert into quadrinho (nome,descricao,preco,quantPaginas,material,id_fornecedor,estoque) values ('Secret Wars','Marvel Comics',40.50,320,1,1,10);
+insert into quadrinho (nome,descricao,preco,quantPaginas,material,id_fornecedor,estoque) values ('X-men','Marvel Comics',50.50,360,2,1,10);
 
--- Insere itens de pedidos
-INSERT INTO ItemPedido (id, preco, desconto, quantidade, id_quadrinho, id_item) VALUES (1, 29.99, 0, 1, 1, 1);
-INSERT INTO ItemPedido (id, preco, desconto, quantidade, id_quadrinho, id_item) VALUES (2, 25.99, 0, 1, 2, 1);
+insert into itempedido (preco,quantidade,desconto,id_quadrinho) values (100,1,5,1);

@@ -10,14 +10,23 @@ import br.unitins.comics.dto.UsuarioResponseDTO;
 import jakarta.validation.Valid;
 
 public interface ClienteService {
-    ClienteResponseDTO create(@Valid ClienteDTO dto);
-    void update(Long id, ClienteDTO dto);
-    void updatePassword(Long id, UpdatePasswordDTO dto);
-    void updateUsername(Long id, UpdateUsernameDTO dto);
-    void delete(Long id);
-    ClienteResponseDTO findById(Long id);
-    List<ClienteResponseDTO> findAll();
-    List<ClienteResponseDTO> findByEstado(String estado);
-    List<UsuarioResponseDTO> findByCpf(String cpf);
-    UsuarioResponseDTO login(String login, String senha);
+
+    public ClienteResponseDTO create(@Valid ClienteDTO dto);
+
+    public void update(Long id, ClienteDTO dto);
+
+    public void updatePassword(Long id, UpdatePasswordDTO dto);
+
+    public void updateUsername(Long id, UpdateUsernameDTO dto);
+
+    public void delete(Long id);
+
+    public ClienteResponseDTO findById(Long id);
+
+    public List<ClienteResponseDTO> findAll();
+
+    public List<ClienteResponseDTO> findByNome(String nome);
+
+    public UsuarioResponseDTO login(String username, String senha);
+
 }

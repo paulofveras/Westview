@@ -9,15 +9,15 @@ import br.unitins.comics.dto.UpdateUsernameDTO;
 import br.unitins.comics.dto.UsuarioResponseDTO;
 import br.unitins.comics.model.Funcionario;
 import br.unitins.comics.model.Usuario;
+import br.unitins.comics.repository.EnderecoRepository;
 import br.unitins.comics.repository.FuncionarioRepository;
+import br.unitins.comics.repository.TelefoneRepository;
 import br.unitins.comics.repository.UsuarioRepository;
-import br.unitins.comics.service.hash.HashService;
 import br.unitins.comics.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
@@ -25,67 +25,60 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Inject
     public FuncionarioRepository funcionarioRepository;
-
+    @Inject
+    public EnderecoRepository enderecoRepository;
+    @Inject
+    public TelefoneRepository telefoneRepository;
     @Inject
     public UsuarioRepository usuarioRepository;
-
     @Inject
     public HashService hashService;
+
 
     @Override
     @Transactional
     public FuncionarioResponseDTO create(@Valid FuncionarioDTO dto) {
-        validarCpfFuncionario(dto.cpf());
-
         Usuario usuario = new Usuario();
-        usuario.setNome(dto.nome());
         usuario.setUsername(dto.username());
-        usuario.setSenha(hashService.getHashSenha(dto.senha())); 
-        usuario.setDataNascimento(dto.dataNascimento());
-        usuario.setEmail(dto.email());
-        usuario.setCpf(dto.cpf());
-        usuario.setGenero(dto.genero());
+        usuario.setSenha(hashService.getHashSenha(dto.senha()));
 
+        // salvando o usuario
         usuarioRepository.persist(usuario);
 
+        validarNomeFuncionario(dto.nome());
         Funcionario funcionario = new Funcionario();
+        funcionario.setNome(dto.nome());
         funcionario.setCargo(dto.cargo());
-        funcionario.setSalario(dto.salario());
+        funcionario.setEndereco(enderecoRepository.findById(dto.id_endereco()));
+        funcionario.setTelefone(telefoneRepository.findById(dto.id_telefone()));
+        funcionario.setEmail(dto.email());
         funcionario.setUsuario(usuario);
 
-        funcionarioRepository.persist(funcionario);
 
+        funcionarioRepository.persist(funcionario);
         return FuncionarioResponseDTO.valueOf(funcionario);
     }
 
-    public void validarCpfFuncionario(String cpf) {
-        Usuario funcionario = usuarioRepository.findByCpfUsuario(cpf);
+    public void validarNomeFuncionario(String nome) {
+        Funcionario funcionario = funcionarioRepository.findByNomeCompleto(nome);
         if (funcionario != null)
-            throw new ValidationException("cpf", "O CPF: '" + cpf + "' já existe.");
+            throw  new ValidationException("nome", "O nome '"+nome+"' já existe.");
     }
+
 
     @Override
     @Transactional
     public void update(Long id, FuncionarioDTO dto) {
-        Funcionario funcionarioBanco = funcionarioRepository.findById(id);
-        if (funcionarioBanco == null) {
-            throw new NotFoundException("Funcionário não encontrado");
-        }
-
-        funcionarioBanco.setCargo(dto.cargo());
-        funcionarioBanco.setSalario(dto.salario());
-
-        Usuario usuario = funcionarioBanco.getUsuario();
-        usuario.setNome(dto.nome());
-        usuario.setUsername(dto.username());
-        usuario.setSenha(hashService.getHashSenha(dto.senha()));
-        usuario.setDataNascimento(dto.dataNascimento());
-        usuario.setEmail(dto.email());
-        usuario.setCpf(dto.cpf());
-        usuario.setGenero(dto.genero());
+         Funcionario funcionarioBanco =  funcionarioRepository.findById(id);
+        
+        funcionarioBanco.setNome(dto.nome());
+         funcionarioBanco.setCargo(dto.cargo());
+         funcionarioBanco.setEndereco(enderecoRepository.findById(dto.id_endereco()));
+         funcionarioBanco.setTelefone(telefoneRepository.findById(dto.id_telefone()));
+         funcionarioBanco.setEmail(dto.email());
     }
 
-    @Override
+     @Override
     @Transactional
     public void updatePassword(Long id, UpdatePasswordDTO dto) {
 
@@ -128,23 +121,21 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return FuncionarioResponseDTO.valueOf(funcionarioRepository.findById(id));
     }
 
-    @GET
+    @Override
     public List<FuncionarioResponseDTO> findAll() {
-        return funcionarioRepository.listAll().stream().map(a -> FuncionarioResponseDTO.valueOf(a)).toList();
+        return funcionarioRepository
+        .listAll()
+        .stream()
+        .map(e -> FuncionarioResponseDTO.valueOf(e)).toList();
     }
 
     @Override
-    public List<FuncionarioResponseDTO> findByCargo(String cargo) {
-        return funcionarioRepository.findByCargo(cargo).stream()
-                .map(funcionario -> FuncionarioResponseDTO.valueOf(funcionario)).toList();
+    public List<FuncionarioResponseDTO> findByNome(String nome) {
+        return funcionarioRepository.findByNome(nome).stream()
+        .map(e -> FuncionarioResponseDTO.valueOf(e)).toList();
     }
 
-    @Override
-    public List<UsuarioResponseDTO> findByCpf(String cpf) {
-        return usuarioRepository.findByCpf(cpf).stream().map(c -> UsuarioResponseDTO.valueof(c)).toList();
-    }
 
-    @Override
     public UsuarioResponseDTO login(String username, String senha) {
         Funcionario funcionario = funcionarioRepository.findByUsernameAndSenha(username, senha);
         if (funcionario != null){
@@ -153,4 +144,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             return null;
         }
     }
+
+
 }

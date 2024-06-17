@@ -1,28 +1,57 @@
 package br.unitins.comics.model;
 
-import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class Cliente extends DefaultEntity{
-    
+public class Cliente extends DefaultEntity {
+
+    private String nome;
     @OneToOne
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "id_endereco")
+    private Endereco endereco;
+    @OneToOne
+    @JoinColumn(name = "id_telefone")
+    private Telefone telefone;
+    private String email;
+    @OneToOne
+    @JoinColumn(name = "id_usuario", unique = true)
     private Usuario usuario;
-    
-    @Column(nullable = false)
-    private String cep;
-    
-    @Column(nullable = false)
-    private String endereco;
-    
-    @Column(nullable = false)
-    private String estado; 
-    
-    @Column(nullable = false)
-    private String cidade;
+   
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public Telefone getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(Telefone telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -32,38 +61,5 @@ public class Cliente extends DefaultEntity{
         this.usuario = usuario;
     }
 
-    public String getCep() {
-        return cep;
-    }
 
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-
-    
 }

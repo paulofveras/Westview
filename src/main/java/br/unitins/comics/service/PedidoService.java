@@ -7,6 +7,7 @@ import br.unitins.comics.dto.PedidoResponseDTO;
 import jakarta.validation.Valid;
 
 public interface PedidoService {
+
     public PedidoResponseDTO create(@Valid PedidoDTO dto);
     public PedidoResponseDTO findById(Long id);
     public List<PedidoResponseDTO> findAll();

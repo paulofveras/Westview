@@ -7,6 +7,7 @@ import br.unitins.comics.dto.ClienteDTO;
 import br.unitins.comics.dto.UpdatePasswordDTO;
 import br.unitins.comics.dto.UpdateUsernameDTO;
 import br.unitins.comics.service.ClienteService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -26,46 +27,44 @@ import jakarta.ws.rs.core.Response.Status;
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/clientes")
 public class ClienteResource {
-
+    
     @Inject
     public ClienteService clienteService;
 
-    private static final Logger LOG = Logger.getLogger(QuadrinhoResource.class);
-
-
-    @GET
-    public Response findAll() {
-        LOG.info("Executando o findAll");
-        return Response.ok(clienteService.findAll()).build();
-    }
+    private static final Logger LOG = Logger.getLogger(EnderecoResource.class);
 
     @GET
-    @Path("/search/estado/{estado}")
-    public Response findByEndereco(@PathParam("estado") String estado) {
-        LOG.info("Executando o findByEndereco");
-        return Response.ok(clienteService.findByEstado(estado)).build();
-    }
-
-    @GET
-    @Path("/search/cpf/{cpf}")
-    public Response findByCpf(@PathParam("cpf") String cpf) {
-        LOG.info("Executando o findbyCpf");
-        return Response.ok(clienteService.findByCpf(cpf)).build();
-    }
-
+    @RolesAllowed("Funcionario")
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.infof("Executando o metodo findById. Id: %s", id.toString());
         return Response.ok(clienteService.findById(id)).build();
     }
 
-     @POST
+    @GET
+    @RolesAllowed("Funcionario")
+    public Response findAll() {
+        LOG.info("Executando o findAll");
+        return Response.ok(clienteService.findAll()).build();
+    }
+
+    @GET
+    @RolesAllowed("Funcionario")
+    @Path("/search/nome/{nome}")
+    public Response findByNome(@PathParam("nome") String nome) {
+        LOG.info("Executando o metodo findBynome");
+        return Response.ok(clienteService.findByNome(nome)).build();
+    }
+
+    @POST
+    @RolesAllowed({"Funcionario","Cliente"})
     public Response create(@Valid ClienteDTO dto) {
         LOG.info("Criando um novo cliente");
         return Response.status(Status.CREATED).entity(clienteService.create(dto)).build();
     }
 
     @PUT
+    @RolesAllowed({"Funcionario","Cliente"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, ClienteDTO dto) {
         LOG.debugf("DTO Atualizado: %s", dto);
@@ -74,6 +73,7 @@ public class ClienteResource {
     }
 
     @PATCH
+    @RolesAllowed("Cliente")
     @Path("/update-password/{id}")
     public Response updateUsuarioSenha(@PathParam("id") Long id, UpdatePasswordDTO dto){
         LOG.info("Atualizando senha");
@@ -82,6 +82,7 @@ public class ClienteResource {
     }
 
     @PATCH
+    @RolesAllowed("Cliente")
     @Path("/update-username/{id}")
     public Response updateUsuarioUsername(@PathParam("id") Long id, UpdateUsernameDTO dto){
         LOG.info("Atualizando username");
@@ -90,11 +91,13 @@ public class ClienteResource {
     }
 
     @DELETE
+    @RolesAllowed("Funcionario")
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
         LOG.infof("Deletando cliente. Id: %s", id.toString());
         clienteService.delete(id);
         return Response.status(Status.NO_CONTENT).build();
     }
+
 
 }

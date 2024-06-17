@@ -7,10 +7,16 @@ import br.unitins.comics.dto.QuadrinhoResponseDTO;
 import jakarta.validation.Valid;
 
 public interface QuadrinhoService {
-    QuadrinhoResponseDTO create(@Valid QuadrinhoDTO dto);
-    void update(Long id, QuadrinhoDTO dto);
-    void delete(Long id);
-    QuadrinhoResponseDTO findById(Long id);
-    List<QuadrinhoResponseDTO> findByNome(String nome);
-    List<QuadrinhoResponseDTO> findAll();
+
+    public QuadrinhoResponseDTO create(@Valid QuadrinhoDTO dto);
+
+    public void update(Long id, QuadrinhoDTO dto);
+
+    public void delete(Long id);
+
+    public QuadrinhoResponseDTO findById(Long id);
+
+    public List<QuadrinhoResponseDTO> findAll();
+
+    public List<QuadrinhoResponseDTO> findByNome(String nome);
 }

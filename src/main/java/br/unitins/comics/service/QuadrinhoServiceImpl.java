@@ -4,18 +4,15 @@ import java.util.List;
 
 import br.unitins.comics.dto.QuadrinhoDTO;
 import br.unitins.comics.dto.QuadrinhoResponseDTO;
-import br.unitins.comics.model.Classificacao;
 import br.unitins.comics.model.Quadrinho;
-import br.unitins.comics.repository.ArtistaCapaRepository;
-import br.unitins.comics.repository.CategoriaRepository;
-import br.unitins.comics.repository.EscritorRepository;
-import br.unitins.comics.repository.GeneroRepository;
-import br.unitins.comics.repository.OrigemRepository;
+import br.unitins.comics.model.Material;
 import br.unitins.comics.repository.QuadrinhoRepository;
+import br.unitins.comics.repository.FornecedorRepository;
 import br.unitins.comics.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class QuadrinhoServiceImpl implements QuadrinhoService {
@@ -24,37 +21,20 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
     public QuadrinhoRepository quadrinhoRepository;
 
     @Inject
-    public CategoriaRepository categoriaRepository;
-
-
-    @Inject
-    public EscritorRepository escritorRepository;
-
-    @Inject
-    public ArtistaCapaRepository artistaCapaRepository;
-
-    @Inject
-    public GeneroRepository generoRepository;
-
-    @Inject
-    public OrigemRepository origemRepository;
+    public FornecedorRepository fornecedorRepository;
 
     @Override
     @Transactional
-    public QuadrinhoResponseDTO create(QuadrinhoDTO dto) {
+    public QuadrinhoResponseDTO create(@Valid QuadrinhoDTO dto) {
+        validarNomeQuadrinho(dto.nome());
 
         Quadrinho quadrinho = new Quadrinho();
         quadrinho.setNome(dto.nome());
-        quadrinho.setDataPublicacao(dto.dataPublicacao());
-        quadrinho.setEdicao(dto.edicao());
+        quadrinho.setDescricao(dto.descricao());
         quadrinho.setPreco(dto.preco());
-        quadrinho.setQuantidadePaginas(dto.quantidadePaginas());
-        quadrinho.setCategoria(categoriaRepository.findById(dto.categoria()));
-        quadrinho.setEscritor(escritorRepository.findById(dto.escritorId()));
-        quadrinho.setArtistaCapa(artistaCapaRepository.findById(dto.artistaCapaId()));
-        quadrinho.setClassificacao(Classificacao.valueOf(dto.id_classificacao()));
-        quadrinho.setGenero(generoRepository.findById(dto.generoId()));
-        quadrinho.setOrigem(origemRepository.findById(dto.origemId()));
+        quadrinho.setQuantPaginas(dto.quantPaginas());
+        quadrinho.setMaterial(Material.valueOf(dto.id_material()));
+        quadrinho.setFornecedor(fornecedorRepository.findById(dto.id_fornecedor()));
         quadrinho.setEstoque(dto.estoque());
 
         quadrinhoRepository.persist(quadrinho);
@@ -70,19 +50,14 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
     @Override
     @Transactional
     public void update(Long id, QuadrinhoDTO dto) {
-        Quadrinho quadrinhoBanco = quadrinhoRepository.findById(id);
+        Quadrinho quadrinhoBanco =  quadrinhoRepository.findById(id);
         
         quadrinhoBanco.setNome(dto.nome());
-        quadrinhoBanco.setDataPublicacao(dto.dataPublicacao());
-        quadrinhoBanco.setEdicao(dto.edicao());
+        quadrinhoBanco.setDescricao(dto.descricao());
         quadrinhoBanco.setPreco(dto.preco());
-        quadrinhoBanco.setQuantidadePaginas(dto.quantidadePaginas());
-        quadrinhoBanco.setCategoria(categoriaRepository.findById(dto.categoria()));
-        quadrinhoBanco.setEscritor(escritorRepository.findById(dto.escritorId()));
-        quadrinhoBanco.setArtistaCapa(artistaCapaRepository.findById(dto.artistaCapaId()));
-        quadrinhoBanco.setClassificacao(Classificacao.valueOf(dto.id_classificacao()));
-        quadrinhoBanco.setGenero(generoRepository.findById(dto.generoId()));
-        quadrinhoBanco.setOrigem(origemRepository.findById(dto.origemId()));
+        quadrinhoBanco.setQuantPaginas(dto.quantPaginas());
+        quadrinhoBanco.setMaterial(Material.valueOf(dto.id_material()));
+        quadrinhoBanco.setFornecedor(fornecedorRepository.findById(dto.id_fornecedor()));
         quadrinhoBanco.setEstoque(dto.estoque());
     }
 
@@ -93,13 +68,16 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
     }
 
     @Override
-    public List<QuadrinhoResponseDTO> findAll() {
-        return quadrinhoRepository.listAll().stream().map(quadrinho -> QuadrinhoResponseDTO.valueOf(quadrinho)).toList();
+    public QuadrinhoResponseDTO findById(Long id) {
+        return QuadrinhoResponseDTO.valueOf(quadrinhoRepository.findById(id));
     }
 
     @Override
-    public QuadrinhoResponseDTO findById(Long id) {
-        return QuadrinhoResponseDTO.valueOf(quadrinhoRepository.findById(id));
+    public List<QuadrinhoResponseDTO> findAll() {
+        return quadrinhoRepository
+        .listAll()
+        .stream()
+        .map(e -> QuadrinhoResponseDTO.valueOf(e)).toList();
     }
 
     @Override

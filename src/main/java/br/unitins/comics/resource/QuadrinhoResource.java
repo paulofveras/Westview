@@ -1,5 +1,6 @@
 package br.unitins.comics.resource;
 
+
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
@@ -24,18 +25,27 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.core.Response.Status;
 
-@Path("/quadrinhos")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Path("/quadrinhos")
 public class QuadrinhoResource {
-
+    
     @Inject
-    private QuadrinhoService quadrinhoService;
-
+    public QuadrinhoService quadrinhoService;
+    
     @Inject
     public QuadrinhoFileServiceImpl fileService;
 
-    private static final Logger LOG = Logger.getLogger(QuadrinhoResource.class);
+    private static final Logger LOG = Logger.getLogger(EnderecoResource.class);
+
+
+    @GET
+    @RolesAllowed("Funcionario")
+    @Path("/{id}")
+    public Response findById(@PathParam("id") Long id) {
+        LOG.infof("Executando o metodo findById. Id: %s", id.toString());
+        return Response.ok(quadrinhoService.findById(id)).build();
+    }
 
     @GET
     @RolesAllowed({"Funcionario", "Cliente"})
@@ -45,28 +55,19 @@ public class QuadrinhoResource {
     }
 
     @GET
-    @Path("/{id}")
-    @RolesAllowed({"Funcionario", "Cliente"})
-    public Response findById(@PathParam("id") Long id) {
-        
-        LOG.infof("Executando o método findById. Id: %s", Long.toString(0));
-       return Response.ok(quadrinhoService.findById(id)).build();
-    }
-
-    @GET
-    @RolesAllowed({"Funcionario", "Cliente"})
+    @RolesAllowed("Funcionario")
     @Path("/search/nome/{nome}")
-    public Response findByNome(@PathParam("nome") String nome){
-        LOG.info("Executando o findByNome");
+    public Response findByNome(@PathParam("nome") String nome) {
+        LOG.info("Executando o metodo findBynome");
         return Response.ok(quadrinhoService.findByNome(nome)).build();
     }
 
     @POST
     @RolesAllowed("Funcionario")
     public Response create(@Valid QuadrinhoDTO dto) {
-        LOG.info("Criando um novo quadrinho");
+        LOG.info("Criando uma nova quadrinho");
         try {
-            LOG.infof("Quadrinho criado com sucesso. Nome: %d", dto.nome());
+            LOG.infof("Quadrinho criada com sucesso. Nome: %d", dto.nome());
             return Response.status(Status.CREATED).entity(quadrinhoService.create(dto)).build();
          }  catch (Exception e) {
         LOG.error("Erro ao criar quadrinho", e);
@@ -101,7 +102,6 @@ public class QuadrinhoResource {
         return Response.noContent().build();
     }
 
-
     @GET
     @RolesAllowed("Funcionario")
     @Path("/image/download/{nomeImagem}")
@@ -111,5 +111,8 @@ public class QuadrinhoResource {
         ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
         response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
         return response.build();
-    }    
+    }   
+
+
+
 }
