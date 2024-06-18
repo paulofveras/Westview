@@ -13,4 +13,6 @@ public interface PedidoService {
     public List<PedidoResponseDTO> findAll();
     public List<PedidoResponseDTO> findByCliente(Long idCliente);
     public void switchStatus(Long id);
+    boolean clienteAutenticado(String username, Long idCliente);
+    public List<PedidoResponseDTO> meusPedidos();
 }

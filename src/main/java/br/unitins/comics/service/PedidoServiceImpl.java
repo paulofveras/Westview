@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import br.unitins.comics.dto.ItemPedidoDTO;
 import br.unitins.comics.dto.PedidoDTO;
 import br.unitins.comics.dto.PedidoResponseDTO;
 import br.unitins.comics.model.Quadrinho;
+import br.unitins.comics.model.Cliente;
 import br.unitins.comics.model.ItemPedido;
 import br.unitins.comics.model.Pagamento;
 import br.unitins.comics.model.Pedido;
@@ -34,6 +37,9 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Inject
     QuadrinhoRepository quadrinhoRepository;
+
+    @Inject
+    JsonWebToken tokenJwt;
 
     @Override
     @Transactional
@@ -109,14 +115,6 @@ public class PedidoServiceImpl implements PedidoService {
                 .collect(Collectors.toList());
     }
 
-/*
-    @Override
-    public List<PedidoResponseDTO> findByCliente(Long idCliente) {
-        return pedidoRepository.findByCliente(idCliente).stream()
-        .map(e -> PedidoResponseDTO.valueOf(e)).toList();
-    }
-*/
-
     @Override
     @Transactional
     public void switchStatus(Long id){
@@ -136,6 +134,24 @@ public class PedidoServiceImpl implements PedidoService {
 
        
         
+    }
+
+     public boolean clienteAutenticado(String username, Long idCliente){
+        Cliente clienteAutenticado = clienteRepository.findByUsername(username);
+        return clienteAutenticado != null && clienteAutenticado.getId().equals(idCliente);
+    }
+
+    @Override
+    @Transactional
+    public List<PedidoResponseDTO> meusPedidos(){
+        String username = tokenJwt.getName();
+        List<PedidoResponseDTO> pedidos = pedidoRepository.find("cliente.usuario.username", username).stream().map(e -> PedidoResponseDTO.valueOf(e)).toList();
+        
+        if(pedidos.isEmpty()){
+            throw new ValidationException("Meus pedidos","Você ainda não fez nenhum pedido.");
+        }
+
+        return pedidos;
     }
 
 }

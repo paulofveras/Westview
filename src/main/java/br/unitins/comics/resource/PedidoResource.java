@@ -1,19 +1,26 @@
 package br.unitins.comics.resource;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
 
 import br.unitins.comics.dto.PedidoDTO;
+import br.unitins.comics.model.Cliente;
+import br.unitins.comics.repository.ClienteRepository;
+import br.unitins.comics.service.ClienteService;
 import br.unitins.comics.service.PedidoService;
+import br.unitins.comics.validation.ValidationException;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.PathParam;
     
 @Path("/pedidos")
@@ -23,6 +30,15 @@ public class PedidoResource {
 
     @Inject
     public PedidoService service;
+
+    @Inject
+    public ClienteService clienteservice;
+
+    @Inject
+    ClienteRepository clienteRepository;
+
+    @Inject
+    JsonWebToken tokenJwt;
     
     private static final Logger LOG = Logger.getLogger(EnderecoResource.class);
 
@@ -64,6 +80,25 @@ public class PedidoResource {
     public Response findByCliente( @PathParam("id_cliente") Long idCliente ){
         LOG.info("Executando o metodo findByCliente");
         return Response.ok(service.findByCliente(idCliente)).build();
+    }
+
+    @GET
+    @Path("/search/meus-Pedidos")
+    @RolesAllowed({"Funcionario","Cliente"})
+    public Response meusPedidos(){
+        try {
+            LOG.info("Meus pedidos.");
+            String username = tokenJwt.getName();
+            Cliente cliente = clienteRepository.findByUsername(username);
+
+            if(!service.clienteAutenticado(username, cliente.getId()))
+                throw new ValidationException("Validando cliente para visualiar pedidos", "Você não tem permissão para vê os pedidos");
+
+            return Response.ok(service.meusPedidos()).build();
+        } catch (NotFoundException e) {
+            LOG.error("Erro ao visualizar meus pedidos", e);
+            return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+        }
     }
 
 }
