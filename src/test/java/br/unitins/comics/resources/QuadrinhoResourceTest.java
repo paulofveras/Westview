@@ -17,7 +17,7 @@ public class QuadrinhoResourceTest {
     @Test
     @TestSecurity(user = "tester", roles = "Funcionario")
     public void createTest(){
-        QuadrinhoDTO dto = new QuadrinhoDTO("X-Men Vol. 61", "Um quadrinho muito chique", 20f, 210, 1, 1L, 20);
+        QuadrinhoDTO dto = new QuadrinhoDTO("Antman", "Descrição", 12.50f, 150, 2, 1L, 50);
         given()
         .contentType(MediaType.APPLICATION_JSON)
         .body(dto)
@@ -25,7 +25,7 @@ public class QuadrinhoResourceTest {
         .post("/quadrinhos")
         .then()
         .statusCode(201)
-        .body("nome", is("X-men"));
+        .body("nome", is("Antman"));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class QuadrinhoResourceTest {
         .get("/quadrinhos/1")
         .then()
         .statusCode(200)
-        .body("nome", is("Quadrinho coração"));
+        .body("nome", is("Secret Wars"));
     }
 
 
@@ -72,7 +72,7 @@ public class QuadrinhoResourceTest {
         .get("/quadrinhos")
         .then()
         .statusCode(200)
-        .body("nome", hasItem(is("Quadrinho coração")));;
+        .body("nome", hasItem(is("Secret Wars")));;
     }
 
     @Test
