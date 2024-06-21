@@ -17,15 +17,15 @@ public class FornecedorResourceTest {
     @Test
     @TestSecurity(user = "tester", roles = "Funcionario")
     public void createTest(){
-        FornecedorDTO dto = new FornecedorDTO("Marcela",8L,8L,"teresa@gmail.com");
+        FornecedorDTO dto = new FornecedorDTO("Amazon", 2L, 4L, "jeffbezos@amazon.com");
         given()
         .contentType(MediaType.APPLICATION_JSON)
         .body(dto)
         .when()
-        .post("/fornecedors")
+        .post("/fornecedores")
         .then()
         .statusCode(201)
-        .body("nome", is("Marcela"));
+        .body("nome", is("Amazon"));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class FornecedorResourceTest {
     public void findByIdTest(){
         given()
         .when()
-        .get("/fornecedors/1")
+        .get("/fornecedores/1")
         .then()
         .statusCode(200)
         .body("id", is(1));
@@ -44,10 +44,10 @@ public class FornecedorResourceTest {
     public void findByNomeTest(){
         given()
         .when()
-        .get("/fornecedors/1")
+        .get("/fornecedores/1")
         .then()
         .statusCode(200)
-        .body("nome", is("José"));
+        .body("nome", is("Panini"));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class FornecedorResourceTest {
         .contentType(MediaType.APPLICATION_JSON)
         .body(dto)
         .when()
-        .put("/fornecedors/2")
+        .put("/fornecedores/2")
         .then()
         .statusCode(204);
     }
@@ -68,10 +68,10 @@ public class FornecedorResourceTest {
     public void findAllTest(){
         given()
         .when()
-        .get("/fornecedors")
+        .get("/fornecedores")
         .then()
         .statusCode(200)
-        .body("nome", hasItem(is("José")));;
+        .body("nome", hasItem(is("Panini")));;
     }
 
     @Test
@@ -80,7 +80,7 @@ public class FornecedorResourceTest {
         given()
         .when()
         .pathParam("id", 3)
-        .delete("/fornecedors/{id}")
+        .delete("/fornecedores/{id}")
         .then()
         .statusCode(204);
     }

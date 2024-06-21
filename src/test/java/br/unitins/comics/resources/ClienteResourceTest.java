@@ -17,7 +17,7 @@ public class ClienteResourceTest {
     @Test
     @TestSecurity(user = "tester", roles = "Funcionario")
     public void createTest(){
-        ClienteDTO dto = new ClienteDTO("Teresa",5L,5L,"teresa@gmail.com","ter123","123");
+        ClienteDTO dto = new ClienteDTO("Janete", 1L, 1l, "janete@email.com", "janete", "123");
         given()
         .contentType(MediaType.APPLICATION_JSON)
         .body(dto)
@@ -25,7 +25,7 @@ public class ClienteResourceTest {
         .post("/clientes")
         .then()
         .statusCode(201)
-        .body("nome", is("Teresa"));
+        .body("nome", is("Janete"));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class ClienteResourceTest {
         .get("/clientes/1")
         .then()
         .statusCode(200)
-        .body("nome", is("Giovanna"));
+        .body("nome", is("Visao"));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class ClienteResourceTest {
         .get("/clientes")
         .then()
         .statusCode(200)
-        .body("nome", hasItem(is("Giovanna")));;
+        .body("nome", hasItem(is("Visao")));;
     }
 
     @Test

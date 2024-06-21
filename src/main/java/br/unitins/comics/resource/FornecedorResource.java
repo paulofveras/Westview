@@ -22,7 +22,7 @@ import jakarta.ws.rs.core.Response.Status;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Path("/fornecedors")
+@Path("/fornecedores")
 public class FornecedorResource {
     
     @Inject

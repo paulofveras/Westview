@@ -17,6 +17,7 @@ public class Quadrinho extends DefaultEntity {
     private Fornecedor fornecedor;
     private String nomeImagem;
     private Integer estoque;
+    
     public String getNome() {
         return nome;
     }

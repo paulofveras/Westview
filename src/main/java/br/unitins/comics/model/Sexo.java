@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public enum Sexo {
     FEMININO(1, "Feminino"),
     MASCULINO(2, "Masculino"),
-    NAOBINARIO(3, "Não Bianrio");
+    NAOBINARIO(3, "Não Binario");
 
     private int id;
     private String nome;
