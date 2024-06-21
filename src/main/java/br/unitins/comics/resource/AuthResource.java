@@ -2,10 +2,10 @@ package br.unitins.comics.resource;
 
 import br.unitins.comics.dto.AuthUsuarioDTO;
 import br.unitins.comics.dto.UsuarioResponseDTO;
+import br.unitins.comics.service.HashService;
+import br.unitins.comics.service.JwtService;
 import br.unitins.comics.service.ClienteService;
 import br.unitins.comics.service.FuncionarioService;
-import br.unitins.comics.service.hash.HashService;
-import br.unitins.comics.service.jwt.JwtService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -48,10 +48,11 @@ public class AuthResource {
 
         if (usuario!=null){
             return Response.ok(usuario)
-            .header("Authorization", jwtService.generateJwt(dto))
+            .header("Authorization", jwtService.generateJwt(dto, usuario))
             .build();
         } else{
             return Response.status(Status.NOT_FOUND).header("ERRO","Usuário ou senha incorretos").build();
         }
     }
+
 }

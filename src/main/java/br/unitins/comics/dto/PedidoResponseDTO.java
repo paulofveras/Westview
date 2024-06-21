@@ -27,8 +27,10 @@ public record PedidoResponseDTO(
             pedido.getTotal(),
             lista,
             pedido.getFormaPagamento(),
+
             // implementar logica de geracao de chave de pagamento
             String.valueOf(UUID.randomUUID()),
+            
             pedido.getStatusPagamento());
     }
 

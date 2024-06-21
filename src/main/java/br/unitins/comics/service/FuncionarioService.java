@@ -10,14 +10,22 @@ import br.unitins.comics.dto.UsuarioResponseDTO;
 import jakarta.validation.Valid;
 
 public interface FuncionarioService {
+
     public FuncionarioResponseDTO create(@Valid FuncionarioDTO dto);
+
     public void update(Long id, FuncionarioDTO dto);
+
     public void updatePassword(Long id, UpdatePasswordDTO dto);
+
     public void updateUsername(Long id, UpdateUsernameDTO dto);
+
     public void delete(Long id);
+
     public FuncionarioResponseDTO findById(Long id);
+
     public List<FuncionarioResponseDTO> findAll();
-    public List<FuncionarioResponseDTO> findByCargo(String cargo);
-    public List<UsuarioResponseDTO> findByCpf(String cpf);
+
+    public List<FuncionarioResponseDTO> findByNome(String nome);
+
     public UsuarioResponseDTO login(String username, String senha);
 }

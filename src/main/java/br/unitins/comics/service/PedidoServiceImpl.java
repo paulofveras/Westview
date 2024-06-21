@@ -3,24 +3,28 @@ package br.unitins.comics.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import br.unitins.comics.dto.ItemPedidoDTO;
 import br.unitins.comics.dto.PedidoDTO;
 import br.unitins.comics.dto.PedidoResponseDTO;
+import br.unitins.comics.model.Quadrinho;
+import br.unitins.comics.model.Cliente;
 import br.unitins.comics.model.ItemPedido;
 import br.unitins.comics.model.Pagamento;
 import br.unitins.comics.model.Pedido;
-import br.unitins.comics.model.Quadrinho;
 import br.unitins.comics.model.Status;
-import br.unitins.comics.repository.PedidoRepository;
 import br.unitins.comics.repository.QuadrinhoRepository;
 import br.unitins.comics.repository.ClienteRepository;
+import br.unitins.comics.repository.PedidoRepository;
+import br.unitins.comics.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.BadRequestException;
-import br.unitins.comics.validation.ValidationException;
 
 @ApplicationScoped
 public class PedidoServiceImpl implements PedidoService {
@@ -29,10 +33,13 @@ public class PedidoServiceImpl implements PedidoService {
     public PedidoRepository pedidoRepository;
 
     @Inject
-    public QuadrinhoRepository quadrinhoRepository;
+    public ClienteRepository clienteRepository;
 
     @Inject
-    public ClienteRepository clienteRepository;
+    QuadrinhoRepository quadrinhoRepository;
+
+    @Inject
+    JsonWebToken tokenJwt;
 
     @Override
     @Transactional
@@ -84,7 +91,6 @@ public class PedidoServiceImpl implements PedidoService {
         return PedidoResponseDTO.valueOf(pedido);
     }
 
-
     @Override
     public PedidoResponseDTO findById(Long id) {
         Pedido pedido = pedidoRepository.findById(id);
@@ -103,8 +109,10 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public List<PedidoResponseDTO> findByCliente(Long idCliente) {
-        return pedidoRepository.findByCliente(idCliente).stream()
-        .map(e -> PedidoResponseDTO.valueOf(e)).toList();
+        return pedidoRepository.findByCliente(idCliente)
+                .stream()
+                .map(PedidoResponseDTO::valueOf)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -126,6 +134,24 @@ public class PedidoServiceImpl implements PedidoService {
 
        
         
+    }
+
+     public boolean clienteAutenticado(String username, Long idCliente){
+        Cliente clienteAutenticado = clienteRepository.findByUsername(username);
+        return clienteAutenticado != null && clienteAutenticado.getId().equals(idCliente);
+    }
+
+    @Override
+    @Transactional
+    public List<PedidoResponseDTO> meusPedidos(){
+        String username = tokenJwt.getName();
+        List<PedidoResponseDTO> pedidos = pedidoRepository.find("cliente.usuario.username", username).stream().map(e -> PedidoResponseDTO.valueOf(e)).toList();
+        
+        if(pedidos.isEmpty()){
+            throw new ValidationException("Meus pedidos","Você ainda não fez nenhum pedido.");
+        }
+
+        return pedidos;
     }
 
 }

@@ -1,159 +1,74 @@
 package br.unitins.comics.model;
 
-import java.time.LocalDate;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Quadrinho extends DefaultEntity {
 
-    @Column(length = 60, nullable = false)
     private String nome;
-
-    @Column(nullable = false)
-    private LocalDate dataPublicacao;
-
-    private String edicao;
-
-    @Column(nullable = false)
-    private Double preco;
-
-    private Integer quantidadePaginas;
-
+    private String descricao;
+    private float preco;
+    private Integer quantPaginas;
+    private Material material;
     @ManyToOne
-    @JoinColumn(name = "id_categoria", nullable = false)
-    private Categoria categoria;
-
-    @ManyToOne
-    @JoinColumn(name = "id_escritor")
-    private Escritor escritor;
-
-    @ManyToOne
-    @JoinColumn(name="id_artista_capa")
-    private ArtistaCapa artistaCapa;
-
-    @Enumerated(EnumType.STRING)
-    private Classificacao classificacao;
-
-    @ManyToOne
-    @JoinColumn(name = "id_genero", nullable = false)
-    private Genero genero;
-
-    @ManyToOne
-    @JoinColumn(name = "id_origem", nullable = false)
-    private Origem origem;
-
+    @JoinColumn(name = "id_fornecedor")
+    private Fornecedor fornecedor;
     private String nomeImagem;
-
     private Integer estoque;
-
+    
     public String getNome() {
         return nome;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public LocalDate getDataPublicacao() {
-        return dataPublicacao;
+    public String getDescricao() {
+        return descricao;
     }
-
-    public void setDataPublicacao(LocalDate dataPublicacao) {
-        this.dataPublicacao = dataPublicacao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
-
-    public String getEdicao() {
-        return edicao;
-    }
-
-    public void setEdicao(String edicao) {
-        this.edicao = edicao;
-    }
-
-    public Double getPreco() {
+    public float getPreco() {
         return preco;
     }
-
-    public void setPreco(Double preco) {
+    public void setPreco(float preco) {
         this.preco = preco;
     }
-
-    public Integer getQuantidadePaginas() {
-        return quantidadePaginas;
+    public Integer getQuantPaginas() {
+        return quantPaginas;
     }
-
-    public void setQuantidadePaginas(Integer quantidadePaginas) {
-        this.quantidadePaginas = quantidadePaginas;
+    public void setQuantPaginas(Integer quantPaginas) {
+        this.quantPaginas = quantPaginas;
     }
-
-    public Categoria getCategoria() {
-        return categoria;
+    public Material getMaterial() {
+        return material;
     }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setMaterial(Material material) {
+        this.material = material;
     }
-
-    public Escritor getEscritor() {
-        return escritor;
+    public Fornecedor getFornecedor() {
+        return fornecedor;
     }
-
-    public void setEscritor(Escritor escritor) {
-        this.escritor = escritor;
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
     }
-
-    public ArtistaCapa getArtistaCapa() {
-        return artistaCapa;
-    }
-
-    public void setArtistaCapa(ArtistaCapa artistaCapa) {
-        this.artistaCapa = artistaCapa;
-    }
-
-    public Classificacao getClassificacao() {
-        return classificacao;
-    }
-
-    public void setClassificacao(Classificacao classificacao) {
-        this.classificacao = classificacao;
-    }
-
-    public Genero getGenero() {
-        return genero;
-    }
-
-    public void setGenero(Genero genero) {
-        this.genero = genero;
-    }
-
-    public Origem getOrigem() {
-        return origem;
-    }
-
-    public void setOrigem(Origem origem) {
-        this.origem = origem;
-    }
-
     public String getNomeImagem() {
         return nomeImagem;
     }
-
     public void setNomeImagem(String nomeImagem) {
         this.nomeImagem = nomeImagem;
     }
-
     public Integer getEstoque() {
         return estoque;
     }
-
     public void setEstoque(Integer estoque) {
         this.estoque = estoque;
     }
- 
-}
 
+    
+
+    
+
+    }
