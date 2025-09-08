@@ -1,0 +1,15 @@
+# This is the AppMap configuration file.
+# For full documentation of this file for Java programs, see:
+# https://appmap.io/docs/reference/appmap-java.html#configuration
+name: Westview
+
+# Your project contains the directory src/main/java. AppMap has
+# auto-detected the following Java packages in this directory:
+packages:
+- path: br.unitins.comics.dto
+- path: br.unitins.comics.model
+- path: br.unitins.comics.repository
+- path: br.unitins.comics.resources
+- path: br.unitins.comics.service
+- path: br.unitins.comics.util
+- path: br.unitins.comics.validation

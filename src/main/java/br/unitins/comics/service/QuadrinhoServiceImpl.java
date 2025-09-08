@@ -1,5 +1,6 @@
 package br.unitins.comics.service;
 
+<<<<<<< HEAD
 import br.unitins.comics.dto.QuadrinhoDTO;
 import br.unitins.comics.dto.QuadrinhoResponseDTO;
 import br.unitins.comics.model.Quadrinho;
@@ -8,14 +9,28 @@ import br.unitins.comics.model.Categoria;
 import br.unitins.comics.model.Pessoa;
 import br.unitins.comics.repository.CategoriaRepository;
 import br.unitins.comics.repository.PessoaRepository;
+=======
+import java.util.List;
+
+import br.unitins.comics.dto.QuadrinhoDTO;
+import br.unitins.comics.dto.QuadrinhoResponseDTO;
+import br.unitins.comics.model.Quadrinho;
+import br.unitins.comics.model.Material;
+import br.unitins.comics.repository.QuadrinhoRepository;
+import br.unitins.comics.repository.FornecedorRepository;
+import br.unitins.comics.validation.ValidationException;
+>>>>>>> ee80e95e1f4b3b188d07fdf23b8684f8dd807b6e
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
+=======
+>>>>>>> ee80e95e1f4b3b188d07fdf23b8684f8dd807b6e
 @ApplicationScoped
 public class QuadrinhoServiceImpl implements QuadrinhoService {
 
@@ -23,14 +38,19 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
     public QuadrinhoRepository quadrinhoRepository;
 
     @Inject
+<<<<<<< HEAD
     public CategoriaRepository categoriaRepository;
 
     @Inject
     public PessoaRepository pessoaRepository;
+=======
+    public FornecedorRepository fornecedorRepository;
+>>>>>>> ee80e95e1f4b3b188d07fdf23b8684f8dd807b6e
 
     @Override
     @Transactional
     public QuadrinhoResponseDTO create(@Valid QuadrinhoDTO dto) {
+<<<<<<< HEAD
         validarNomeQuadrinho(dto.getNome());
 
         // Busca a Categoria pelo ID
@@ -53,11 +73,24 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
         quadrinho.setPersonagens(dto.getPersonagens());
         quadrinho.setEscritor(escritor);
         quadrinho.setArtistaCapa(artistaCapa);
+=======
+        validarNomeQuadrinho(dto.nome());
+
+        Quadrinho quadrinho = new Quadrinho();
+        quadrinho.setNome(dto.nome());
+        quadrinho.setDescricao(dto.descricao());
+        quadrinho.setPreco(dto.preco());
+        quadrinho.setQuantPaginas(dto.quantPaginas());
+        quadrinho.setMaterial(Material.valueOf(dto.id_material()));
+        quadrinho.setFornecedor(fornecedorRepository.findById(dto.id_fornecedor()));
+        quadrinho.setEstoque(dto.estoque());
+>>>>>>> ee80e95e1f4b3b188d07fdf23b8684f8dd807b6e
 
         quadrinhoRepository.persist(quadrinho);
         return QuadrinhoResponseDTO.valueOf(quadrinho);
     }
 
+<<<<<<< HEAD
     @Override
     @Transactional
     public void update(Long id, QuadrinhoDTO dto) {
@@ -82,6 +115,26 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
         quadrinhoBanco.setPersonagens(dto.getPersonagens());
         quadrinhoBanco.setEscritor(escritor);
         quadrinhoBanco.setArtistaCapa(artistaCapa);
+=======
+    public void validarNomeQuadrinho(String nome) {
+        Quadrinho quadrinho = quadrinhoRepository.findByNomeCompleto(nome);
+        if (quadrinho != null)
+            throw  new ValidationException("nome", "O nome '"+nome+"' já existe.");
+    }
+
+    @Override
+    @Transactional
+    public void update(Long id, QuadrinhoDTO dto) {
+        Quadrinho quadrinhoBanco =  quadrinhoRepository.findById(id);
+        
+        quadrinhoBanco.setNome(dto.nome());
+        quadrinhoBanco.setDescricao(dto.descricao());
+        quadrinhoBanco.setPreco(dto.preco());
+        quadrinhoBanco.setQuantPaginas(dto.quantPaginas());
+        quadrinhoBanco.setMaterial(Material.valueOf(dto.id_material()));
+        quadrinhoBanco.setFornecedor(fornecedorRepository.findById(dto.id_fornecedor()));
+        quadrinhoBanco.setEstoque(dto.estoque());
+>>>>>>> ee80e95e1f4b3b188d07fdf23b8684f8dd807b6e
     }
 
     @Override
@@ -92,6 +145,7 @@ public class QuadrinhoServiceImpl implements QuadrinhoService {
 
     @Override
     public QuadrinhoResponseDTO findById(Long id) {
+<<<<<<< HEAD
         Quadrinho quadrinho = quadrinhoRepository.findById(id);
         if (quadrinho == null) {
             throw new jakarta.validation.ValidationException("Quadrinho não encontrado.");
@@ -128,3 +182,23 @@ public List<QuadrinhoResponseDTO> findAll() {
         }
     }
 }
+=======
+        return QuadrinhoResponseDTO.valueOf(quadrinhoRepository.findById(id));
+    }
+
+    @Override
+    public List<QuadrinhoResponseDTO> findAll() {
+        return quadrinhoRepository
+        .listAll()
+        .stream()
+        .map(e -> QuadrinhoResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
+    public List<QuadrinhoResponseDTO> findByNome(String nome) {
+        return quadrinhoRepository.findByNome(nome).stream()
+        .map(e -> QuadrinhoResponseDTO.valueOf(e)).toList();
+    }
+
+}
+>>>>>>> ee80e95e1f4b3b188d07fdf23b8684f8dd807b6e

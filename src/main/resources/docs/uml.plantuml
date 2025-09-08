@@ -1,0 +1,89 @@
+@startuml
+title Diagrama UML de Classes Westview
+
+class Cliente {
+  - nome: String
+  - email: String
+}
+
+class Endereco {
+  - cep: Integer
+  - rua: String
+  - numero: Integer
+}
+
+class Fornecedor {
+  - nome: String
+  - email: String
+}
+
+class Funcionario {
+  - nome: String
+  - cargo: String
+  - email: String
+}
+
+class ItemPedido {
+  - preco: Double
+  - quantidade: Integer
+  - desconto: Double
+}
+
+class Pedido {
+  - data: LocalDateTime
+  - total: Double
+}
+
+class Pessoa {
+  - nome: String
+  - sexo: Sexo
+}
+
+class Quadrinho {
+  - nome: String
+  - descricao: String
+  - preco: Float
+  - quantPaginas: Integer
+  - material: Material
+  - nomeImagem: String
+  - estoque: Integer
+}
+
+class Telefone {
+  - codigoArea: String
+  - numero: String
+}
+
+class Usuario {
+  - username: String
+  - senha: String
+}
+
+enum Material
+enum Pagamento
+enum Sexo
+enum Status
+
+' Relationships
+
+Cliente --> Endereco 
+Cliente --> Telefone 
+Cliente --> Usuario 
+
+Fornecedor --> Endereco 
+Fornecedor --> Telefone 
+
+Funcionario --> Endereco 
+Funcionario --> Telefone 
+Funcionario --> Usuario 
+
+ItemPedido --> Quadrinho 
+
+Pedido --> Cliente 
+Pedido --> ItemPedido 
+
+Pessoa --> Telefone 
+
+Quadrinho --> Fornecedor 
+
+@enduml
